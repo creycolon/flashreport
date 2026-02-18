@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  supabase:
+    image: supabase/supabase:latest
+    container_name: flash_report_supabase
+    ports:
+      - "5432:5432"      # PostgreSQL
+      - "3000:3000"      # Studio web
+      - "8000:8000"      # REST API
+      - "9000:9000"      # Realtime
+    environment:
+      - POSTGRES_PASSWORD='4W6sahzC+$puiQT'
+      - JWT_SECRET='sb_publishable_iLDNgPhf7e3XoTV_mvEZWQ_ET57QB05'
+    volumes:
+      - supabase_data:/var/lib/postgresql/data
+    restart: unless-stopped
+volumes:
+  supabase_data:

@@ -1,0 +1,239 @@
+import { cashMovementRepository } from '../../infrastructure/repositories/cashMovementRepository';
+import { businessUnitRepository } from '../../infrastructure/repositories/businessUnitRepository';
+import { categoryRepository } from '../../infrastructure/repositories/categoryRepository';
+import { getDatabase } from '../../infrastructure/db/database';
+import { seedInitialData } from '../../infrastructure/db/seed';
+import { SCHEMA_SQL } from '../../infrastructure/db/schema';
+
+export const testDataService = {
+    /**
+     * Generates random movements for the last 30 days
+     * Optimized for high volume sales (100k avg) and no expenses as per user request.
+     */
+    generateMockData: async () => {
+        try {
+            console.log('[TestData] Fetching dependency data...');
+            const [bus, incomeCategories] = await Promise.all([
+                businessUnitRepository.getAll(),
+                categoryRepository.getByType('CR')
+            ]);
+
+             console.log(`[TestData] Initialized: units=${bus.length}, incomeCategories=${incomeCategories.length}`);
+             console.log('[TestData] Income categories:', incomeCategories.map((c: any) => `${c.code} (${c.name}) type=${c.type}`));
+
+             if (bus.length === 0 || incomeCategories.length === 0) {
+                 console.warn('[TestData] Cannot generate data: No units or categories found.');
+                 return false;
+             }
+
+             // Identificamos el ID de Cierre de Caja
+             const saleCategory = incomeCategories.find((c: any) => c.code === 'CIERRE_CAJA') || incomeCategories[0];
+             console.log(`[TestData] Using category for sales: ${saleCategory.code} (${saleCategory.name})`);
+
+             console.log(`[TestData] Starting mock data generation for ${bus.length} units (100k avg, no expenses)...`);
+             const now = new Date();
+             let totalMovements = 0;
+
+             for (const bu of bus) {
+                 console.log(`[TestData] Generating data for: ${bu.name} (${bu.id})`);
+
+                 // Monto base de 100,000 con variación del 20%
+                 const baseAmount = 100000;
+
+                 for (let i = 29; i >= 0; i--) {
+                     const date = new Date();
+                     date.setDate(now.getDate() - i);
+                     const dateStr = date.toISOString();
+
+                     // Un solo ticket de venta por día con promedio de 100k
+                     const salesAmount = baseAmount + (Math.random() - 0.5) * (baseAmount * 0.4);
+
+                     if (i === 29) { // Log first movement of each unit
+                         console.log(`[TestData] First movement for ${bu.name}: ${dateStr}, amount ~${Math.round(salesAmount)}`);
+                     }
+
+                     await cashMovementRepository.create({
+                         businessUnitId: bu.id,
+                         type: 'CR',
+                         categoryId: saleCategory.id,
+                         amount: Math.round(salesAmount),
+                         description: `Cierre del día - ${bu.name}`,
+                         date: dateStr,
+                         createdBy: 'p1'
+                     });
+                     totalMovements++;
+                 }
+                 console.log(`[TestData] Done with Unit: ${bu.name} (30 movements)`);
+             }
+             console.log(`[TestData] Total mock data generation finished successfully. Created ${totalMovements} movements.`);
+             return true;
+        } catch (error) {
+            console.error('[TestData] Error generating mock data:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * Deletes all cash movements and resets balances
+     */
+    clearAllData: async () => {
+        try {
+            const db = await getDatabase();
+            await db.runAsync('DELETE FROM cash_movements');
+            await db.runAsync('UPDATE partner_accounts SET current_balance = 0');
+            await db.runAsync('DELETE FROM partner_account_transactions');
+            return true;
+        } catch (error) {
+            console.error('Error clearing data:', error);
+            throw error;
+        }
+    },
+
+    /**
+     * NUCLEAR RESET: Drops all relevant data and re-seeds initial state
+     */
+    factoryReset: async () => {
+        let db: any;
+        try {
+            console.log('[TestData] ======= STARTING NUCLEAR RESET =======');
+            console.log('[TestData] Step 1: Getting database connection...');
+            db = await getDatabase();
+            console.log('[TestData] Database connection established');
+
+            // Use a timeout to prevent hanging
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Factory reset timeout after 30 seconds')), 30000);
+            });
+
+            // Execute reset with timeout
+            const resetPromise = (async () => {
+                // Helper to check if table exists
+                const tableExists = async (tableName: string): Promise<boolean> => {
+                    try {
+                        const result = await db.getFirstAsync(
+                            `SELECT name FROM sqlite_master WHERE type='table' AND name=?`,
+                            [tableName]
+                        );
+                        return !!result;
+                    } catch (err) {
+                        console.warn(`[TestData] Could not check table ${tableName}:`, err);
+                        return false;
+                    }
+                };
+
+                // 1. Ensure schema exists first
+                console.log('[TestData] Step 2: Ensuring schema is initialized...');
+                try {
+                    // Try to execute a simple schema creation
+                    const schemaStatements = SCHEMA_SQL.split(';').filter(s => s.trim());
+                    for (const stmt of schemaStatements) {
+                        if (stmt.trim()) {
+                            try {
+                                await db.execAsync(stmt + ';');
+                             } catch (stmtErr) {
+                                // Ignore "table already exists" errors
+                                const errorMessage = (stmtErr as Error).message;
+                                if (!errorMessage?.includes('already exists') && 
+                                    !errorMessage?.includes('duplicate')) {
+                                    console.warn(`[TestData] Schema statement warning:`, errorMessage);
+                                }
+                            }
+                        }
+                    }
+                    console.log('[TestData] Schema verified');
+                } catch (schemaError) {
+                    console.error('[TestData] Error with schema:', schemaError);
+                    // Continue - tables may already exist
+                }
+
+                // 2. Clear everything in a transaction
+                console.log('[TestData] Step 3: Starting transaction for data wipe...');
+                await db.execAsync('BEGIN TRANSACTION');
+                
+                try {
+                    // Temporarily disable foreign key constraints
+                    await db.runAsync('PRAGMA foreign_keys = OFF');
+                    
+                    const tables = [
+                        'cash_movements',
+                        'partner_account_transactions', 
+                        'partner_accounts',
+                        'movement_categories',
+                        'business_units',
+                        'partners',
+                        'app_config'
+                    ];
+
+                    console.log('[TestData] Step 4: Deleting data from tables...');
+                    for (const table of tables) {
+                        try {
+                            if (await tableExists(table)) {
+                                console.log(`[TestData] Deleting from ${table}...`);
+                                await db.runAsync(`DELETE FROM ${table}`);
+                                console.log(`[TestData] ✓ ${table} cleared`);
+                            } else {
+                                console.log(`[TestData] ⏭️  ${table} does not exist, skipping`);
+                            }
+                        } catch (deleteError) {
+                            console.error(`[TestData] Error deleting from ${table}:`, (deleteError as Error).message);
+                            // Try DROP TABLE if DELETE fails
+                            try {
+                                console.log(`[TestData] Trying DROP TABLE for ${table}...`);
+                                await db.runAsync(`DROP TABLE IF EXISTS ${table}`);
+                                console.log(`[TestData] ✓ ${table} dropped`);
+                            } catch (dropError) {
+                                console.warn(`[TestData] Could not drop ${table}:`, (dropError as Error).message);
+                            }
+                        }
+                    }
+
+                    // Re-enable foreign key constraints
+                    await db.runAsync('PRAGMA foreign_keys = ON');
+                    
+                    console.log('[TestData] Step 5: Committing transaction...');
+                    await db.execAsync('COMMIT');
+                    console.log('[TestData] Transaction committed successfully');
+                    
+                } catch (txError) {
+                    console.error('[TestData] Transaction error, rolling back:', txError);
+                    await db.execAsync('ROLLBACK');
+                    await db.runAsync('PRAGMA foreign_keys = ON'); // Ensure FKs are back on
+                    throw txError;
+                }
+
+                // 3. Re-seed initial data
+                console.log('[TestData] Step 6: Seeding initial data...');
+                try {
+                    const { seedInitialData } = await import('../../infrastructure/db/seed');
+                    console.log('[TestData] Calling seedInitialData...');
+                    await seedInitialData();
+                    console.log('[TestData] ✓ Initial data seeded');
+                } catch (seedError) {
+                    console.error('[TestData] Error seeding data:', seedError);
+                    // Don't throw - at least tables are created
+                }
+
+                console.log('[TestData] ======= NUCLEAR RESET COMPLETED SUCCESSFULLY =======');
+                return true;
+            })();
+
+            return await Promise.race([resetPromise, timeoutPromise]) as boolean;
+            
+        } catch (error) {
+            console.error('[TestData] ❌ Error in factory reset:', error);
+            console.error('[TestData] Error stack:', (error as Error).stack);
+            
+            // Try to clean up database state
+            if (db) {
+                try {
+                    await db.runAsync('PRAGMA foreign_keys = ON');
+                    await db.execAsync('ROLLBACK');
+                } catch (cleanupError) {
+                    console.warn('[TestData] Cleanup error:', cleanupError);
+                }
+            }
+            
+            throw error;
+        }
+    }
+};

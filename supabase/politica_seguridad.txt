@@ -1,0 +1,7 @@
+7.2 Políticas de seguridad por rol
+-- Ejemplo: Solo administradores pueden modificar business_units
+CREATE POLICY "Solo administradores modifican business_units" ON business_units
+    FOR ALL USING (
+        auth.jwt() ->> 'role' = 'admin' OR
+        auth.jwt() ->> 'role' = 'manager'
+    );

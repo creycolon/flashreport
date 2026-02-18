@@ -1,0 +1,1714 @@
+Starting project at /home/tunga/HUB/BUs/flash_report
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android ./index.ts ▓░░░░░░░░░░░░░░░ 12.2% ( 61/175)
+Android ./index.ts ▓▓▓░░░░░░░░░░░░░ 20.4% (176/390)
+Android ./index.ts ▓▓▓▓▓░░░░░░░░░░░ 34.3% (297/507)
+Android ./index.ts ▓▓▓▓▓▓░░░░░░░░░░ 39.0% (369/620)
+Android ./index.ts ▓▓▓▓▓▓▓░░░░░░░░░ 45.1% (605/908)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓░░░░░░░ 61.3% ( 797/1043)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 65.5% ( 949/1173)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 71.8% (1073/1267)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 75.7% (1264/1465)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 82.9% (1452/1655)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 92.1% (1658/1728)
+Android Bundled 42212ms index.ts (1744 modules)
+ ERROR  === POLYFILL START === 1771340243424
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340243471
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+Android Bundled 849ms src/infrastructure/db/seed.js (699 modules)
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+Android Bundled 91ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340324703
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340324761
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 47ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 78ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340343083
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340343140
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 32ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 80ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340381099
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340381156
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 33ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+ LOG  [Seed] seedInitialData started
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 71ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340397757
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340397815
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 29ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+ LOG  [Seed] seedInitialData started
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 74ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340431662
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340431719
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 32ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+ LOG  [Seed] seedInitialData started
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+Android Bundled 89ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340461677
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340461734
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 31ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+ LOG  [Seed] seedInitialData started
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 74ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340478837
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340478897
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Count result: {"count": 0}
+ LOG  [Database] No business units found, seeding initial data...
+ LOG  [Database] Importing seed module...
+Android Bundled 2ms src/infrastructure/db/seed.js (1 module)
+ LOG  [Database] Seed module imported, calling seedInitialData...
+ LOG  [Seed] seedInitialData started with db: provided
+ LOG  [Seed] Inserting movement categories...
+ LOG  [Seed] Category: CIERRE_CAJA (Cierre de Caja) type=CR
+ LOG  [Seed] Category: GASTO_OPERATIVO (Gasto Operativo) type=DB
+ LOG  [Seed] Category: RETIRO_SOCIO (Retiro de Socio) type=DB
+ LOG  [Seed] Category: DISTRIBUCION (Distribución de Utilidades) type=DB
+ LOG  [Seed] Category: AJUSTE (Ajuste de Saldo) type=BOTH
+ LOG  [Seed] Categories inserted.
+ LOG  Seed data completed
+ LOG  [Database] Initial data seeded
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: false
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu1 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu2 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu3 rawData: []
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  [financialService] BU bu3 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 0, "totalTickets": 0}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 0, "totalTickets": 0}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ ERROR  [Error: GestureDetector must be used as a descendant of GestureHandlerRootView. Otherwise the gestures will not be recognized. See https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation for more details.]
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 76ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340494111
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340494176
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [Database] Count result: {"count": 3}
+ LOG  [Database] business_units already has 3 records
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: false
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu1 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu2 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu3 rawData: []
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  [financialService] BU bu2 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] BU bu3 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 0, "totalTickets": 0}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 0, "totalTickets": 0}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ ERROR  [Error: GestureDetector must be used as a descendant of GestureHandlerRootView. Otherwise the gestures will not be recognized. See https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation for more details.]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu1 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: false
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu2 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu3 rawData: []
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] BU bu3 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 0, "totalTickets": 0}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 0, "totalTickets": 0}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ ERROR  [Error: GestureDetector must be used as a descendant of GestureHandlerRootView. Otherwise the gestures will not be recognized. See https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation for more details.]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: false
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu1 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu2 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu3 rawData: []
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [financialService] BU bu2 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] BU bu3 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 0, "totalTickets": 0}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 0, "totalTickets": 0}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android Bundled 68ms index.ts (1 module)
+ ERROR  === POLYFILL START === 1771340555424
+ ERROR  Polyfill executing at module load time
+ WARN  POLYFILL TEST - If you see this, polyfill is running
+ LOG  Current environment: {"hasDocument": false, "hasGlobal": true, "hasNavigator": true, "hasWindow": true, "platform": undefined}
+ LOG  Global object captured: ["Promise", "nativePerformanceNow", "nativeRuntimeScheduler", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "requestAnimationFrame", "cancelAnimationFrame", "nativeLoggingHook"]
+ LOG  Navigator already exists: object
+ LOG  Wrapped existing navigator with logging proxy
+ LOG  [Navigator] Access to property: clipboard
+ LOG  Added clipboard polyfill to navigator with logging
+ LOG  Window already exists
+ LOG  === SETTING UP GLOBAL CLIPBOARD INTERCEPTION ===
+ LOG  === GLOBAL CLIPBOARD INTERCEPTION ACTIVE ===
+ LOG  Created document polyfill with logging
+ ERROR  === POLYFILL COMPLETED === 1771340555484
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for bare or production apps. Manually providing a `scheme` property can circumvent this warning. Using native app identifier as the scheme 'com.creyco.flashreport'. Learn more: https://docs.expo.dev/guides/linking/
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: true
+ LOG  [Database] Opening database...
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Database opened successfully
+ LOG  [Database] Initializing schema...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [Database] Schema executed successfully
+ LOG  [Database] Schema initialized
+ LOG  [Database] Checking if business_units table has data...
+ LOG  [Database] Count result: {"count": 3}
+ LOG  [Database] business_units already has 3 records
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [useAppTheme] themePreference: auto deviceColorScheme: dark effectiveColorScheme: dark
+ LOG  [useAppTheme] colors.background: #0a0a0a
+ LOG  [ThemeProvider] theme.colors.background: #0a0a0a loading: false
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu1 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu2 rawData: []
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [cashMovementRepo] result: []
+ LOG  [financialService] BU bu3 rawData: []
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  [financialService] BU bu3 balance: {"balance": 0, "ticket_count": 0, "total_credits": 0, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 0, "totalTickets": 0}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 0, "totalTickets": 0}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:01:22", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:01:22"}, {"color": "#33FF57", "created_at": "2026-02-17 15:01:22", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:01:22"}, {"color": "#2196F3", "created_at": "2026-02-17 15:01:22", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:01:22"}]
+ LOG  [TestData] ======= STARTING NUCLEAR RESET =======
+ LOG  [TestData] Step 1: Getting database connection...
+ LOG  [TestData] Database connection established
+ LOG  [TestData] Step 2: Ensuring schema is initialized...
+ LOG  [TestData] Schema verified
+ LOG  [TestData] Step 3: Starting transaction for data wipe...
+ LOG  [TestData] Step 4: Deleting data from tables...
+ LOG  [TestData] Deleting from cash_movements...
+ LOG  [TestData] ✓ cash_movements cleared
+ LOG  [TestData] Deleting from partner_account_transactions...
+ LOG  [TestData] ✓ partner_account_transactions cleared
+ LOG  [TestData] Deleting from partner_accounts...
+ LOG  [TestData] ✓ partner_accounts cleared
+ LOG  [TestData] Deleting from movement_categories...
+ LOG  [TestData] ✓ movement_categories cleared
+ LOG  [TestData] Deleting from business_units...
+ LOG  [TestData] ✓ business_units cleared
+ LOG  [TestData] Deleting from partners...
+ LOG  [TestData] ✓ partners cleared
+ LOG  [TestData] Deleting from app_config...
+ LOG  [TestData] ✓ app_config cleared
+ LOG  [TestData] Step 5: Committing transaction...
+ LOG  [TestData] Transaction committed successfully
+ LOG  [TestData] Step 6: Seeding initial data...
+Android Bundled 3ms src/infrastructure/db/seed.js (1 module)
+ LOG  [TestData] Calling seedInitialData...
+ LOG  [Seed] seedInitialData started with db: not provided
+Android Bundled 725ms src/infrastructure/db/database.js (682 modules)
+ LOG  [Seed] Database obtained via fallback
+ LOG  [Seed] Inserting movement categories...
+ LOG  [Seed] Category: CIERRE_CAJA (Cierre de Caja) type=CR
+ LOG  [Seed] Category: GASTO_OPERATIVO (Gasto Operativo) type=DB
+ LOG  [Seed] Category: RETIRO_SOCIO (Retiro de Socio) type=DB
+ LOG  [Seed] Category: DISTRIBUCION (Distribución de Utilidades) type=DB
+ LOG  [Seed] Category: AJUSTE (Ajuste de Saldo) type=BOTH
+ LOG  [Seed] Categories inserted.
+ LOG  Seed data completed
+ LOG  [TestData] ✓ Initial data seeded
+ LOG  [TestData] ======= NUCLEAR RESET COMPLETED SUCCESSFULLY =======
+ LOG  [GenerateData] Starting data generation...
+ LOG  [TestData] Fetching dependency data...
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [TestData] Initialized: units=3, incomeCategories=2
+ LOG  [TestData] Income categories: ["CIERRE_CAJA (Cierre de Caja) type=CR", "AJUSTE (Ajuste de Saldo) type=BOTH"]
+ LOG  [TestData] Using category for sales: CIERRE_CAJA (Cierre de Caja)
+ LOG  [TestData] Starting mock data generation for 3 units (100k avg, no expenses)...
+ LOG  [TestData] Generating data for: MCMXII (bu1)
+ LOG  [TestData] First movement for MCMXII: 2026-01-19T15:05:03.572Z, amount ~82568
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: null, Next: 1
+ LOG  [CashMovementRepo] Inserting: amount=82568, date=2026-01-19T15:05:03.572Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: ekufm7ze3n93g1cp2y, seq=1
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 1, Next: 2
+ LOG  [CashMovementRepo] Inserting: amount=117104, date=2026-01-20T15:05:03.690Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 3rxesyuusk3oblovj0, seq=2
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 2, Next: 3
+ LOG  [CashMovementRepo] Inserting: amount=108257, date=2026-01-21T15:05:03.739Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: v4k81hobt68k4ptae8, seq=3
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 3, Next: 4
+ LOG  [CashMovementRepo] Inserting: amount=117956, date=2026-01-22T15:05:03.791Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: joxhgfg6qopyk0gfgi, seq=4
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 4, Next: 5
+ LOG  [CashMovementRepo] Inserting: amount=98988, date=2026-01-23T15:05:03.865Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: e3egvcw4epo7c69m3t, seq=5
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 5, Next: 6
+ LOG  [CashMovementRepo] Inserting: amount=111954, date=2026-01-24T15:05:03.906Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: i4qhg9qg3ia3erqvwj, seq=6
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 6, Next: 7
+ LOG  [CashMovementRepo] Inserting: amount=112197, date=2026-01-25T15:05:03.946Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: cnoi3nitqpmplsyobi, seq=7
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 7, Next: 8
+ LOG  [CashMovementRepo] Inserting: amount=106226, date=2026-01-26T15:05:04.010Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: kckww0y3zhwllw64vf, seq=8
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 8, Next: 9
+ LOG  [CashMovementRepo] Inserting: amount=113459, date=2026-01-27T15:05:04.077Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: t373smoqgbxiy37cyw, seq=9
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 9, Next: 10
+ LOG  [CashMovementRepo] Inserting: amount=114396, date=2026-01-28T15:05:04.112Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: rk005hdz3p84tt59a7, seq=10
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 10, Next: 11
+ LOG  [CashMovementRepo] Inserting: amount=91754, date=2026-01-29T15:05:04.139Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: srp3s9fuit778tcdam, seq=11
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 11, Next: 12
+ LOG  [CashMovementRepo] Inserting: amount=97137, date=2026-01-30T15:05:04.204Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 8au7yzdi7vyze9nw7h, seq=12
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 12, Next: 13
+ LOG  [CashMovementRepo] Inserting: amount=109109, date=2026-01-31T15:05:04.237Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: nv1itfdiy7aue33e4w, seq=13
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 13, Next: 14
+ LOG  [CashMovementRepo] Inserting: amount=85854, date=2026-02-01T15:05:04.277Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: b2ie1w9oldzc1wmoqb, seq=14
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 14, Next: 15
+ LOG  [CashMovementRepo] Inserting: amount=88271, date=2026-02-02T15:05:04.317Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: x5npxc4n4yyka1sqp0, seq=15
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 15, Next: 16
+ LOG  [CashMovementRepo] Inserting: amount=109650, date=2026-02-03T15:05:04.362Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: yz870o0tegxqgt14uc, seq=16
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 16, Next: 17
+ LOG  [CashMovementRepo] Inserting: amount=108917, date=2026-02-04T15:05:04.407Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: f54nsv91vxoczl1vqh, seq=17
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 17, Next: 18
+ LOG  [CashMovementRepo] Inserting: amount=87939, date=2026-02-05T15:05:04.440Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: c0g0hdbr2384wsd71k, seq=18
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 18, Next: 19
+ LOG  [CashMovementRepo] Inserting: amount=119999, date=2026-02-06T15:05:04.477Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: hqahtt6miaw09onuto, seq=19
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 19, Next: 20
+ LOG  [CashMovementRepo] Inserting: amount=81350, date=2026-02-07T15:05:04.516Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: rtr1szwi1r00pfv9vo, seq=20
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 20, Next: 21
+ LOG  [CashMovementRepo] Inserting: amount=83495, date=2026-02-08T15:05:04.565Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: g7wahmmc3o3gxgg2kl, seq=21
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 21, Next: 22
+ LOG  [CashMovementRepo] Inserting: amount=106189, date=2026-02-09T15:05:04.604Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: xpgbv9luqfkfovj632, seq=22
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 22, Next: 23
+ LOG  [CashMovementRepo] Inserting: amount=105377, date=2026-02-10T15:05:04.642Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: id1argbc4jyr543fls, seq=23
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 23, Next: 24
+ LOG  [CashMovementRepo] Inserting: amount=115641, date=2026-02-11T15:05:04.682Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: cv04b6nkmb4fvpxs2q, seq=24
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 24, Next: 25
+ LOG  [CashMovementRepo] Inserting: amount=112327, date=2026-02-12T15:05:04.719Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 1h61day7u6kqg9ibpx, seq=25
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 25, Next: 26
+ LOG  [CashMovementRepo] Inserting: amount=100035, date=2026-02-13T15:05:04.772Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: qx6kynxvy5qa5rsqdw, seq=26
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 26, Next: 27
+ LOG  [CashMovementRepo] Inserting: amount=111363, date=2026-02-14T15:05:04.819Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: gnm78nioerqilqj75p, seq=27
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 27, Next: 28
+ LOG  [CashMovementRepo] Inserting: amount=93650, date=2026-02-15T15:05:04.871Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 70owm85p6aicpo229n, seq=28
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 28, Next: 29
+ LOG  [CashMovementRepo] Inserting: amount=83251, date=2026-02-16T15:05:04.937Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: y8xz8fvhzn8g4si740, seq=29
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 29, Next: 30
+ LOG  [CashMovementRepo] Inserting: amount=100241, date=2026-02-17T15:05:04.998Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: plgikys1h9elcikdeq, seq=30
+ LOG  [TestData] Done with Unit: MCMXII (30 movements)
+ LOG  [TestData] Generating data for: FugaZ (bu2)
+ LOG  [TestData] First movement for FugaZ: 2026-01-19T15:05:05.055Z, amount ~101292
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: null, Next: 1
+ LOG  [CashMovementRepo] Inserting: amount=101292, date=2026-01-19T15:05:05.055Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 8u7u4of5lypeddqkyb, seq=1
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 1, Next: 2
+ LOG  [CashMovementRepo] Inserting: amount=87177, date=2026-01-20T15:05:05.131Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: j2vjpov32qhb3qgqu8, seq=2
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 2, Next: 3
+ LOG  [CashMovementRepo] Inserting: amount=111565, date=2026-01-21T15:05:05.215Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: lb9tyhq7nwavh8vu3e, seq=3
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 3, Next: 4
+ LOG  [CashMovementRepo] Inserting: amount=96173, date=2026-01-22T15:05:05.290Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: v1g5f7bz7ohad2kg30, seq=4
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 4, Next: 5
+ LOG  [CashMovementRepo] Inserting: amount=117714, date=2026-01-23T15:05:05.342Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: ije79r9350c6nnwhlr, seq=5
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 5, Next: 6
+ LOG  [CashMovementRepo] Inserting: amount=102050, date=2026-01-24T15:05:05.415Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: snbau4e3js7f66bk15, seq=6
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 6, Next: 7
+ LOG  [CashMovementRepo] Inserting: amount=87629, date=2026-01-25T15:05:05.487Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: d9szsj9c6uvj17rd23, seq=7
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 7, Next: 8
+ LOG  [CashMovementRepo] Inserting: amount=115974, date=2026-01-26T15:05:05.542Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: jmqtl50zsu83zgwm3m, seq=8
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 8, Next: 9
+ LOG  [CashMovementRepo] Inserting: amount=92802, date=2026-01-27T15:05:05.601Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: bjcp3mweki0v2gw8ju, seq=9
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 9, Next: 10
+ LOG  [CashMovementRepo] Inserting: amount=110588, date=2026-01-28T15:05:05.643Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: fx75kp9fghhhbxln5r, seq=10
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 10, Next: 11
+ LOG  [CashMovementRepo] Inserting: amount=83509, date=2026-01-29T15:05:05.695Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: qk0ubif98u7vk95j2a, seq=11
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 11, Next: 12
+ LOG  [CashMovementRepo] Inserting: amount=113329, date=2026-01-30T15:05:05.765Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: wtso875v87kzofn0zs, seq=12
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 12, Next: 13
+ LOG  [CashMovementRepo] Inserting: amount=108264, date=2026-01-31T15:05:05.809Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 04em8y8p1uirvsb8v6, seq=13
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 13, Next: 14
+ LOG  [CashMovementRepo] Inserting: amount=94536, date=2026-02-01T15:05:05.853Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 51p1xmsuuvkjohrp4c, seq=14
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 14, Next: 15
+ LOG  [CashMovementRepo] Inserting: amount=119189, date=2026-02-02T15:05:05.895Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: zg7a32qcztkm2y6yx9, seq=15
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 15, Next: 16
+ LOG  [CashMovementRepo] Inserting: amount=109261, date=2026-02-03T15:05:05.956Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: evq3eq4f3r13hu37ap, seq=16
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 16, Next: 17
+ LOG  [CashMovementRepo] Inserting: amount=102218, date=2026-02-04T15:05:06.021Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 4oenu6xtv97lbu9858, seq=17
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 17, Next: 18
+ LOG  [CashMovementRepo] Inserting: amount=103288, date=2026-02-05T15:05:06.133Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: hm9rhqep0j5ghmqb3s, seq=18
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 18, Next: 19
+ LOG  [CashMovementRepo] Inserting: amount=88075, date=2026-02-06T15:05:06.202Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: ptqocwydyrbhw07wg6, seq=19
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 19, Next: 20
+ LOG  [CashMovementRepo] Inserting: amount=115254, date=2026-02-07T15:05:06.272Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: rb9umz06q9x4ztqvvr, seq=20
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 20, Next: 21
+ LOG  [CashMovementRepo] Inserting: amount=104901, date=2026-02-08T15:05:06.344Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: f2bahdo4eh1dckkzt2, seq=21
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 21, Next: 22
+ LOG  [CashMovementRepo] Inserting: amount=106998, date=2026-02-09T15:05:06.432Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: k4cxwlodknhspltn06, seq=22
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 22, Next: 23
+ LOG  [CashMovementRepo] Inserting: amount=105937, date=2026-02-10T15:05:06.502Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: qhlnezu15ekeudhaqn, seq=23
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 23, Next: 24
+ LOG  [CashMovementRepo] Inserting: amount=104484, date=2026-02-11T15:05:06.580Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 94novcpsvj7mnvybuk, seq=24
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 24, Next: 25
+ LOG  [CashMovementRepo] Inserting: amount=92172, date=2026-02-12T15:05:06.640Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 2mvr9m9xed7hmmrj9a, seq=25
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 25, Next: 26
+ LOG  [CashMovementRepo] Inserting: amount=90368, date=2026-02-13T15:05:06.690Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 45hlzooc1r2gmiof3r, seq=26
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 26, Next: 27
+ LOG  [CashMovementRepo] Inserting: amount=100630, date=2026-02-14T15:05:06.734Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: ltofrcqzhquch88w0j, seq=27
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 27, Next: 28
+ LOG  [CashMovementRepo] Inserting: amount=85651, date=2026-02-15T15:05:06.793Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: zbw28n50zcvssmqzgo, seq=28
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 28, Next: 29
+ LOG  [CashMovementRepo] Inserting: amount=85113, date=2026-02-16T15:05:06.839Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: fklit89guri7f9qyh4, seq=29
+ LOG  [CashMovementRepo] Creating movement for BU: bu2
+ LOG  [CashMovementRepo] Last seq: 29, Next: 30
+ LOG  [CashMovementRepo] Inserting: amount=113247, date=2026-02-17T15:05:06.884Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 4mcfvhn2x3u4w8nam1, seq=30
+ LOG  [TestData] Done with Unit: FugaZ (30 movements)
+ LOG  [TestData] Generating data for: Diburger (bu3)
+ LOG  [TestData] First movement for Diburger: 2026-01-19T15:05:06.927Z, amount ~105615
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: null, Next: 1
+ LOG  [CashMovementRepo] Inserting: amount=105615, date=2026-01-19T15:05:06.927Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 4fgi2wt2eqcafw02fc, seq=1
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 1, Next: 2
+ LOG  [CashMovementRepo] Inserting: amount=97806, date=2026-01-20T15:05:06.980Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: t9a0tx09s2cbg86fb0, seq=2
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 2, Next: 3
+ LOG  [CashMovementRepo] Inserting: amount=89546, date=2026-01-21T15:05:07.027Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: b6u1p2gxds8vp6xrqw, seq=3
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 3, Next: 4
+ LOG  [CashMovementRepo] Inserting: amount=111367, date=2026-01-22T15:05:07.061Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 2jdvfb417fb4fwp4p8, seq=4
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 4, Next: 5
+ LOG  [CashMovementRepo] Inserting: amount=99151, date=2026-01-23T15:05:07.107Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 6kvk3s66h1uh0ioaj3, seq=5
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 5, Next: 6
+ LOG  [CashMovementRepo] Inserting: amount=80256, date=2026-01-24T15:05:07.145Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: sri9qs3qdmkceb118q, seq=6
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 6, Next: 7
+ LOG  [CashMovementRepo] Inserting: amount=112775, date=2026-01-25T15:05:07.190Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: d7zt9haf4diy8j03o6, seq=7
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 7, Next: 8
+ LOG  [CashMovementRepo] Inserting: amount=107181, date=2026-01-26T15:05:07.230Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: x9o2w0yqqo8i4pougj, seq=8
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 8, Next: 9
+ LOG  [CashMovementRepo] Inserting: amount=94166, date=2026-01-27T15:05:07.264Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: f91npn9nnsgo87vmez, seq=9
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 9, Next: 10
+ LOG  [CashMovementRepo] Inserting: amount=103245, date=2026-01-28T15:05:07.314Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 7uqfj8jzjyk6x738o3, seq=10
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 10, Next: 11
+ LOG  [CashMovementRepo] Inserting: amount=81538, date=2026-01-29T15:05:07.361Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: c50ef38agkofbbqvnc, seq=11
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 11, Next: 12
+ LOG  [CashMovementRepo] Inserting: amount=87127, date=2026-01-30T15:05:07.415Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 2c0vja2mfkfp4h9ne6, seq=12
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 12, Next: 13
+ LOG  [CashMovementRepo] Inserting: amount=90018, date=2026-01-31T15:05:07.474Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: i5oik1gsn2hp844suo, seq=13
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 13, Next: 14
+ LOG  [CashMovementRepo] Inserting: amount=96296, date=2026-02-01T15:05:07.545Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: tznoisi1lxb1g4kutp, seq=14
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 14, Next: 15
+ LOG  [CashMovementRepo] Inserting: amount=113642, date=2026-02-02T15:05:07.597Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: yq4bhfb9iyy4geevov, seq=15
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 15, Next: 16
+ LOG  [CashMovementRepo] Inserting: amount=85145, date=2026-02-03T15:05:07.649Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 7m2y2lslzvpt35xkm5, seq=16
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 16, Next: 17
+ LOG  [CashMovementRepo] Inserting: amount=111393, date=2026-02-04T15:05:07.710Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 3r5acvbri872vlzf4w, seq=17
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 17, Next: 18
+ LOG  [CashMovementRepo] Inserting: amount=109209, date=2026-02-05T15:05:07.763Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: uhb99rodpzc02zla0r, seq=18
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 18, Next: 19
+ LOG  [CashMovementRepo] Inserting: amount=103600, date=2026-02-06T15:05:07.820Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: es0e2h95ucakw483u6, seq=19
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 19, Next: 20
+ LOG  [CashMovementRepo] Inserting: amount=100157, date=2026-02-07T15:05:07.864Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: fhom1zn18nsyc0c5a4, seq=20
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 20, Next: 21
+ LOG  [CashMovementRepo] Inserting: amount=87154, date=2026-02-08T15:05:07.937Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: udqsnlvl2d4dngxkyw, seq=21
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 21, Next: 22
+ LOG  [CashMovementRepo] Inserting: amount=113430, date=2026-02-09T15:05:07.987Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: b13noa3hgr9lkuy4y0, seq=22
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 22, Next: 23
+ LOG  [CashMovementRepo] Inserting: amount=100134, date=2026-02-10T15:05:08.047Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: ltlf27u4iwsnt0q5wa, seq=23
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 23, Next: 24
+ LOG  [CashMovementRepo] Inserting: amount=83948, date=2026-02-11T15:05:08.091Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 5gf4bpbhqqj4mjrm6a, seq=24
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 24, Next: 25
+ LOG  [CashMovementRepo] Inserting: amount=117967, date=2026-02-12T15:05:08.138Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: varjjnlh73gzgkay6h, seq=25
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 25, Next: 26
+ LOG  [CashMovementRepo] Inserting: amount=90421, date=2026-02-13T15:05:08.207Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: pve7rc30bm9fuyu5oq, seq=26
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 26, Next: 27
+ LOG  [CashMovementRepo] Inserting: amount=116266, date=2026-02-14T15:05:08.253Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: kpi1n51bzj0wd1mwlm, seq=27
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 27, Next: 28
+ LOG  [CashMovementRepo] Inserting: amount=114329, date=2026-02-15T15:05:08.303Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: k3n5za5bqfxrqz5zj6, seq=28
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 28, Next: 29
+ LOG  [CashMovementRepo] Inserting: amount=88116, date=2026-02-16T15:05:08.339Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: x3fc65ukv7d2t69f7v, seq=29
+ LOG  [CashMovementRepo] Creating movement for BU: bu3
+ LOG  [CashMovementRepo] Last seq: 29, Next: 30
+ LOG  [CashMovementRepo] Inserting: amount=96435, date=2026-02-17T15:05:08.385Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: 51rl2072748mxzupli, seq=30
+ LOG  [TestData] Done with Unit: Diburger (30 movements)
+ LOG  [TestData] Total mock data generation finished successfully. Created 90 movements.
+ LOG  [GenerateData] Generation result: true
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 821885, "ticket_count": 8, "total_credits": 821885, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 100241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 100241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 777602, "ticket_count": 8, "total_credits": 777602, "total_debits": 0}
+ LOG  [financialService] BU bu3 balance: {"balance": 807616, "ticket_count": 8, "total_credits": 807616, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 2407103, "totalTickets": 24}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 2407103, "totalTickets": 24}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [AddMovement] Starting save process...
+ LOG  [CashMovementRepo] Creating movement for BU: bu1
+ LOG  [CashMovementRepo] Last seq: 30, Next: 31
+ LOG  [CashMovementRepo] Inserting: amount=150000, date=2026-02-17T15:02:39.741Z, category=cat1
+ LOG  [CashMovementRepo] Movement created: svzmbt1ixaxira4vub, seq=31
+ LOG  [AddMovement] Movement saved successfully
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 971885, "ticket_count": 9, "total_credits": 971885, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 777602, "ticket_count": 8, "total_credits": 777602, "total_debits": 0}
+ LOG  [financialService] BU bu3 balance: {"balance": 807616, "ticket_count": 8, "total_credits": 807616, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  Dashboard: fetchData started, days: 30
+ LOG  [financialService] getGlobalMetrics called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  Dashboard: fetchData started, days: 30
+ LOG  [financialService] getGlobalMetrics called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-01-18
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-30 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-01-18
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-30 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 3224654, "ticket_count": 31, "total_credits": 3224654, "total_debits": 0}
+ LOG  [financialService] BU bu1 balance: {"balance": 3224654, "ticket_count": 31, "total_credits": 3224654, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-30 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-30 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 3049388, "ticket_count": 30, "total_credits": 3049388, "total_debits": 0}
+ LOG  [financialService] BU bu2 balance: {"balance": 3049388, "ticket_count": 30, "total_credits": 3049388, "total_debits": 0}
+ LOG  [financialService] BU bu3 balance: {"balance": 2987433, "ticket_count": 30, "total_credits": 2987433, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-30 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-30 days"]
+ LOG  [financialService] BU bu3 balance: {"balance": 2987433, "ticket_count": 30, "total_credits": 2987433, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["19 Ene", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "1 Feb", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17 Feb"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["19 Ene", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "1 Feb", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17 Feb"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  Dashboard: fetchData started, days: 30
+ LOG  [financialService] getGlobalMetrics called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 30
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-01-18
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-24", "2026-01-25", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-01-31", "2026-02-01", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-07", "2026-02-08", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-30 days"]
+ LOG  [financialService] BU bu1 balance: {"balance": 3224654, "ticket_count": 31, "total_credits": 3224654, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-01-19", "total": 82568}, {"day": "2026-01-20", "total": 117104}, {"day": "2026-01-21", "total": 108257}, {"day": "2026-01-22", "total": 117956}, {"day": "2026-01-23", "total": 98988}, {"day": "2026-01-24", "total": 111954}, {"day": "2026-01-25", "total": 112197}, {"day": "2026-01-26", "total": 106226}, {"day": "2026-01-27", "total": 113459}, {"day": "2026-01-28", "total": 114396}, {"day": "2026-01-29", "total": 91754}, {"day": "2026-01-30", "total": 97137}, {"day": "2026-01-31", "total": 109109}, {"day": "2026-02-01", "total": 85854}, {"day": "2026-02-02", "total": 88271}, {"day": "2026-02-03", "total": 109650}, {"day": "2026-02-04", "total": 108917}, {"day": "2026-02-05", "total": 87939}, {"day": "2026-02-06", "total": 119999}, {"day": "2026-02-07", "total": 81350}, {"day": "2026-02-08", "total": 83495}, {"day": "2026-02-09", "total": 106189}, {"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-30 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 3049388, "ticket_count": 30, "total_credits": 3049388, "total_debits": 0}
+ LOG  [financialService] BU bu3 balance: {"balance": 2987433, "ticket_count": 30, "total_credits": 2987433, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-01-19", "total": 101292}, {"day": "2026-01-20", "total": 87177}, {"day": "2026-01-21", "total": 111565}, {"day": "2026-01-22", "total": 96173}, {"day": "2026-01-23", "total": 117714}, {"day": "2026-01-24", "total": 102050}, {"day": "2026-01-25", "total": 87629}, {"day": "2026-01-26", "total": 115974}, {"day": "2026-01-27", "total": 92802}, {"day": "2026-01-28", "total": 110588}, {"day": "2026-01-29", "total": 83509}, {"day": "2026-01-30", "total": 113329}, {"day": "2026-01-31", "total": 108264}, {"day": "2026-02-01", "total": 94536}, {"day": "2026-02-02", "total": 119189}, {"day": "2026-02-03", "total": 109261}, {"day": "2026-02-04", "total": 102218}, {"day": "2026-02-05", "total": 103288}, {"day": "2026-02-06", "total": 88075}, {"day": "2026-02-07", "total": 115254}, {"day": "2026-02-08", "total": 104901}, {"day": "2026-02-09", "total": 106998}, {"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 30
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-30 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-01-19", "total": 105615}, {"day": "2026-01-20", "total": 97806}, {"day": "2026-01-21", "total": 89546}, {"day": "2026-01-22", "total": 111367}, {"day": "2026-01-23", "total": 99151}, {"day": "2026-01-24", "total": 80256}, {"day": "2026-01-25", "total": 112775}, {"day": "2026-01-26", "total": 107181}, {"day": "2026-01-27", "total": 94166}, {"day": "2026-01-28", "total": 103245}, {"day": "2026-01-29", "total": 81538}, {"day": "2026-01-30", "total": 87127}, {"day": "2026-01-31", "total": 90018}, {"day": "2026-02-01", "total": 96296}, {"day": "2026-02-02", "total": 113642}, {"day": "2026-02-03", "total": 85145}, {"day": "2026-02-04", "total": 111393}, {"day": "2026-02-05", "total": 109209}, {"day": "2026-02-06", "total": 103600}, {"day": "2026-02-07", "total": 100157}, {"day": "2026-02-08", "total": 87154}, {"day": "2026-02-09", "total": 113430}, {"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["19 Ene", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "1 Feb", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17 Feb"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 9261475, "totalTickets": 91}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ LOG  Dashboard: fetchData started, days: 7
+ LOG  [financialService] getGlobalMetrics called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [financialService] getChartData called, days: 7
+ LOG  [businessUnitRepo] getAll, includeInactive: false
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] sql: SELECT * FROM business_units WHERE is_active = 1 ORDER BY display_order ASC
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] chart business units: 3
+ LOG  [financialService] dateLabels: ["2026-02-11", "2026-02-12", "2026-02-13", "2026-02-14", "2026-02-15", "2026-02-16", "2026-02-17"]
+ LOG  [cashMovementRepo] getDailySales BU: bu1 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu1", "-7 days"]
+ LOG  [businessUnitRepo] result: [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] business units: 3 [{"color": "#FF5733", "created_at": "2026-02-17 15:04:59", "display_order": 1, "id": "bu1", "is_active": 1, "location": null, "name": "MCMXII", "updated_at": "2026-02-17 15:04:59"}, {"color": "#33FF57", "created_at": "2026-02-17 15:04:59", "display_order": 2, "id": "bu2", "is_active": 1, "location": null, "name": "FugaZ", "updated_at": "2026-02-17 15:04:59"}, {"color": "#2196F3", "created_at": "2026-02-17 15:04:59", "display_order": 3, "id": "bu3", "is_active": 1, "location": null, "name": "Diburger", "updated_at": "2026-02-17 15:04:59"}]
+ LOG  [financialService] startDate: 2026-02-10
+ LOG  [financialService] BU bu1 balance: {"balance": 971885, "ticket_count": 9, "total_credits": 971885, "total_debits": 0}
+ LOG  [financialService] BU bu1 balance: {"balance": 971885, "ticket_count": 9, "total_credits": 971885, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [financialService] BU bu1 rawData: [{"day": "2026-02-10", "total": 105377}, {"day": "2026-02-11", "total": 115641}, {"day": "2026-02-12", "total": 112327}, {"day": "2026-02-13", "total": 100035}, {"day": "2026-02-14", "total": 111363}, {"day": "2026-02-15", "total": 93650}, {"day": "2026-02-16", "total": 83251}, {"day": "2026-02-17", "total": 250241}]
+ LOG  [cashMovementRepo] getDailySales BU: bu2 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu2", "-7 days"]
+ LOG  [financialService] BU bu2 balance: {"balance": 777602, "ticket_count": 8, "total_credits": 777602, "total_debits": 0}
+ LOG  [financialService] BU bu2 balance: {"balance": 777602, "ticket_count": 8, "total_credits": 777602, "total_debits": 0}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [financialService] BU bu2 rawData: [{"day": "2026-02-10", "total": 105937}, {"day": "2026-02-11", "total": 104484}, {"day": "2026-02-12", "total": 92172}, {"day": "2026-02-13", "total": 90368}, {"day": "2026-02-14", "total": 100630}, {"day": "2026-02-15", "total": 85651}, {"day": "2026-02-16", "total": 85113}, {"day": "2026-02-17", "total": 113247}]
+ LOG  [cashMovementRepo] getDailySales BU: bu3 days: 7
+ LOG  [cashMovementRepo] query: 
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+         params: ["bu3", "-7 days"]
+ LOG  [financialService] BU bu3 balance: {"balance": 807616, "ticket_count": 8, "total_credits": 807616, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}
+ LOG  [financialService] BU bu3 balance: {"balance": 807616, "ticket_count": 8, "total_credits": 807616, "total_debits": 0}
+ LOG  [financialService] returning metrics: {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ LOG  [cashMovementRepo] result: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] BU bu3 rawData: [{"day": "2026-02-10", "total": 100134}, {"day": "2026-02-11", "total": 83948}, {"day": "2026-02-12", "total": 117967}, {"day": "2026-02-13", "total": 90421}, {"day": "2026-02-14", "total": 116266}, {"day": "2026-02-15", "total": 114329}, {"day": "2026-02-16", "total": 88116}, {"day": "2026-02-17", "total": 96435}]
+ LOG  [financialService] returning chart data: {"labels": ["Mie", "Jue", "Vie", "Sab", "Dom", "Lun", "Mar"], "series": [{"color": "#FF5733", "data": [Array], "id": "bu1", "name": "MCMXII"}, {"color": "#33FF57", "data": [Array], "id": "bu2", "name": "FugaZ"}, {"color": "#2196F3", "data": [Array], "id": "bu3", "name": "Diburger"}]}
+ LOG  Dashboard: fetchData succeeded {"chartDataLength": 3, "metrics": {"busCount": 3, "totalSales": 2557103, "totalTickets": 25}, "zoomPref": "true"}
+ LOG  Dashboard: fetchData completed
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.
+ WARN  [Reanimated] Reading from `value` during component render. Please ensure that you don't access the `value` property nor use `get` method of a shared value while React is rendering a component.
+
+If you don't want to see this message, you can disable the `strict` mode. Refer to:
+https://docs.swmansion.com/react-native-reanimated/docs/debugging/logger-configuration for more details.

@@ -1,0 +1,327 @@
+import React, { useEffect, useState, useMemo } from 'react';
+import { View, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Alert, Modal, TextInput, Switch, ScrollView, Platform } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../theme/ThemeContext';
+import { theme } from '../theme';
+import { Typography, Card, Input, Button } from '../components';
+import { partnerRepository } from '../../infrastructure/repositories/partnerRepository';
+import { formatNumber } from '../../application/utils/format';
+
+export const PartnersScreen = () => {
+    const router = useRouter();
+    const { colors } = useTheme();
+    const [partners, setPartners] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    // Form State
+    const [currentId, setCurrentId] = useState<string | null>(null);
+    const [name, setName] = useState('');
+    const [alias, setAlias] = useState('');
+    const [percentage, setPercentage] = useState('50');
+    const [role, setRole] = useState('Socio');
+    const [isManaging, setIsManaging] = useState(false);
+    const [isActive, setIsActive] = useState(1);
+
+    const loadData = async () => {
+        setLoading(true);
+        try {
+            const data = await (partnerRepository as any).getAll(true);
+            setPartners(data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const handleOpenModal = (p?: any) => {
+        if (p) {
+            setCurrentId(p.id);
+            setName(p.name);
+            setAlias(p.alias || '');
+            setPercentage(String(p.participation_percentage));
+            setRole(p.role);
+            setIsManaging(p.is_managing_partner === 1);
+            setIsActive(p.is_active);
+        } else {
+            setCurrentId(null);
+            setName('');
+            setAlias('');
+            setPercentage('0');
+            setRole('Partner');
+            setIsManaging(false);
+            setIsActive(1);
+        }
+        setModalVisible(true);
+    };
+
+    const handleSave = async () => {
+        if (!name.trim()) {
+            Alert.alert('Error', 'El nombre es obligatorio');
+            return;
+        }
+
+        try {
+            const payload = {
+                name,
+                alias,
+                participationPercentage: parseFloat(percentage) || 0,
+                role,
+                isManagingPartner: isManaging ? 1 : 0,
+                isActive: isActive
+            };
+
+            if (currentId) {
+                await (partnerRepository as any).update(currentId, payload);
+            } else {
+                await (partnerRepository as any).create(payload);
+            }
+            setModalVisible(false);
+            loadData();
+        } catch (error) {
+            Alert.alert('Error', 'No se pudo guardar el socio.');
+        }
+    };
+
+    const handleDelete = (id: string, active: number) => {
+        if (active === 1) {
+            Alert.alert('Confirmar Baja', '¿Deseas dar de baja a este socio? No podrá realizar nuevas operaciones.', [
+                { text: 'Cancelar' },
+                {
+                    text: 'Dar de Baja', style: 'destructive', onPress: async () => {
+                        await (partnerRepository as any).softDelete(id);
+                        loadData();
+                    }
+                }
+            ]);
+        } else {
+            Alert.alert('Reactivar', '¿Deseas reactivar a este socio?', [
+                { text: 'Cancelar' },
+                {
+                    text: 'Reactivar', onPress: async () => {
+                        await (partnerRepository as any).reactivate(id);
+                        loadData();
+                    }
+                }
+            ]);
+        }
+    };
+
+    const renderItem = ({ item }: { item: any }) => (
+        <Card style={[styles.itemCard, item.is_active === 0 && styles.inactiveCard]}>
+            <View style={styles.itemInfo}>
+                <View style={styles.nameRow}>
+                    <Typography weight="bold" color={item.is_active === 0 ? colors.textMuted : colors.text}>
+                        {item.name}
+                    </Typography>
+                    {item.is_managing_partner === 1 && item.is_active === 1 && (
+                        <View style={styles.adminBadge}>
+                            <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>ADMIN</Typography>
+                        </View>
+                    )}
+                    {item.is_active === 0 && (
+                        <View style={styles.inactiveBadge}>
+                            <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>BAJA</Typography>
+                        </View>
+                    )}
+                </View>
+                <Typography variant="caption" color={colors.textSecondary}>
+                    {item.role} • {formatNumber(item.participation_percentage, 1)}% particip.
+                </Typography>
+            </View>
+            <View style={styles.itemActions}>
+                <TouchableOpacity onPress={() => handleOpenModal(item)} style={styles.actionBtn}>
+                    <Typography variant="caption" color={colors.primary} weight="bold">EDITAR</Typography>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDelete(item.id, item.is_active)} style={styles.actionBtn}>
+                    <Typography variant="caption" color={item.is_active === 1 ? colors.danger : colors.success} weight="bold">
+                        {item.is_active === 1 ? 'BAJA' : 'ALTA'}
+                    </Typography>
+                </TouchableOpacity>
+            </View>
+        </Card>
+    );
+
+    const styles = useMemo(() => StyleSheet.create({
+        safe: { flex: 1, backgroundColor: colors.background },
+        container: { flex: 1, padding: theme.spacing.md },
+        headerRow: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: theme.spacing.lg,
+            paddingTop: Platform.OS === 'ios' ? 0 : 10
+        },
+        backButton: {
+            marginRight: theme.spacing.md,
+            marginLeft: -4,
+            padding: 4
+        },
+        list: { paddingBottom: 100 },
+        itemCard: { padding: theme.spacing.md, marginBottom: 12 },
+        inactiveCard: { opacity: 0.6, backgroundColor: colors.background },
+        itemInfo: { flex: 1, marginBottom: 12 },
+        nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+        adminBadge: { backgroundColor: colors.success, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+        inactiveBadge: { backgroundColor: colors.textMuted, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+        itemActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 },
+        actionBtn: { marginRight: 24 },
+        addBtn: { position: 'absolute', bottom: 20, left: 20, right: 20 },
+        modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', padding: 20 },
+        modalContent: { backgroundColor: colors.cardBackground, borderRadius: 16, padding: 24 },
+        input: {
+            backgroundColor: colors.background,
+            color: colors.text,
+            padding: 12,
+            borderRadius: 8,
+            fontSize: 16,
+            marginBottom: 16,
+            marginTop: 4
+        },
+        switchRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 24, marginTop: 10 },
+        modalButtons: { flexDirection: 'row' }
+    }), [colors]);
+
+    return (
+        <SafeAreaView style={styles.safe}>
+            <View style={styles.container}>
+                <View style={styles.headerRow}>
+                    <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                        <Ionicons name="chevron-back" size={28} color={colors.text} />
+                    </TouchableOpacity>
+                    <View>
+                        <Typography variant="h1">Socios</Typography>
+                        <Typography variant="body" color={colors.textSecondary}>Gestión de socios</Typography>
+                    </View>
+                </View>
+
+                <FlatList
+                    data={partners}
+                    keyExtractor={item => item.id}
+                    renderItem={renderItem}
+                    contentContainerStyle={styles.list}
+                    refreshing={loading}
+                    onRefresh={loadData}
+                />
+
+                <Button
+                    title="Agregar Socio"
+                    onPress={() => handleOpenModal()}
+                    style={styles.addBtn}
+                />
+
+                <Modal visible={modalVisible} animationType="slide" transparent>
+                    <View style={styles.modalOverlay}>
+                        <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+                            <View style={styles.modalContent}>
+                                <Typography variant="h2" style={{ marginBottom: 20 }}>
+                                    {currentId ? 'Editar Socio' : 'Nuevo Socio'}
+                                </Typography>
+
+                                <Typography variant="label">Nombre Completo</Typography>
+                                <TextInput
+                                    style={styles.input}
+                                    value={name}
+                                    onChangeText={setName}
+                                    placeholder="Ej: Juan Pérez"
+                                    placeholderTextColor={colors.textMuted}
+                                />
+
+                                <Typography variant="label">Alias / Nombre Corto</Typography>
+                                <TextInput
+                                    style={styles.input}
+                                    value={alias}
+                                    onChangeText={setAlias}
+                                    placeholder="Ej: Juan"
+                                    placeholderTextColor={colors.textMuted}
+                                />
+
+                                <Typography variant="label">% de Participación</Typography>
+                                <TextInput
+                                    style={styles.input}
+                                    value={percentage}
+                                    onChangeText={setPercentage}
+                                    keyboardType="numeric"
+                                />
+
+                                <Typography variant="label">Rol en la empresa</Typography>
+                                <TextInput
+                                    style={styles.input}
+                                    value={role}
+                                    onChangeText={setRole}
+                                    placeholder="Ej: Socio Gerente"
+                                    placeholderTextColor={colors.textMuted}
+                                />
+
+                                <View style={styles.switchRow}>
+                                    <View style={{ flex: 1 }}>
+                                        <Typography weight="bold">Socio Administrador</Typography>
+                                        <Typography variant="caption" color={colors.textSecondary}>
+                                            Puede realizar retiros y cierres de caja.
+                                        </Typography>
+                                    </View>
+                                    <Switch
+                                        value={isManaging}
+                                        onValueChange={setIsManaging}
+                                        trackColor={{ false: colors.border, true: colors.primary + '80' }}
+                                        thumbColor={isManaging ? colors.primary : '#f4f3f4'}
+                                    />
+                                </View>
+
+                                <View style={styles.modalButtons}>
+                                    <Button title="Cancelar" variant="outline" onPress={() => setModalVisible(false)} style={{ flex: 1 }} />
+                                    <View style={{ width: 10 }} />
+                                    <Button title="Guardar" onPress={handleSave} style={{ flex: 1 }} />
+                                </View>
+                            </View>
+                        </ScrollView>
+                    </View>
+                </Modal>
+            </View>
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    safe: { flex: 1, backgroundColor: colors.background },
+    container: { flex: 1, padding: theme.spacing.md },
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: theme.spacing.lg,
+        paddingTop: Platform.OS === 'ios' ? 0 : 10
+    },
+    backButton: {
+        marginRight: theme.spacing.md,
+        marginLeft: -4,
+        padding: 4
+    },
+    list: { paddingBottom: 100 },
+    itemCard: { padding: theme.spacing.md, marginBottom: 12 },
+    inactiveCard: { opacity: 0.6, backgroundColor: colors.background },
+    itemInfo: { flex: 1, marginBottom: 12 },
+    nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+    adminBadge: { backgroundColor: colors.success, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+    inactiveBadge: { backgroundColor: colors.textMuted, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+    itemActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 },
+    actionBtn: { marginRight: 24 },
+    addBtn: { position: 'absolute', bottom: 20, left: 20, right: 20 },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', padding: 20 },
+    modalContent: { backgroundColor: colors.cardBackground, borderRadius: 16, padding: 24 },
+    input: {
+        backgroundColor: colors.background,
+        color: colors.text,
+        padding: 12,
+        borderRadius: 8,
+        fontSize: 16,
+        marginBottom: 16,
+        marginTop: 4
+    },
+    switchRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 24, marginTop: 10 },
+    modalButtons: { flexDirection: 'row' }
+});

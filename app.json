@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "flash_report",
+    "slug": "flash_report",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "bundleIdentifier": "com.creyco.flashreport",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.creyco.flashreport",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-router",
+      "expo-font",
+      "@react-native-community/datetimepicker",
+      ["expo-build-properties", {
+        "android": {
+          "newArchEnabled": true
+        }
+      }]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "40ad4b20-a4d2-47e7-98bd-82c8f7c7394e"
+      }
+    },
+    "owner": "creyco"
+  }
+}

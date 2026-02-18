@@ -1,0 +1,82 @@
+import { getDatabase } from '../db/database';
+import { generateId } from '../../application/utils/idGenerator';
+
+export const partnerRepository = {
+    getAll: async (includeInactive = false) => {
+        const db = await getDatabase();
+        const sql = includeInactive
+            ? 'SELECT * FROM partners ORDER BY is_active DESC, name ASC'
+            : 'SELECT * FROM partners WHERE is_active = 1 ORDER BY name ASC';
+        return await db.getAllAsync(sql);
+    },
+
+    getById: async (id) => {
+        const db = await getDatabase();
+        return await db.getFirstAsync('SELECT * FROM partners WHERE id = ?', [id]);
+    },
+
+    getAccountByPartnerId: async (partnerId) => {
+        const db = await getDatabase();
+        return await db.getFirstAsync('SELECT * FROM partner_accounts WHERE partner_id = ?', [partnerId]);
+    },
+
+    create: async ({ name, alias, participationPercentage, role, isManagingPartner = 0 }) => {
+        const db = await getDatabase();
+        const id = generateId();
+
+        // 1. Create Partner
+        await db.runAsync(
+            'INSERT INTO partners (id, name, alias, participation_percentage, role, is_managing_partner, is_active) VALUES (?, ?, ?, ?, ?, ?, 1)',
+            [id, name, alias, participationPercentage, role, isManagingPartner]
+        );
+
+        // 2. Create Partner Account (if not exists)
+        const accId = generateId();
+        await db.runAsync(
+            'INSERT INTO partner_accounts (id, partner_id, current_balance) VALUES (?, ?, 0)',
+            [accId, id]
+        );
+
+        return { id, name, alias, participationPercentage, role };
+    },
+
+    update: async (id, { name, alias, participationPercentage, role, isManagingPartner, isActive = 1 }) => {
+        const db = await getDatabase();
+        await db.runAsync(
+            'UPDATE partners SET name = ?, alias = ?, participation_percentage = ?, role = ?, is_managing_partner = ?, is_active = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+            [name, alias, participationPercentage, role, isManagingPartner, isActive, id]
+        );
+        return true;
+    },
+
+    softDelete: async (id) => {
+        const db = await getDatabase();
+        await db.runAsync('UPDATE partners SET is_active = 0, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [id]);
+        return true;
+    },
+
+    reactivate: async (id) => {
+        const db = await getDatabase();
+        await db.runAsync('UPDATE partners SET is_active = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [id]);
+        return true;
+    },
+
+    updateBalance: async (accountId, newBalance) => {
+        const db = await getDatabase();
+        await db.runAsync(
+            'UPDATE partner_accounts SET current_balance = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+            [newBalance, accountId]
+        );
+    },
+
+    recordTransaction: async (accountId, type, amount, origin, description, createdBy) => {
+        const db = await getDatabase();
+        const id = `txn_${Date.now()}`;
+        await db.runAsync(
+            `INSERT INTO partner_account_transactions (id, partner_account_id, transaction_date, type, origin, amount, description, created_by)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [id, accountId, new Date().toISOString(), type, origin, amount, description, createdBy]
+        );
+        return id;
+    }
+};

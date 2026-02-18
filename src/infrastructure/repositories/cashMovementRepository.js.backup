@@ -1,0 +1,211 @@
+import { getDatabase } from '../db/database';
+import { generateId } from '../../application/utils/idGenerator';
+
+export const cashMovementRepository = {
+     create: async (movement) => {
+         try {
+             console.log('[CashMovementRepo] Creating movement for BU:', movement.businessUnitId);
+             const db = await getDatabase();
+             const id = movement.id || generateId();
+
+             // 1. Get next sequence number for this Business Unit
+             const lastMovement = await db.getFirstAsync(
+                 'SELECT MAX(sequence_number) as lastSeq FROM cash_movements WHERE business_unit_id = ?',
+                 [movement.businessUnitId]
+             );
+             const sequenceNumber = (lastMovement?.lastSeq || 0) + 1;
+             console.log(`[CashMovementRepo] Last seq: ${lastMovement?.lastSeq}, Next: ${sequenceNumber}`);
+
+             // 2. Insert movement
+             console.log(`[CashMovementRepo] Inserting: amount=${movement.amount}, date=${movement.date}, category=${movement.categoryId}`);
+             await db.runAsync(
+                 `INSERT INTO cash_movements (
+             id, business_unit_id, transaction_date, type, category_id, 
+             amount, description, reference_id, partner_account_id, 
+             created_by, sequence_number, is_active
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+                 [
+                     id,
+                     movement.businessUnitId,
+                     movement.date || new Date().toISOString(),
+                     movement.type,
+                     movement.categoryId,
+                     movement.amount,
+                     movement.description || '',
+                     movement.referenceId || null,
+                     movement.partnerAccountId || null,
+                     movement.createdBy || null,
+                     sequenceNumber
+                 ]
+             );
+             console.log(`[CashMovementRepo] Movement created: ${id}, seq=${sequenceNumber}`);
+
+             return { ...movement, id, sequenceNumber };
+         } catch (error) {
+             console.error('[CashMovementRepo] Error creating movement:', error);
+             throw error;
+         }
+     },
+
+    listByBusinessUnit: async (businessUnitId, limit = 100, offset = 0, startDate = null, endDate = null) => {
+        const db = await getDatabase();
+        let query = `
+      SELECT cm.*, mc.name as category_name, mc.code as category_code
+      FROM cash_movements cm
+      JOIN movement_categories mc ON cm.category_id = mc.id
+      WHERE cm.business_unit_id = ? AND cm.is_active = 1
+    `;
+        const params = [businessUnitId];
+
+        if (startDate) {
+            query += " AND date(cm.transaction_date) >= date(?) ";
+            params.push(startDate);
+        }
+        if (endDate) {
+            query += " AND date(cm.transaction_date) <= date(?) ";
+            params.push(endDate);
+        }
+
+        query += " ORDER BY cm.transaction_date DESC, cm.sequence_number DESC LIMIT ? OFFSET ? ";
+        params.push(limit, offset);
+
+        return await db.getAllAsync(query, params);
+    },
+
+    getBalance: async (businessUnitId, startDate = null, endDate = null) => {
+        let query = supabase
+            .from('cash_movements')
+            .select('type, amount')
+            .eq('business_unit_id', businessUnitId)
+            .eq('is_active', true);
+        if (startDate) query = query.gte('transaction_date', startDate);
+        if (endDate) query = query.lte('transaction_date', endDate);
+        const { data, error } = await query;
+        if (error) throw error;
+        // Calcular en memoria (para pocos registros) o usar función PostgreSQL
+        const totals = data.reduce((acc, mov) => {
+            if (mov.type === 'CR') {
+                acc.credits += parseFloat(mov.amount);
+                acc.ticket_count += 1;
+            } else {
+                acc.debits += parseFloat(mov.amount);
+            }
+            return acc;
+        }, { credits: 0, debits: 0, ticket_count: 0 });
+        return {
+            total_credits: totals.credits,
+            total_debits: totals.debits,
+            ticket_count: totals.ticket_count,
+            balance: totals.credits - totals.debits
+        };
+    },
+
+    listAll: async (limit = 100, offset = 0, startDate = null, endDate = null) => {
+        const db = await getDatabase();
+        let query = `
+      SELECT cm.*, mc.name as category_name, mc.code as category_code, bu.name as bu_name, bu.color as bu_color
+      FROM cash_movements cm
+      JOIN movement_categories mc ON cm.category_id = mc.id
+      JOIN business_units bu ON cm.business_unit_id = bu.id
+      WHERE cm.is_active = 1
+    `;
+        const params = [];
+
+        if (startDate) {
+            query += " AND date(cm.transaction_date) >= date(?) ";
+            params.push(startDate);
+        }
+        if (endDate) {
+            query += " AND date(cm.transaction_date) <= date(?) ";
+            params.push(endDate);
+        }
+
+        query += " ORDER BY cm.transaction_date DESC, cm.sequence_number DESC LIMIT ? OFFSET ? ";
+        params.push(limit, offset);
+
+        return await db.getAllAsync(query, params);
+    },
+
+    getGlobalBalance: async (startDate = null, endDate = null) => {
+        const db = await getDatabase();
+        let query = `
+      SELECT 
+        SUM(CASE WHEN type = 'CR' THEN amount ELSE 0 END) as total_credits,
+        SUM(CASE WHEN type = 'DB' THEN amount ELSE 0 END) as total_debits,
+        COUNT(CASE WHEN type = 'CR' THEN 1 END) as ticket_count
+      FROM cash_movements
+      WHERE is_active = 1
+    `;
+        const params = [];
+
+        if (startDate) {
+            query += " AND date(transaction_date) >= date(?) ";
+            params.push(startDate);
+        }
+        if (endDate) {
+            query += " AND date(transaction_date) <= date(?) ";
+            params.push(endDate);
+        }
+
+        const result = await db.getFirstAsync(query, params);
+        return {
+            total_credits: result?.total_credits || 0,
+            total_debits: result?.total_debits || 0,
+            ticket_count: result?.ticket_count || 0,
+            balance: (result?.total_credits || 0) - (result?.total_debits || 0)
+        };
+    },
+
+    updateDescription: async (id, description) => {
+        const db = await getDatabase();
+
+        // Business Rule: Only the last active movement is editable (handled in service, but reinforced here)
+        await db.runAsync(
+            'UPDATE cash_movements SET description = ? WHERE id = ?',
+            [description, id]
+        );
+    },
+
+    deactivatePeriod: async (businessUnitId, periodLabel) => {
+        const db = await getDatabase();
+        await db.runAsync(
+            'UPDATE cash_movements SET is_active = 0, closed_period = ? WHERE business_unit_id = ? AND is_active = 1',
+            [periodLabel, businessUnitId]
+        );
+    },
+
+    getDailySales: async (businessUnitId, days = 7) => {
+        console.log('[cashMovementRepo] getDailySales BU:', businessUnitId, 'days:', days);
+        const db = await getDatabase();
+        const query = `
+            SELECT 
+                date(transaction_date) as day,
+                SUM(amount) as total
+            FROM cash_movements
+            WHERE business_unit_id = ? 
+              AND type = 'CR' 
+              AND is_active = 1
+              AND transaction_date >= date('now', ?)
+            GROUP BY day
+            ORDER BY day ASC
+        `;
+        const params = [businessUnitId, `-${days} days`];
+        console.log('[cashMovementRepo] query:', query, 'params:', params);
+        const result = await db.getAllAsync(query, params);
+        console.log('[cashMovementRepo] result:', result);
+        return result;
+    },
+
+    softDelete: async (id) => {
+        const db = await getDatabase();
+        await db.runAsync('UPDATE cash_movements SET is_active = 0 WHERE id = ?', [id]);
+    },
+
+    getLastMovementForBU: async (businessUnitId) => {
+        const db = await getDatabase();
+        return await db.getFirstAsync(
+            'SELECT * FROM cash_movements WHERE business_unit_id = ? AND is_active = 1 ORDER BY sequence_number DESC LIMIT 1',
+            [businessUnitId]
+        );
+    }
+};
