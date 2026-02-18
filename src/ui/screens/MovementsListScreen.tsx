@@ -178,29 +178,29 @@ export const MovementsListScreen = () => {
             }
 
             const { start, end } = getDateRange();
-            console.log('[MovementsList] date range:', { start, end });
+            // Debug: console.log('[MovementsList] date range:', { start, end });
 
             if (selectedBu === 'all') {
-                console.log('[MovementsList] Fetching all movements...');
+                // Debug: console.log('[MovementsList] Fetching all movements...');
                 const [list, balance] = await Promise.all([
                     (cashMovementRepository as any).listAll(300, 0, start, end),
                     (cashMovementRepository as any).getGlobalBalance(start, end)
                 ]);
-                console.log('[MovementsList] listAll result:', list?.length, 'movements');
-                console.log('[MovementsList] balance result:', balance);
+                // Debug: console.log('[MovementsList] listAll result:', list?.length, 'movements');
+                // Debug: console.log('[MovementsList] balance result:', balance);
                 setMovements(list || []);
                 setBalanceInfo(balance || { total_credits: 0, total_debits: 0, balance: 0 });
                 setLastMovementId(null);
             } else {
-                console.log('[MovementsList] Fetching movements for BU:', selectedBu);
+                // Debug: console.log('[MovementsList] Fetching movements for BU:', selectedBu);
                 const [list, last, balance] = await Promise.all([
                     (cashMovementRepository as any).listByBusinessUnit(selectedBu, 200, 0, start, end),
                     (cashMovementRepository as any).getLastMovementForBU(selectedBu),
                     (cashMovementRepository as any).getBalance(selectedBu, start, end)
                 ]);
-                console.log('[MovementsList] listByBusinessUnit result:', list?.length, 'movements');
-                console.log('[MovementsList] last movement:', last?.id);
-                console.log('[MovementsList] balance result:', balance);
+                 // Debug: console.log('[MovementsList] listByBusinessUnit result:', list?.length, 'movements');
+                 // Debug: console.log('[MovementsList] last movement:', last?.id);
+                // Debug: console.log('[MovementsList] balance result:', balance);
                 setMovements(list || []);
                 setLastMovementId(last?.id || null);
                 setBalanceInfo(balance || { total_credits: 0, total_debits: 0, balance: 0 });
@@ -208,7 +208,7 @@ export const MovementsListScreen = () => {
         } catch (error) {
             console.error('[MovementsList] Error:', error);
         } finally {
-            console.log('[MovementsList] loadData completed');
+            // Debug: console.log('[MovementsList] loadData completed');
             setLoading(false);
         }
     };
