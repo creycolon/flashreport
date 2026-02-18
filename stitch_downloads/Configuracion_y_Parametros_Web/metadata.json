@@ -1,0 +1,31 @@
+{
+  "screenshot": {
+    "name": "projects/18266581404286886305/files/6406d6ff6147492b84697630041919ed",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AOfcidVf06SmZ05Po54fp668hFiaR4u5QkzWPFiMjGq0KnVaLf4o96o0bUv2JJuoNf1vrD_U7NxQ0cgZjdfFu3ppZWuUuf35bCJBKYgKE2sN9a80dXmrlRCq2mddJwBFJFNAAO0PdZc-qfg5QFsfMUaMG4Y-GdtKeGtX-zg8fjLfIUxH_UMHbgigX2R77TdTIP7bj3-vzDAejNeaHN6LeoDoy0X0zwd0886mctYj_H1v581vuxSX-TDaattjuFM"
+  },
+  "htmlCode": {
+    "name": "projects/18266581404286886305/files/873b33a5307447efb497f63c3768a387",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2U5NGZiMTBlNzkwMTRkZTQ4ZmVlNGY1NzYwNDg4NGMzEgsSBxDYrv7aqhYYAZIBJAoKcHJvamVjdF9pZBIWQhQxODI2NjU4MTQwNDI4Njg4NjMwNQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "8cab46cf66a94b818f6e60749164874a",
+  "generatedBy": "figaro_agent",
+  "width": "2560",
+  "height": "2048",
+  "title": "Configuración y Parámetros Web",
+  "prompt": "Create a web configuration and settings page for the 'Cierre de Cajas' application. It should feature a sidebar navigation consistent with {{DATA:SCREEN:SCREEN_9}} and {{DATA:SCREEN:SCREEN_10}}. The main content area should include: \n1. UI Adjustments: A toggle for Dark/Light mode and a primary color selector (showing the neon green as active).\n2. Admin Management: A section to define or change the 'Socio Administrador/Gerente' with a profile-style card.\n3. Simulation Tools: A 'Lote de Prueba' section with buttons to 'Generar lote de datos ficticios' and 'Borrado automático'.\n4. Business Rules: Configuration inputs for 'Días máximos permitidos para carga hacia atrás' and a toggle for 'Obligatoriedad de motivos en correcciones'.\nStyle: Dark mode, rounded corners (20px), modern clean interface, neon green accents (#38ff14), professional dashboard aesthetic. Use the theme {{DATA:THEME:THEME_4}}.",
+  "name": "projects/18266581404286886305/screens/8cab46cf66a94b818f6e60749164874a",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "INTER",
+    "roundness": "ROUND_TWELVE",
+    "customColor": "#38ff14",
+    "saturation": 3
+  },
+  "deviceType": "DESKTOP",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "HATTER_AGENT",
+    "status": "COMPLETE"
+  }
+}

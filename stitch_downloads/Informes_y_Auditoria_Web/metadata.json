@@ -1,0 +1,31 @@
+{
+  "screenshot": {
+    "name": "projects/18266581404286886305/files/db4c86f4ba4148f9b46dfcd65179d4c0",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AOfcidVV6yZCnKfoLgFCIHIsNA3l3DS5d9wfpi2Ga2tRHuopD90wR08YtQ4OgYgg9Yt2MlbmBBhdZmpGqj7N4D8_09Rx_kAfKMHFOYOI7qmeV4dztV4dUq8LjQe6BSidsQqrYD3ezNNlSI9lOfITXBb7P7GDP0VH68_ggQNW5OtRjynmWlmqai6PLHdFqdP9PrQ0Mit8DB3mfgZKktn-AsNcSo2IFb6yJd3ZV4bimAlMqBVcnnmOVJLOPMnYNaaM"
+  },
+  "htmlCode": {
+    "name": "projects/18266581404286886305/files/cf4d4742a78042e39b8702323ef65414",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2NkYmIxZGJmMzZmZTQyZTZiMzNjZDg3MzIyNjUxOTVhEgsSBxDYrv7aqhYYAZIBJAoKcHJvamVjdF9pZBIWQhQxODI2NjU4MTQwNDI4Njg4NjMwNQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "fa814594872d4d8c92d36a42f9251159",
+  "generatedBy": "figaro_agent",
+  "width": "2560",
+  "height": "2048",
+  "title": "Informes y Auditoría Web",
+  "prompt": "Create a web screen for 'Pantalla de Informes (PDF)' based on the description in {{DATA:TEXT:TEXT_2}}. The screen should be a desktop version following the design theme {{DATA:THEME:THEME_4}}. \nKey features:\n- Navigation sidebar (similar to {{DATA:SCREEN:SCREEN_9}} and {{DATA:SCREEN:SCREEN_3}}).\n- Section title: 'Informes y Auditoría'.\n- Filtering options: Selectors for Empresa, Unidad de Negocio, Punto de Venta, and Date Range.\n- Data output preview: A professional-looking summary or table showing records from SQL Views (active records only).\n- Export actions: High-visibility buttons to 'Generar PDF' and 'Exportar Excel' using the neon green accent color.\n- KPI summary: Total monthly/annual figures.\n- Style: Dark mode, rounded corners (iOS-style), clean professional UI.",
+  "name": "projects/18266581404286886305/screens/fa814594872d4d8c92d36a42f9251159",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "INTER",
+    "roundness": "ROUND_TWELVE",
+    "customColor": "#38ff14",
+    "saturation": 3
+  },
+  "deviceType": "DESKTOP",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "HATTER_AGENT",
+    "status": "COMPLETE"
+  }
+}

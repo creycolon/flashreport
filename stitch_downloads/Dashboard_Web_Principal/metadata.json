@@ -1,0 +1,31 @@
+{
+  "screenshot": {
+    "name": "projects/18266581404286886305/files/9deb88d31adf45559f90b93c75af6c73",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AOfcidVh3-uulePsk5ZbtZD6FQtePyGt2P_k-qk5KXjq6yZ49cWJL78Z-yECIVKkFXcXIgTmEp_qY6cCmBXqMd01b6ri-9XlyMOAoHTgWItT64Zi2sVDCIE8d32olRVBlwePno-daXNqnp7j__VCFMFQY6D1JpbQKiikOh8fFaoSr86APvHg7rGyi_86H5cbwxaQowl55xcdPwdJ3U0qYiTtRyzKUHYPx7bP3tVqEzMQ5I4MTEmF1ZoWK25i6QJG"
+  },
+  "htmlCode": {
+    "name": "projects/18266581404286886305/files/5943fb620c3840d6902aea1487da28a8",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzFhYjU5NTcyZGNlNjRmNDU5OTE1ZDM3NThjY2RkMDIyEgsSBxDYrv7aqhYYAZIBJAoKcHJvamVjdF9pZBIWQhQxODI2NjU4MTQwNDI4Njg4NjMwNQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "dbbf10e47a0a461b906110e16b8882dd",
+  "generatedBy": "figaro_agent",
+  "width": "2560",
+  "height": "2676",
+  "title": "Dashboard Web Principal",
+  "prompt": "Create a main web dashboard for the 'Cierre de Cajas' system. This is a desktop screen that integrates the mobile modules into a wide layout. Features: 1. A sidebar navigation menu with icons for 'Dashboard', 'Movimientos', 'Gestión' (CRUDs), 'Informes', and 'Configuración'. 2. A top header with the app name, search bar, and user profile. 3. The main content area should display a summary dashboard with a large trend graph (income vs time), KPI cards (Total Recaudado, Total Tickets), and a recent activity list. Maintain the DARK theme, rounded cards, and neon green accents from the mobile screens. Use {{DATA:SCREEN:SCREEN_5}} as a reference for content. Theme: {{DATA:THEME:THEME_4}}.",
+  "name": "projects/18266581404286886305/screens/dbbf10e47a0a461b906110e16b8882dd",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "INTER",
+    "roundness": "ROUND_TWELVE",
+    "customColor": "#38ff14",
+    "saturation": 3
+  },
+  "deviceType": "DESKTOP",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "HATTER_AGENT",
+    "status": "COMPLETE"
+  }
+}

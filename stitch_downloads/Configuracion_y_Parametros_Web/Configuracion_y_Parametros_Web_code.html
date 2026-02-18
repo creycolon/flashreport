@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configuración - Cierre de Cajas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38ff14",
+                        "background-light": "#f6f8f5",
+                        "background-dark": "#12230f",
+                        "card-dark": "#1a2e16",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem", // close to 20px
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-72 bg-background-dark border-r border-primary/10 flex flex-col justify-between p-6">
+<div class="space-y-8">
+<!-- Logo/Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="size-10 rounded-xl bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-background-dark font-bold">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-white text-lg font-bold leading-tight">Cierre de Cajas</h1>
+<p class="text-primary text-xs font-medium uppercase tracking-wider">Admin Console</p>
+</div>
+</div>
+<!-- Nav Links -->
+<nav class="space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm font-medium">Cierres</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Reportes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl transition-all border border-primary/20" href="#">
+<span class="material-symbols-outlined active-icon">settings</span>
+<span class="text-sm font-semibold">Configuración</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Usuarios</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Action -->
+<button class="flex items-center justify-center gap-2 w-full py-3 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl font-bold hover:bg-red-500 hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">logout</span>
+<span class="text-sm">Cerrar Sesión</span>
+</button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-8 lg:p-12">
+<header class="mb-10">
+<h2 class="text-3xl font-black text-white tracking-tight">Configuración del Sistema</h2>
+<p class="text-slate-400 mt-2">Gestione las reglas de negocio, visualización y herramientas administrativas.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- 1. UI Adjustments -->
+<section class="space-y-6">
+<div class="bg-card-dark border border-primary/10 p-6 rounded-xl space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">palette</span>
+<h3 class="text-xl font-bold text-white">Ajustes de Interfaz</h3>
+</div>
+<div class="flex items-center justify-between p-4 bg-background-dark/50 rounded-lg border border-primary/5">
+<div>
+<p class="text-white font-bold">Modo de Visualización</p>
+<p class="text-slate-400 text-sm">Alternar entre tema oscuro y claro</p>
+</div>
+<label class="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-primary/20 p-0.5 transition-colors">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="h-full w-[27px] rounded-full bg-white shadow-lg transform transition-transform peer-checked:translate-x-[20px]"></div>
+</label>
+</div>
+<div class="space-y-3">
+<p class="text-white font-bold">Color Primario</p>
+<div class="flex gap-4">
+<button class="size-10 rounded-full border-4 border-white ring-2 ring-primary bg-primary" title="Neon Green"></button>
+<button class="size-10 rounded-full bg-blue-500 hover:ring-2 ring-blue-500/50 transition-all" title="Ocean Blue"></button>
+<button class="size-10 rounded-full bg-purple-500 hover:ring-2 ring-purple-500/50 transition-all" title="Royal Purple"></button>
+<button class="size-10 rounded-full bg-amber-500 hover:ring-2 ring-amber-500/50 transition-all" title="Amber Sun"></button>
+</div>
+</div>
+</div>
+<!-- 2. Admin Management -->
+<div class="bg-card-dark border border-primary/10 p-6 rounded-xl space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+<h3 class="text-xl font-bold text-white">Gestión de Administración</h3>
+</div>
+<div class="flex items-center gap-4 p-5 bg-background-dark/80 rounded-xl border border-primary/10">
+<img class="size-16 rounded-full object-cover border-2 border-primary" data-alt="Professional headshot of a male business manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBATHiTqbvlJCCGSx4syI2UAwJIQE_fwR1HkrueFgONjuxT5YLcMfbL6eRDbK6wheSVPuTwBGzs7uueX3ttyiY2Ybo2xvtoJ5OjBx3_ie1pJTr7G8W4i1CqrxTjmCr1EIt0zKLnmIQSV2B28NeKiw8Hd1e2-gjWxHOuS2F6PuPKAdYygnE6QrA9O9v_DpUIG7gbZDCRcemDqR4CSktL96_zJHfNqHNWTzB29EGF4OkDd_AcnKD4_HeLXUW1gcjSybweA-dymybHv3ua"/>
+<div class="flex-1">
+<p class="text-white font-bold text-lg leading-none">Carlos R. Méndez</p>
+<p class="text-primary text-sm mt-1">Socio Administrador / Gerente</p>
+<div class="flex gap-2 mt-3">
+<span class="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-bold rounded uppercase tracking-tighter">Nivel 1 Access</span>
+<span class="px-2 py-0.5 bg-white/5 text-slate-400 text-[10px] font-bold rounded uppercase tracking-tighter">Verified</span>
+</div>
+</div>
+<button class="p-2 hover:bg-white/5 text-slate-400 hover:text-white rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+</div>
+<button class="w-full py-3 bg-white/5 text-white font-bold rounded-xl border border-white/10 hover:bg-white/10 transition-all text-sm">
+                            Cambiar Socio Administrador
+                        </button>
+</div>
+</section>
+<!-- Column 2 -->
+<section class="space-y-6">
+<!-- 3. Business Rules -->
+<div class="bg-card-dark border border-primary/10 p-6 rounded-xl space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">rule</span>
+<h3 class="text-xl font-bold text-white">Reglas de Negocio</h3>
+</div>
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-slate-300">Días máximos permitidos para carga hacia atrás</label>
+<div class="relative">
+<input class="w-full bg-background-dark border border-primary/20 rounded-xl px-4 py-3 text-white focus:ring-primary focus:border-primary transition-all" type="number" value="7"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">días</span>
+</div>
+<p class="text-xs text-slate-500">Define el límite temporal para registrar cierres antiguos.</p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-white/5">
+<div>
+<p class="text-white font-bold">Obligatoriedad de motivos</p>
+<p class="text-slate-400 text-sm">Exigir justificación en correcciones</p>
+</div>
+<label class="relative flex h-[31px] w-[51px] cursor-pointer items-center rounded-full border-none bg-slate-700 p-0.5 transition-colors">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="h-full w-[27px] rounded-full bg-white shadow-lg transform transition-transform peer-checked:translate-x-[20px] peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- 4. Simulation Tools -->
+<div class="bg-card-dark border border-primary/10 p-6 rounded-xl space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">biotech</span>
+<h3 class="text-xl font-bold text-white">Lote de Prueba</h3>
+</div>
+<div class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-amber-500">warning</span>
+<p class="text-xs text-amber-200/80 leading-relaxed">
+                                    Estas herramientas están diseñadas solo para entornos de desarrollo. El uso en producción puede resultar en inconsistencias de datos.
+                                </p>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center justify-center gap-2 w-full py-4 bg-primary text-background-dark font-black rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined">database</span>
+                                Generar lote de datos ficticios
+                            </button>
+<button class="flex items-center justify-center gap-2 w-full py-4 bg-transparent border border-red-500/50 text-red-500 font-bold rounded-xl hover:bg-red-500 hover:text-white transition-all">
+<span class="material-symbols-outlined">delete_sweep</span>
+                                Borrado automático integral
+                            </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Section -->
+<footer class="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 text-sm">v2.4.0-stable | Build 20231012</p>
+<div class="flex gap-4">
+<button class="text-slate-400 hover:text-white text-sm font-medium transition-colors">Exportar Configuración</button>
+<button class="px-6 py-2 bg-primary/20 text-primary border border-primary/30 rounded-lg text-sm font-bold hover:bg-primary/30 transition-all">Guardar Cambios</button>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

@@ -1,6 +1,6 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, useWindowDimensions } from 'react-native';
 import Index from './index';
 import List from './list';
 import Add from './add';
@@ -8,6 +8,8 @@ import Reports from './reports';
 import Settings from './settings';
 import { useTheme } from '../../src/ui/theme/ThemeContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { WebLayout } from '../../src/ui/layouts';
+import { useSegments } from 'expo-router';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -85,6 +87,41 @@ function CustomTabBar({ state, navigation }: { state: any; navigation: any }) {
 }
 
 export default function TabsLayout() {
+    const { width } = useWindowDimensions();
+    const segments = useSegments();
+    const isWebDesktop = Platform.OS === 'web' && width >= 1024;
+
+    // If web desktop, use WebLayout with active screen
+    if (isWebDesktop) {
+        const activeScreen = segments[segments.length - 1] || 'index';
+        let ScreenComponent;
+        switch (activeScreen) {
+            case 'index':
+                ScreenComponent = Index;
+                break;
+            case 'list':
+                ScreenComponent = List;
+                break;
+            case 'add':
+                ScreenComponent = Add;
+                break;
+            case 'reports':
+                ScreenComponent = Reports;
+                break;
+            case 'settings':
+                ScreenComponent = Settings;
+                break;
+            default:
+                ScreenComponent = Index;
+        }
+        return (
+            <WebLayout>
+                <ScreenComponent />
+            </WebLayout>
+        );
+    }
+
+    // Mobile/Tablet/Web mobile: use bottom tabs
     return (
         <Tab.Navigator
             tabBarPosition="bottom"

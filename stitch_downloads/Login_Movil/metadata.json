@@ -1,0 +1,31 @@
+{
+  "screenshot": {
+    "name": "projects/18266581404286886305/files/582788ca30184ee09e02efe05cc696a5",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AOfcidWfrN_ASsU1L63ReWSj91dZ7WTrDgqgkzqWI_V9XkaLdRDeEb3izRNjuT4P2Ld4q6KOEl9DWdxWDb9b3fCnInJrK7UDCepkifvGI55ltXnuZG7_qG0PPH4T3mwByggKgA_0LB_dLqBPyAIeXRpb482uzjrBmK5j0sTWxbL_NbuISOivePoh894TgfesPtW9Wy2vsZ-AcyB-zourLJRxKsG8NSxpC-11wH76XXELR_-9EfTlGynXcREpR0cm"
+  },
+  "htmlCode": {
+    "name": "projects/18266581404286886305/files/3e9fdae7ab294a5cb5ae4cc95b3c7446",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2FlZDU0NDgzNDBjOTQyNTZiMDk0ZjNlNzAzYzM2NGU4EgsSBxDYrv7aqhYYAZIBJAoKcHJvamVjdF9pZBIWQhQxODI2NjU4MTQwNDI4Njg4NjMwNQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "d744b6e498504306bde406fd8bcb2fcf",
+  "generatedBy": "figaro_agent",
+  "width": "780",
+  "height": "1768",
+  "title": "Login Móvil",
+  "prompt": "Diseño de pantalla de Login para aplicación móvil \"Cierre de Cajas\". Estilo iOS premium, Dark Mode. Fondo negro profundo. Formulario central con campos para Usuario/Email y Contraseña con iconos sutiles. Botón de \"Entrar\" en color verde neón vibrante con texto negro. Enlace de \"Olvidé mi contraseña\" en gris claro. Logo de la app en la parte superior (un icono de caja o finanzas en verde neón). Texto de bienvenida amigable. Bordes de tarjetas muy redondeados. Referencia visual: {{DATA:SCREEN:SCREEN_7}} adaptado a móvil.",
+  "name": "projects/18266581404286886305/screens/d744b6e498504306bde406fd8bcb2fcf",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "INTER",
+    "roundness": "ROUND_TWELVE",
+    "customColor": "#38ff14",
+    "saturation": 3
+  },
+  "deviceType": "MOBILE",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "HATTER_AGENT",
+    "status": "COMPLETE"
+  }
+}

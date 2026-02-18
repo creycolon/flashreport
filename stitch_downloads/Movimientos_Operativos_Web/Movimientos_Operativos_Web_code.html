@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestión Operativa - Movimientos Diarios</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38ff14",
+                        "background-light": "#f6f8f5",
+                        "background-dark": "#0a0a0a",
+                        "surface-dark": "#161b14",
+                        "card-dark": "#1a1a1a",
+                        "danger": "#fa4f38",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.25rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #12230f;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #274b20;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #38ff14;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="w-72 bg-[#12240f] border-r border-[#274b20] flex flex-col h-screen sticky top-0 shrink-0">
+<div class="p-6 flex flex-col gap-6 h-full">
+<!-- Brand -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-background-dark">
+<span class="material-symbols-outlined font-bold">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-white text-base font-bold leading-tight">Gestión Operativa</h1>
+<p class="text-primary text-xs font-medium">Fintech Solutions</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-2 grow">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-background-dark bg-primary rounded-xl font-bold shadow-[0_0_15px_rgba(56,255,20,0.3)]" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-sm">Movimientos</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm font-medium">Reportes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">corporate_fare</span>
+<span class="text-sm font-medium">Empresas</span>
+</a>
+<div class="my-2 border-t border-white/10"></div>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Configuración</span>
+</a>
+</nav>
+<!-- User Profile / Logout -->
+<div class="mt-auto pt-6 flex flex-col gap-4">
+<div class="p-4 rounded-xl bg-white/5 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div class="overflow-hidden">
+<p class="text-sm font-bold text-white truncate">Admin Usuario</p>
+<p class="text-xs text-slate-400 truncate">admin@empresa.com</p>
+</div>
+</div>
+<button class="w-full flex items-center justify-center gap-2 h-11 rounded-xl bg-danger/10 text-danger border border-danger/20 font-bold text-sm hover:bg-danger hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">logout</span>
+                    Cerrar Sesión
+                </button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- Header -->
+<header class="p-8 pb-4">
+<div class="flex flex-wrap items-center justify-between gap-6">
+<div>
+<h2 class="text-4xl font-black tracking-tight text-white mb-2">Movimientos Diarios</h2>
+<p class="text-slate-400 text-base">Resumen operativo detallado del día actual por terminal.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white/10 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Exportar CSV
+                    </button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-background-dark font-bold text-sm shadow-[0_0_20px_rgba(56,255,20,0.2)] hover:scale-[1.02] transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+                        Nuevo Registro
+                    </button>
+</div>
+</div>
+<!-- Top Metrics Bar -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+<div class="bg-surface-dark border border-primary/20 rounded-2xl p-6 flex flex-col gap-1">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Movimientos</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-white">1,284</span>
+<span class="text-primary text-sm font-bold">+12%</span>
+</div>
+</div>
+<div class="bg-surface-dark border border-primary/20 rounded-2xl p-6 flex flex-col gap-1">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Saldo Neto Día</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-white">$45,200.50</span>
+<span class="text-danger text-sm font-bold">-5%</span>
+</div>
+</div>
+<div class="bg-surface-dark border border-primary/20 rounded-2xl p-6 flex flex-col gap-1">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">POS Activos</span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-white">42</span>
+<span class="text-primary text-sm font-bold">Estable</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Filters & Table Section -->
+<section class="p-8 flex-1 flex flex-col min-h-0">
+<!-- Filter Bar Card -->
+<div class="bg-card-dark rounded-2xl p-6 border border-white/5 mb-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Empresa</label>
+<select class="bg-background-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-primary focus:border-primary w-full outline-none">
+<option>Todas las empresas</option>
+<option>Nexus Corp S.A.</option>
+<option>Global Retail Ltd.</option>
+<option>Tech Services Inc.</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Punto de Venta</label>
+<select class="bg-background-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-primary focus:border-primary w-full outline-none">
+<option>Todos los puntos</option>
+<option>Terminal Principal Sur</option>
+<option>Sucursal Centro 04</option>
+<option>Kiosco Aeropuerto</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Fecha de Consulta</label>
+<div class="relative">
+<input class="bg-background-dark border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-primary focus:border-primary w-full outline-none appearance-none" type="date" value="2023-10-24"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">calendar_today</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary/10 text-primary border border-primary/20 py-3 rounded-xl font-bold text-sm hover:bg-primary/20 transition-all">
+                            Filtrar Resultados
+                        </button>
+<button class="w-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-all">
+<span class="material-symbols-outlined">restart_alt</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Table Container -->
+<div class="bg-card-dark rounded-2xl border border-white/5 flex-1 flex flex-col overflow-hidden">
+<div class="overflow-x-auto custom-scrollbar flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/10 bg-white/5">
+<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Fecha</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Empresa</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Unidad de Negocio</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest">Punto de Venta</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">Saldo</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Row 1 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5 text-sm text-slate-300 font-medium">24/10/2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm text-white font-semibold">Nexus Corp S.A.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-400">Retail Norte</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-300 px-3 py-1 rounded-full bg-white/5 border border-white/10">POS-1042-S</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="inline-block px-4 py-1.5 rounded-lg bg-primary/20 text-primary font-bold text-sm">
+                                        + $12,450.00
+                                    </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5 text-sm text-slate-300 font-medium">24/10/2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm text-white font-semibold">Global Retail Ltd.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-400">Logística Centro</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-300 px-3 py-1 rounded-full bg-white/5 border border-white/10">TRM-055-C</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="inline-block px-4 py-1.5 rounded-lg bg-danger/20 text-danger font-bold text-sm">
+                                        - $2,140.50
+                                    </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5 text-sm text-slate-300 font-medium">24/10/2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm text-white font-semibold">Nexus Corp S.A.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-400">Distribución</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-300 px-3 py-1 rounded-full bg-white/5 border border-white/10">POS-2291-N</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="inline-block px-4 py-1.5 rounded-lg bg-primary/20 text-primary font-bold text-sm">
+                                        + $8,920.00
+                                    </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5 text-sm text-slate-300 font-medium">24/10/2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm text-white font-semibold">Tech Services Inc.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-400">Soporte IT</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-300 px-3 py-1 rounded-full bg-white/5 border border-white/10">SERV-9902-X</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="inline-block px-4 py-1.5 rounded-lg bg-primary/20 text-primary font-bold text-sm">
+                                        + $550.00
+                                    </span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-5 text-sm text-slate-300 font-medium">24/10/2023</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-sm text-white font-semibold">Global Retail Ltd.</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm text-slate-400">E-Commerce</td>
+<td class="px-6 py-5">
+<span class="text-sm text-slate-300 px-3 py-1 rounded-full bg-white/5 border border-white/10">WEB-GATE-01</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="inline-block px-4 py-1.5 rounded-lg bg-danger/20 text-danger font-bold text-sm">
+                                        - $1,200.00
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Pagination -->
+<div class="px-6 py-4 bg-white/5 border-t border-white/10 flex items-center justify-between">
+<p class="text-sm text-slate-400 font-medium">Mostrando <span class="text-white">5</span> de <span class="text-white">128</span> registros</p>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex gap-1">
+<button class="w-10 h-10 rounded-lg bg-primary text-background-dark font-bold text-sm">1</button>
+<button class="w-10 h-10 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm">2</button>
+<button class="w-10 h-10 rounded-lg border border-white/10 text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm">3</button>
+</div>
+<button class="w-10 h-10 rounded-lg flex items-center justify-center border border-white/10 text-slate-400 hover:text-white hover:bg-white/5">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

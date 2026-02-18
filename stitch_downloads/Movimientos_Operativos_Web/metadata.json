@@ -1,0 +1,31 @@
+{
+  "screenshot": {
+    "name": "projects/18266581404286886305/files/6df9ccdf49074c4e9fbf77acd615c997",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AOfcidW5bs07JH0bWxZItGjaX1iJU8R5RVAtNzfS_V1Vk_Ae3PFm7QbndLQlYt4IPN70kvZx2BvVsMigu-RJHxjRsOFrq8kA0FsqYksFqhHdV42_ItM3OhpKNw4vqesT1zrq54YtweIn4JT6edtKULFAg8h7Zm2B5ZHzlNMliQlqbulFUiuK58ARM82wUvEhrbukDwK5NMc0EiD-q8xYEpMBHQQzBe8V3X3JwjR_6XsEnQFTzNpsqkUmzUk-Qbpv"
+  },
+  "htmlCode": {
+    "name": "projects/18266581404286886305/files/d7bf9ce181ca4a8085db74bad5197b91",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sX2FiZTgyODljNDU5YTRkMWE5MDU1N2IyZWFhMjQ4NDU5EgsSBxDYrv7aqhYYAZIBJAoKcHJvamVjdF9pZBIWQhQxODI2NjU4MTQwNDI4Njg4NjMwNQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "46a4c4e834104f50b178127a1d30fec1",
+  "generatedBy": "figaro_agent",
+  "width": "2560",
+  "height": "2048",
+  "title": "Movimientos Operativos Web",
+  "prompt": "Create a web screen for 'Movimientos (Vista Operativa)' based on the design system of {{DATA:SCREEN:SCREEN_8}}. \n\nThe screen should include:\n1. **Sidebar Navigation**: Identical to {{DATA:SCREEN:SCREEN_8}} with 'Movimientos' as the active tab.\n2. **Header**: Title 'Movimientos Diarios' with a summary of the current day.\n3. **Operational Filters**: A row of filters for 'Empresa', 'Punto de Venta', and a 'Date Picker'.\n4. **Data Table/List**: \n   - Columns: Fecha, Empresa, Unidad de Negocio, Punto de Venta, and Saldo.\n   - The 'Saldo' column must have visual 'traffic light' indicators: Neon Green for positive amounts, Soft Red for negative amounts.\n   - Each row represents one record per day per POS.\n5. **Visual Style**: Dark Mode, rounded cards (20px), 'Inter' font, and high-contrast neon green accents.\n6. **Layout**: Responsive desktop layout utilizing the full width.",
+  "name": "projects/18266581404286886305/screens/46a4c4e834104f50b178127a1d30fec1",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "INTER",
+    "roundness": "ROUND_TWELVE",
+    "customColor": "#38ff14",
+    "saturation": 3
+  },
+  "deviceType": "DESKTOP",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "HATTER_AGENT",
+    "status": "COMPLETE"
+  }
+}

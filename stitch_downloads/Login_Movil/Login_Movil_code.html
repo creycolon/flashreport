@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cierre de Cajas - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#38ff14",
+                        "background-light": "#f6f8f5",
+                        "background-dark": "#0a0c0a",
+                        "card-dark": "#161b16",
+                        "input-dark": "#1e261e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(56, 255, 20, 0.4);
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-white antialiased overflow-hidden">
+<!-- Main Container (Mobile Viewport) -->
+<div class="relative flex h-screen w-full flex-col justify-between px-8 py-12 max-w-md mx-auto">
+<!-- Top Section: Logo & Welcome -->
+<div class="flex flex-col items-center mt-12">
+<div class="mb-8 p-5 bg-primary/10 rounded-2xl border border-primary/20 flex items-center justify-center neon-glow">
+<span class="material-symbols-outlined text-primary text-5xl">
+                    account_balance_wallet
+                </span>
+</div>
+<h1 class="text-4xl font-bold tracking-tight text-center mb-2">¡Bienvenido!</h1>
+<p class="text-white/60 text-center font-light text-lg">Inicia sesión en Cierre de Cajas</p>
+</div>
+<!-- Middle Section: Login Form -->
+<div class="flex-1 flex flex-col justify-center space-y-6">
+<div class="space-y-4">
+<!-- Username Field -->
+<div class="group relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-white/40 group-focus-within:text-primary transition-colors">
+                            alternate_email
+                        </span>
+</div>
+<input class="block w-full pl-12 pr-4 py-5 bg-input-dark border-transparent focus:border-primary/50 focus:ring-0 rounded-2xl text-white placeholder:text-white/30 text-base transition-all" placeholder="Usuario o Email" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="group relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-white/40 group-focus-within:text-primary transition-colors">
+                            lock
+                        </span>
+</div>
+<input class="block w-full pl-12 pr-12 py-5 bg-input-dark border-transparent focus:border-primary/50 focus:ring-0 rounded-2xl text-white placeholder:text-white/30 text-base transition-all" placeholder="Contraseña" type="password"/>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center cursor-pointer">
+<span class="material-symbols-outlined text-white/40 hover:text-white transition-colors">
+                            visibility
+                        </span>
+</div>
+</div>
+<!-- Forgot Password -->
+<div class="flex justify-center pt-2">
+<a class="text-white/40 text-sm font-medium hover:text-white transition-colors" href="#">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+</div>
+</div>
+<!-- Action Button -->
+<div class="pt-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-black font-bold py-5 rounded-2xl text-lg transition-transform active:scale-[0.98] shadow-lg neon-glow">
+                    Entrar
+                </button>
+</div>
+</div>
+<!-- Bottom Section: Biometrics & Footer -->
+<div class="flex flex-col items-center space-y-8">
+<!-- Biometric Login Suggestion -->
+<div class="flex flex-col items-center group cursor-pointer">
+<div class="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center mb-2 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-white/60 group-hover:text-primary text-3xl">face</span>
+</div>
+<span class="text-white/40 text-xs uppercase tracking-widest">Usar FaceID</span>
+</div>
+<!-- Registration Link -->
+<p class="text-white/60 text-sm">
+                ¿No tienes una cuenta? 
+                <a class="text-primary font-semibold ml-1" href="#">Regístrate</a>
+</p>
+</div>
+<!-- Decorative Background Gradient Elements -->
+<div class="fixed -top-24 -right-24 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="fixed -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+</div>
+</body></html>
