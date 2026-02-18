@@ -1,6 +1,6 @@
-# FlashHub 🚀
+# Flash:Report_Supabase 🚀
 
-**FlashHub** (Flash Report) is an executive dashboard tailored for restaurant chains, designed to provide real-time financial insights and robust governance for partners and management.
+**Flash:Report_Supabase** (Flash Report) is an executive dashboard tailored for restaurant chains, designed to provide real-time financial insights and robust governance for partners and management.
 
 > **⚠️ Migration Notice**: This project has been migrated from SQLite to **Supabase PostgreSQL** for enhanced scalability, real-time capabilities, and cloud synchronization.
 
@@ -56,7 +56,7 @@ Detailed project architecture and business rules can be found in the `.docs/` di
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/creycolon/fast_report.git
+   git clone https://github.com/creycolon/flash_report_supabase.git
    cd flash_report_supabase
    ```
 
@@ -94,6 +94,9 @@ Detailed project architecture and business rules can be found in the `.docs/` di
 - [ ] Advanced reporting and analytics
 - [ ] Multi-language support
 - [ ] Offline capability with sync queue
+
+---
+*Created by the Flash Report Development Team - 2026*
 
 ---
 *Created by the Flash Report Development Team - 2026*
