@@ -18,12 +18,12 @@ export const ManagePartnerModal: React.FC<ManagePartnerModalProps> = ({
     onSuccess
 }) => {
     const { colors } = useTheme();
-    console.log('[ManagePartnerModal] colors:', { 
-        text: colors.text, 
-        background: colors.background, 
-        cardBackground: colors.cardBackground,
-        textSecondary: colors.textSecondary 
-    });
+    // Debug: console.log('[ManagePartnerModal] colors:', { 
+    //     text: colors.text, 
+    //     background: colors.background, 
+    //     cardBackground: colors.cardBackground,
+    //     textSecondary: colors.textSecondary 
+    // });
     const [step, setStep] = useState<'input' | 'confirm'>('input');
     const [partnerId, setPartnerId] = useState('');
     const [partnerInfo, setPartnerInfo] = useState<any>(null);
@@ -262,10 +262,10 @@ export const ManagePartnerModal: React.FC<ManagePartnerModalProps> = ({
                                 onPress={() => handleSelectPartner(partner)}
                             >
                                  <View style={{ flexDirection: 'row', alignItems: 'center', width: 70 }}>
-                                     <View style={[
-                                         styles.partnerStatusIndicator,
-                                         partner.is_active === 1 ? styles.partnerStatusActive : styles.partnerStatusInactive
-                                     ]} />
+                                      <View style={[
+                                          styles.partnerStatusIndicator,
+                                          partner.is_active === true ? styles.partnerStatusActive : styles.partnerStatusInactive
+                                      ]} />
                                      <Typography variant="body" style={styles.eligiblePartnerId}>
                                          {partner.id}
                                      </Typography>
@@ -277,9 +277,9 @@ export const ManagePartnerModal: React.FC<ManagePartnerModalProps> = ({
                                              {partner.alias}
                                          </Typography>
                                      )}
-                                     <Typography variant="caption" color={partner.is_active === 1 ? colors.success : colors.danger}>
-                                         {partner.is_active === 1 ? 'Activo' : 'Inactivo'}
-                                     </Typography>
+                                      <Typography variant="caption" color={partner.is_active === true ? colors.success : colors.danger}>
+                                          {partner.is_active === true ? 'Activo' : 'Inactivo'}
+                                      </Typography>
                                  </View>
                             </TouchableOpacity>
                         ))}

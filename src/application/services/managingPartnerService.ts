@@ -24,7 +24,7 @@ export const managingPartnerService = {
             }
             
             // 3. Verificar que sea socio gerente activo
-            if (partner.is_active !== 1 || partner.is_managing_partner !== 1) {
+            if (!partner.is_active || !partner.is_managing_partner) {
                 console.warn(`[ManagingPartner] Partner ${managingPartnerId} is not active managing partner`);
                 return null;
             }
@@ -55,7 +55,7 @@ export const managingPartnerService = {
                 };
             }
             
-            if (newPartner.is_active !== 1) {
+            if (!newPartner.is_active) {
                 return {
                     success: false,
                     message: `Socio ${newPartner.name} no está activo`
@@ -76,7 +76,7 @@ export const managingPartnerService = {
                 alias: newPartner.alias,
                 participationPercentage: newPartner.participation_percentage,
                 role: newPartner.role,
-                isManagingPartner: 1,
+                isManagingPartner: true,
                 isActive: newPartner.is_active
             });
             
@@ -89,7 +89,7 @@ export const managingPartnerService = {
                         alias: currentPartner.alias,
                         participationPercentage: currentPartner.participation_percentage,
                         role: currentPartner.role,
-                        isManagingPartner: 0,
+                        isManagingPartner: false,
                         isActive: currentPartner.is_active
                     });
                     console.log(`[ManagingPartner] Removed managing role from previous partner: ${currentPartner.name}`);
@@ -130,7 +130,7 @@ export const managingPartnerService = {
             const partners = await (partnerRepository as any).getAll(true);
             
             // Filtrar solo socios activos
-            const activePartners = partners.filter((p: any) => p.is_active === 1);
+            const activePartners = partners.filter((p: any) => !!p.is_active);
             
             if (excludeCurrent) {
                 const currentId = await (configRepository as any).get('managing_partner_id', '');
@@ -158,7 +158,7 @@ export const managingPartnerService = {
                 };
             }
             
-            if (partner.is_active !== 1) {
+            if (!partner.is_active) {
                 return {
                     isValid: false,
                     message: 'Socio no está activo'

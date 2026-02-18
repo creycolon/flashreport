@@ -11,15 +11,15 @@ export const appInitService = {
      */
     ensureDefaultManagingPartner: async (): Promise<boolean> => {
         try {
-            console.log('[AppInit] Verificando socio gerente desde configuración...');
+            // Debug: console.log('[AppInit] Verificando socio gerente desde configuración...');
             
             // 1. Obtener managing partner ID desde app_config
             const managingPartnerId = await (configRepository as any).get('managing_partner_id', '');
-            console.log(`[AppInit] managing_partner_id en config: ${managingPartnerId || '(vacío)'}`);
+            // Debug: console.log(`[AppInit] managing_partner_id en config: ${managingPartnerId || '(vacío)'}`);
             
             // 2. Obtener todos los socios activos
             const partners = await (partnerRepository as any).getAll(true);
-            console.log(`[AppInit] Socios encontrados: ${partners.length}`);
+            // Debug: console.log(`[AppInit] Socios encontrados: ${partners.length}`);
             
             let targetPartner = null;
             
@@ -28,10 +28,10 @@ export const appInitService = {
                 targetPartner = partners.find((p: any) => p.id === managingPartnerId);
                 
                 if (targetPartner) {
-                    console.log(`[AppInit] Socio gerente configurado encontrado: ${targetPartner.name} (${targetPartner.id})`);
+                     // Debug: console.log(`[AppInit] Socio gerente configurado encontrado: ${targetPartner.name} (${targetPartner.id})`);
                     
                     // Verificar que esté activo
-                    if (targetPartner.is_active !== 1) {
+                    if (!targetPartner.is_active) {
                         console.warn('[AppInit] Socio gerente configurado está INACTIVO. Reactivando...');
                         try {
                             await (partnerRepository as any).update(targetPartner.id, {
@@ -40,9 +40,9 @@ export const appInitService = {
                                 participationPercentage: targetPartner.participation_percentage,
                                 role: targetPartner.role,
                                 isManagingPartner: targetPartner.is_managing_partner,
-                                isActive: 1
+                                isActive: true
                             });
-                            console.log('[AppInit] Socio gerente reactivado exitosamente');
+                             // Debug: console.log('[AppInit] Socio gerente reactivado exitosamente');
                         } catch (updateError) {
                             console.error('[AppInit] Error al reactivar socio gerente:', updateError);
                             // Continuar para intentar asignar otro socio gerente
@@ -61,7 +61,7 @@ export const appInitService = {
                 
                 if (!targetPartner) {
                     // Si no hay socio p1, tomar el primer socio activo
-                    targetPartner = partners.find((p: any) => p.is_active === 1);
+                    targetPartner = partners.find((p: any) => !!p.is_active);
                     
                     if (!targetPartner) {
                         console.log('[AppInit] No hay socios activos. Creando socio gerente por defecto...');
@@ -73,7 +73,7 @@ export const appInitService = {
                                 alias: 'Admin',
                                 participationPercentage: 50,
                                 role: 'Managing Partner',
-                                isManagingPartner: 1
+                                 isManagingPartner: true
                             });
                             console.log('[AppInit] Socio gerente por defecto creado exitosamente (ID: p1)');
                             
@@ -91,7 +91,7 @@ export const appInitService = {
                 console.log(`[AppInit] Asignando socio gerente: ${targetPartner.name} (${targetPartner.id})`);
                 
                 // Asegurar que el socio esté activo
-                if (targetPartner.is_active !== 1) {
+                if (!targetPartner.is_active) {
                     try {
                         await (partnerRepository as any).update(targetPartner.id, {
                             name: targetPartner.name,
@@ -99,7 +99,7 @@ export const appInitService = {
                             participationPercentage: targetPartner.participation_percentage,
                             role: targetPartner.role,
                             isManagingPartner: targetPartner.is_managing_partner,
-                            isActive: 1
+                            isActive: true
                         });
                         console.log('[AppInit] Socio gerente reactivado');
                     } catch (updateError) {
@@ -108,15 +108,15 @@ export const appInitService = {
                     }
                 }
                 
-                // Establecer como socio gerente (is_managing_partner = 1)
-                if (targetPartner.is_managing_partner !== 1) {
+                // Establecer como socio gerente (is_managing_partner = true)
+                if (!targetPartner.is_managing_partner) {
                     try {
                         await (partnerRepository as any).update(targetPartner.id, {
                             name: targetPartner.name,
                             alias: targetPartner.alias,
                             participationPercentage: targetPartner.participation_percentage,
                             role: targetPartner.role,
-                            isManagingPartner: 1,
+                            isManagingPartner: true,
                             isActive: targetPartner.is_active
                         });
                         console.log('[AppInit] Socio establecido como gerente');

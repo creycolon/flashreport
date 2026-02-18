@@ -24,7 +24,7 @@ export const BusinessUnitsScreen = () => {
     const [location, setLocation] = useState('');
     const [color, setColor] = useState(COLOR_PALETTE[0]);
     const [order, setOrder] = useState('0');
-    const [isActive, setIsActive] = useState(1);
+    const [isActive, setIsActive] = useState(true);
 
     const loadData = async () => {
         setLoading(true);
@@ -56,7 +56,7 @@ export const BusinessUnitsScreen = () => {
             setLocation('');
             setColor(COLOR_PALETTE[0]);
             setOrder(String(bus.length + 1));
-            setIsActive(1);
+            setIsActive(true);
         }
         setModalVisible(true);
     };
@@ -88,8 +88,8 @@ export const BusinessUnitsScreen = () => {
         }
     };
 
-    const handleDelete = (id: string, active: number) => {
-        if (active === 1) {
+    const handleDelete = (id: string, active: boolean) => {
+        if (active === true) {
             Alert.alert('Confirmar Baja', '¿Deseas dar de baja este local? No aparecerá en las nuevas operaciones.', [
                 { text: 'Cancelar' },
                 {
@@ -113,14 +113,14 @@ export const BusinessUnitsScreen = () => {
     };
 
     const renderItem = ({ item }: { item: any }) => (
-        <Card style={[styles.itemCard, item.is_active === 0 && styles.inactiveCard]}>
+         <Card style={[styles.itemCard, item.is_active === false && styles.inactiveCard]}>
             <View style={styles.itemInfo}>
                 <View style={styles.nameRow}>
                     <View style={[styles.colorIndicator, { backgroundColor: item.color }]} />
-                    <Typography weight="bold" color={item.is_active === 0 ? colors.textMuted : colors.text}>
+                     <Typography weight="bold" color={item.is_active === false ? colors.textMuted : colors.text}>
                         {item.name}
                     </Typography>
-                    {item.is_active === 0 && (
+                     {item.is_active === false && (
                         <View style={styles.inactiveBadge}>
                             <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>BAJA</Typography>
                         </View>
@@ -135,9 +135,9 @@ export const BusinessUnitsScreen = () => {
                     <Typography variant="caption" color={colors.primary} weight="bold">EDITAR</Typography>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDelete(item.id, item.is_active)} style={styles.actionBtn}>
-                    <Typography variant="caption" color={item.is_active === 1 ? colors.danger : colors.success} weight="bold">
-                        {item.is_active === 1 ? 'BAJA' : 'ALTA'}
-                    </Typography>
+                     <Typography variant="caption" color={item.is_active === true ? colors.danger : colors.success} weight="bold">
+                         {item.is_active === true ? 'BAJA' : 'ALTA'}
+                     </Typography>
                 </TouchableOpacity>
             </View>
         </Card>

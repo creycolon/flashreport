@@ -75,7 +75,7 @@ export const businessUnitRepository = {
         };
     },
 
-    update: async (id, { name, color, location, displayOrder, isActive = 1 }) => {
+     update: async (id, { name, color, location, displayOrder, isActive = true }) => {
         const now = new Date().toISOString();
         
         const { error } = await supabase

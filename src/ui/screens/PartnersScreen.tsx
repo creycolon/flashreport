@@ -24,7 +24,7 @@ export const PartnersScreen = () => {
     const [percentage, setPercentage] = useState('50');
     const [role, setRole] = useState('Socio');
     const [isManaging, setIsManaging] = useState(false);
-    const [isActive, setIsActive] = useState(1);
+    const [isActive, setIsActive] = useState(true);
 
     const loadData = async () => {
         setLoading(true);
@@ -43,8 +43,8 @@ export const PartnersScreen = () => {
     }, []);
 
      const handleOpenModal = (p?: any) => {
-         console.log('[Partners] handleOpenModal called:', p?.id, p?.name, 'is_managing_partner:', p?.is_managing_partner, 'is_active:', p?.is_active);
-         console.log('[Partners] Current partners:', partners.map(p => ({ id: p.id, name: p.name, isManaging: p.is_managing_partner, isActive: p.is_active })));
+          // Debug: console.log('[Partners] handleOpenModal called:', p?.id, p?.name, 'is_managing_partner:', p?.is_managing_partner, 'is_active:', p?.is_active);
+          // Debug: console.log('[Partners] Current partners:', partners.map(p => ({ id: p.id, name: p.name, isManaging: p.is_managing_partner, isActive: p.is_active })));
          if (p) {
             setCurrentId(p.id);
             setName(p.name);
@@ -60,13 +60,13 @@ export const PartnersScreen = () => {
             setPercentage('0');
             setRole('Partner');
             setIsManaging(false);
-            setIsActive(1);
+            setIsActive(true);
         }
         setModalVisible(true);
     };
 
     const handleSave = async () => {
-        console.log('[Partners] handleSave called:', { currentId, name, isManaging, isActive });
+        // Debug: console.log('[Partners] handleSave called:', { currentId, name, isManaging, isActive });
         if (!name.trim()) {
             Alert.alert('Error', 'El nombre es obligatorio');
             return;
@@ -81,14 +81,14 @@ export const PartnersScreen = () => {
                 isManagingPartner: isManaging ? 1 : 0,
                 isActive: isActive
             };
-            console.log('[Partners] Saving payload:', payload);
+            // Debug: console.log('[Partners] Saving payload:', payload);
 
             if (currentId) {
                 await (partnerRepository as any).update(currentId, payload);
-                console.log('[Partners] Update successful');
+                // Debug: console.log('[Partners] Update successful');
             } else {
                 await (partnerRepository as any).create(payload);
-                console.log('[Partners] Create successful');
+                // Debug: console.log('[Partners] Create successful');
             }
             setModalVisible(false);
             loadData();
@@ -148,23 +148,18 @@ export const PartnersScreen = () => {
     };
 
     const handleManagingToggle = (newValue: boolean) => {
-        console.log('[Partners] handleManagingToggle called:', { 
-            newValue, 
-            currentId, 
-            partnersCount: partners.length,
-            partners: partners.map(p => ({ id: p.id, name: p.name, isManaging: p.is_managing_partner, isActive: p.is_active }))
-        });
+        // Debug: console.log('[Partners] handleManagingToggle called:', { 
+        //     newValue, 
+        //     currentId, 
+        //     partnersCount: partners.length,
+        //     partners: partners.map(p => ({ id: p.id, name: p.name, isManaging: p.is_managing_partner, isActive: p.is_active }))
+        // });
         
-        // TEMPORARY: Simple toggle without validations for debugging
-        console.log('[Partners] TEMP: Directly setting isManaging to:', newValue);
-        setIsManaging(newValue);
-        
-        /* TODO: Restore validations after debugging
         const currentManagingPartner = partners.find(p => p.is_managing_partner === true && p.is_active === true);
         const activePartners = partners.filter(p => p.is_active === true);
         const otherActivePartners = activePartners.filter(p => p.id !== currentId);
-        console.log('[Partners] currentManagingPartner:', currentManagingPartner?.id, currentManagingPartner?.name);
-        console.log('[Partners] activePartners:', activePartners.length, 'otherActivePartners:', otherActivePartners.length);
+        // Debug: console.log('[Partners] currentManagingPartner:', currentManagingPartner?.id, currentManagingPartner?.name);
+        // Debug: console.log('[Partners] activePartners:', activePartners.length, 'otherActivePartners:', otherActivePartners.length);
         
         if (newValue === true) {
             // Activating this partner as managing
@@ -175,7 +170,7 @@ export const PartnersScreen = () => {
                     [
                         { text: 'Cancelar', style: 'cancel' },
                         { text: 'Transferir', onPress: () => {
-                            console.log('[Partners] Transferir pressed, setting isManaging to true');
+                            // Debug: console.log('[Partners] Transferir pressed, setting isManaging to true');
                             setIsManaging(true);
                         } }
                     ]
@@ -209,7 +204,7 @@ export const PartnersScreen = () => {
                                 );
                             }},
                             { text: 'Remover igual', style: 'destructive', onPress: () => {
-                                 console.log('[Partners] Remover igual pressed, setting isManaging to false');
+                                  // Debug: console.log('[Partners] Remover igual pressed, setting isManaging to false');
                                  setIsManaging(false);
                              } }
                         ]
@@ -220,13 +215,12 @@ export const PartnersScreen = () => {
         }
         
         // If no confirmation needed, set directly
-        console.log('[Partners] No confirmation needed, setting isManaging to:', newValue);
+        // Debug: console.log('[Partners] No confirmation needed, setting isManaging to:', newValue);
         setIsManaging(newValue);
-        */
     };
 
     const renderItem = ({ item }: { item: any }) => (
-        <Card style={[styles.itemCard, item.is_active === 0 && styles.inactiveCard]}>
+        <Card style={[styles.itemCard, item.is_active === false && styles.inactiveCard]}>
             <View style={styles.itemInfo}>
                 <View style={styles.nameRow}>
                      <Typography weight="bold" color={item.is_active === false ? colors.textMuted : colors.text}>
@@ -252,8 +246,8 @@ export const PartnersScreen = () => {
                     <Typography variant="caption" color={colors.primary} weight="bold">EDITAR</Typography>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDelete(item.id, item.is_active)} style={styles.actionBtn}>
-                    <Typography variant="caption" color={item.is_active === 1 ? colors.danger : colors.success} weight="bold">
-                        {item.is_active === 1 ? 'BAJA' : 'ALTA'}
+                    <Typography variant="caption" color={item.is_active === true ? colors.danger : colors.success} weight="bold">
+                        {item.is_active === true ? 'BAJA' : 'ALTA'}
                     </Typography>
                 </TouchableOpacity>
             </View>
@@ -380,14 +374,14 @@ export const PartnersScreen = () => {
                                      <Switch
                                          value={isManaging}
                                          onValueChange={(value) => {
-                                             console.log('[Partners] Switch onValueChange fired:', value, 'currentId:', currentId);
+                                              // Debug: console.log('[Partners] Switch onValueChange fired:', value, 'currentId:', currentId);
                                              handleManagingToggle(value);
                                          }}
                                          trackColor={{ false: colors.border, true: colors.primary + '80' }}
                                          thumbColor={isManaging ? colors.primary : '#f4f3f4'}
-                                         disabled={isActive === 0}
+                                          disabled={isActive === false}
                                      />
-                                    {isActive === 0 && (
+                                     {isActive === false && (
                                         <Typography variant="caption" color={colors.textMuted} style={{ marginTop: 4 }}>
                                             El socio debe estar activo para ser administrador
                                         </Typography>

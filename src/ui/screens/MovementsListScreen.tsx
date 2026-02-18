@@ -168,7 +168,7 @@ export const MovementsListScreen = () => {
     };
 
     const loadData = async () => {
-        console.log('[MovementsList] loadData called, selectedBu:', selectedBu, 'dateFilter:', dateFilter);
+        // Debug: console.log('[MovementsList] loadData called, selectedBu:', selectedBu, 'dateFilter:', dateFilter);
         setLoading(true);
         try {
             // Load business units if not already loaded
