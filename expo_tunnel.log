@@ -1,0 +1,24 @@
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Tunnel connected.
+Tunnel ready.
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android ./index.ts ▓▓░░░░░░░░░░░░░░ 16.0% ( 88/398)
+Android ./index.ts ▓▓░░░░░░░░░░░░░░ 18.7% (289/668)
+Android ./index.ts ▓▓▓▓▓▓░░░░░░░░░░ 39.8% ( 638/1013)
+Android ./index.ts ▓▓▓▓▓▓▓▓░░░░░░░░ 50.6% ( 827/1163)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 78.6% (1207/1361)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 80.6% (1400/1581)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (1794/1795)
+Android Bundled 26950ms index.ts (1805 modules)
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web ./index.ts ▓▓▓▓░░░░░░░░░░░░ 27.2% (201/476)
+Web ./index.ts ▓▓▓▓▓▓▓░░░░░░░░░ 45.7% (566/837)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.6% (1067/1196)
+Web Bundled 13163ms index.ts (1362 modules)
+ LOG  [web] Logs will appear in the browser console

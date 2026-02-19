@@ -1,0 +1,6 @@
+import { Redirect } from 'expo-router';
+
+export default function IndexRedirect() {
+  console.log('🟢 INDEX: Redirecting to /(tabs)/index');
+  return <Redirect href="/(tabs)/index" />;
+}

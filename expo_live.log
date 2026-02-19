@@ -1,0 +1,186 @@
+2026-02-19T02:16:20.216Z expo:telemetry Switching strategy from detached to instant
+2026-02-19T02:16:20.282Z expo:telemetry Recording 1 event(s)
+2026-02-19T02:16:20.287Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env
+2026-02-19T02:16:20.287Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development does not exist, skipping this env file
+2026-02-19T02:16:20.287Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:16:20.287Z expo:env "SUPABASE_URL" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:16:20.287Z expo:env "SUPABASE_ANON_KEY" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:16:20.287Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development.local does not exist, skipping this env file
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+2026-02-19T02:16:20.500Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/babel.config.js
+2026-02-19T02:16:20.611Z expo:start:server:devServer Stopping dev server (bundler: metro)
+2026-02-19T02:16:20.611Z expo:start:server:devServer Stopped dev server (bundler: metro)
+2026-02-19T02:16:20.617Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:16:21.003Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T02:16:21.004Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+
+2026-02-19T02:16:21.011Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T02:16:21.011Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+2026-02-19T02:16:21.269Z expo:metro:withMetroResolvers Appending 8 custom resolvers to Metro config. (has custom resolver: false)
+2026-02-19T02:16:21.284Z expo:start:server:urlCreator URL: http://127.0.0.1:8081
+Starting Metro Bundler
+2026-02-19T02:16:21.433Z expo:start:server:middleware:serveStatic Serving static files from: /home/tunga/HUB/BUs/flash_report_supabase/public
+2026-02-19T02:16:21.437Z expo:start:server:devServer [tunnel] connect to port: 8081
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+2026-02-19T02:16:21.536Z expo:start:platforms:android:adbServer /home/tunga/Android/Sdk/platform-tools/adb devices -l
+2026-02-19T02:16:21.579Z expo:start:server:ngrok Stopping Tunnel
+2026-02-19T02:16:21.579Z expo:start:server:ngrok Global config path: /home/tunga/.expo/ngrok.yml
+2026-02-19T02:16:21.766Z expo:start:server:ngrok Hostname: NF62AfU-creyco-8081.exp.direct
+Tunnel connected.
+2026-02-19T02:16:22.896Z expo:start:server:ngrok Tunnel URL: https://nf62afu-creyco-8081.exp.direct
+Tunnel ready.
+2026-02-19T02:16:22.896Z expo:start:server:urlCreator URL: exp://nf62afu-creyco-8081.exp.direct
+2026-02-19T02:16:22.951Z expo:start:server:developmentSession Development session ping (runtime: native, url: exp://nf62afu-creyco-8081.exp.direct)
+2026-02-19T02:16:23.533Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/metro.config.js
+2026-02-19T02:16:23.534Z expo:start:server:metro:waitForTypescript Watching file changes: [
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env'
+]
+2026-02-19T02:16:23.535Z expo:doctor:typescriptSupport Ensuring TypeScript support is setup
+2026-02-19T02:16:26.277Z expo:doctor:dependencies:getMissingPackages Required package "typescript" found (no version constraint specified).
+2026-02-19T02:16:26.277Z expo:doctor:dependencies:getMissingPackages Required package "@types/react" found (no version constraint specified).
+2026-02-19T02:16:26.282Z expo:typed-routes Removing typed routes side-effects (experiments.typedRoutes: false)
+2026-02-19T02:16:27.451Z expo:doctor:dependencies:bundledNativeModules Fetching bundled native modules from the server...
+ INFO  Connection established to app='host.exp.exponent' on device='2201117TY - 13 - API 33'.
+2026-02-19T02:16:31.074Z expo:doctor:dependencies:validate Checking dependencies for 54.0.0: {
+  '@expo/metro-runtime': '~6.1.2',
+  '@expo/vector-icons': '^15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  '@react-native/gradle-plugin': '0.81.5',
+  '@react-navigation/material-top-tabs': '^7.4.13',
+  expo: '~54.0.33',
+  'expo-build-properties': '~1.0.10',
+  'expo-constants': '~18.0.13',
+  'expo-font': '~14.0.11',
+  'expo-linking': '~8.0.11',
+  'expo-mail-composer': '^15.0.8',
+  'expo-notifications': '~0.32.16',
+  'expo-print': '~15.0.8',
+  'expo-router': '~6.0.23',
+  'expo-sharing': '~14.0.8',
+  'expo-sqlite': '~16.0.10',
+  'expo-status-bar': '~3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '~2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '~4.1.1',
+  'react-native-safe-area-context': '~5.6.0',
+  'react-native-screens': '~4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-tab-view': '^4.1.0',
+  'react-native-web': '^0.21.0',
+  '@react-native-community/cli': '^20.1.1',
+  '@supabase/supabase-js': '^2.96.0',
+  '@types/node': '^25.2.3',
+  '@types/react': '~19.1.0',
+  '@types/react-native': '^0.72.8',
+  'babel-preset-expo': '^54.0.10',
+  'patch-package': '^8.0.1',
+  'postinstall-postinstall': '^2.1.0',
+  typescript: '~5.9.2'
+}
+2026-02-19T02:16:31.074Z expo:doctor:dependencies:validate Comparing known versions: [
+  '@expo/metro-runtime',
+  '@expo/vector-icons',
+  '@react-native-community/datetimepicker',
+  'expo',
+  'expo-build-properties',
+  'expo-constants',
+  'expo-font',
+  'expo-linking',
+  'expo-mail-composer',
+  'expo-notifications',
+  'expo-print',
+  'expo-router',
+  'expo-sharing',
+  'expo-sqlite',
+  'expo-status-bar',
+  'react',
+  'react-dom',
+  'react-native',
+  'react-native-gesture-handler',
+  'react-native-pager-view',
+  'react-native-reanimated',
+  'react-native-safe-area-context',
+  'react-native-screens',
+  'react-native-svg',
+  'react-native-web',
+  '@types/react',
+  'babel-preset-expo',
+  'typescript'
+]
+2026-02-19T02:16:31.074Z expo:doctor:dependencies:validate Skipping packages that cannot be versioned automatically: [
+  '@react-native/gradle-plugin',
+  '@react-navigation/material-top-tabs',
+  'react-native-tab-view',
+  '@react-native-community/cli',
+  '@supabase/supabase-js',
+  '@types/node',
+  '@types/react-native',
+  'patch-package',
+  'postinstall-postinstall'
+]
+2026-02-19T02:16:31.095Z expo:doctor:dependencies:validate Package versions: {
+  '@expo/metro-runtime': '6.1.2',
+  '@expo/vector-icons': '15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  expo: '54.0.33',
+  'expo-build-properties': '1.0.10',
+  'expo-constants': '18.0.13',
+  'expo-font': '14.0.11',
+  'expo-linking': '8.0.11',
+  'expo-mail-composer': '15.0.8',
+  'expo-notifications': '0.32.16',
+  'expo-print': '15.0.8',
+  'expo-router': '6.0.23',
+  'expo-sharing': '14.0.8',
+  'expo-sqlite': '16.0.10',
+  'expo-status-bar': '3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '4.1.6',
+  'react-native-safe-area-context': '5.6.2',
+  'react-native-screens': '4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-web': '0.21.2',
+  '@types/react': '19.1.17',
+  'babel-preset-expo': '54.0.10',
+  typescript: '5.9.3'
+}
+2026-02-19T02:16:31.101Z expo:doctor:dependencies:validate Incorrect dependencies: []
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+ INFO  Connection closed to device='2201117TY - 13 - API 33' for app='host.exp.exponent' with code='1006' and reason=''.
+Killed

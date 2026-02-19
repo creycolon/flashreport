@@ -1,5 +1,5 @@
-import { MovementsListScreen } from '../../src/ui/screens/MovementsListScreen';
+import { MovementsListScreen } from '@features/movements/MovementsListScreen';
 
 export default function List() {
-    return <MovementsListScreen />;
+  return <MovementsListScreen />;
 }

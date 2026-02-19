@@ -1,0 +1,56 @@
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Tunnel connected.
+Tunnel ready.
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web ./index.ts ▓░░░░░░░░░░░░░░░  7.4% ( 33/121)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.8% (280/362)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 68.3% (751/909)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 84.4% (1153/1255)
+Web Bundled 14243ms index.ts (1318 modules)
+ LOG  [web] Logs will appear in the browser console
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android ./index.ts ▓▓░░░░░░░░░░░░░░ 17.6% (145/346)
+Android ./index.ts ▓▓▓▓▓▓░░░░░░░░░░ 37.8% (318/519)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓░░░░░░░ 60.1% (751/997)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 69.9% (1005/1202)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 85.0% (1373/1489)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.8% (1732/1734)
+Android Bundled 22732ms index.ts (1745 modules)
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 79ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+Android ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android ./index.ts ▓▓▓▓▓░░░░░░░░░░░ 32.5% (294/516)
+Android ./index.ts ▓▓▓▓▓▓▓░░░░░░░░░ 49.3% (619/882)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 69.7% ( 993/1189)
+Android ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 89.9% (1517/1631)
+Android Bundled 16856ms index.ts (1732 modules)
+ ERROR  🟪 INDEX.TS: Starting application - polyfill disabled
+ ERROR  🟪 INDEX.TS: Polyfill SKIPPED - importing react-native-reanimated
+ ERROR  🟪 APP.TSX: Main App component rendering
+ ERROR  🟪 APP.TSX: Context loaded, keys: ["./(tabs)/_layout.tsx", "./(tabs)/add.tsx", "./(tabs)/index.tsx", "./(tabs)/list.tsx", "./(tabs)/reports.tsx", "./(tabs)/settings.tsx", "./_layout.tsx", "./business-units.tsx", "./index.tsx", "./partners.tsx", "./test.tsx"]
+ ERROR  🟪 APP.TSX: Returning ExpoRoot with ErrorBoundary
+ ERROR  🔴 ERROR BOUNDARY: Rendering children normally
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ ERROR  🔴 ROOT LAYOUT: Component rendered
+ ERROR  🔴 THEME PROVIDER: Component mounted
+ ERROR  🔴 THEME PROVIDER: DEBUG_SKIP_THEME is TRUE, using fixed light theme
+ ERROR  🔴 APP INITIALIZER: Skipping initialization for debugging
+ ERROR  🔴 APP CONTENT: Rendering Stack navigator
+ LOG  🟢 INDEX: Redirecting to /(tabs)/index
+ ERROR  🔴 APP CONTENT: useEffect executed - component mounted
+ ERROR  🔴 APP INITIALIZER: useEffect - skipping init
+ ERROR  🔴 ROOT LAYOUT: useEffect executed - layout mounted
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+ WARN  Linking requires a build-time setting `scheme` in the project's Expo config (app.config.js or app.json) for production apps, if it's left blank, your app may crash. The scheme does not apply to development in the Expo client but you should add it as soon as you start working with Linking to avoid creating a broken build. Learn more: https://docs.expo.dev/guides/linking/
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 80ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 94ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console

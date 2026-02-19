@@ -50,8 +50,11 @@
     "@types/react": "~19.1.0",
     "@types/react-native": "^0.72.8",
     "babel-preset-expo": "^54.0.10",
+    "jsdom": "^28.1.0",
+    "node-fetch": "^3.3.2",
     "patch-package": "^8.0.1",
     "postinstall-postinstall": "^2.1.0",
+    "puppeteer": "^24.37.4",
     "typescript": "~5.9.2"
   },
   "private": true

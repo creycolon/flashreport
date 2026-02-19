@@ -1,0 +1,567 @@
+2026-02-19T02:27:51.062Z expo:telemetry Switching strategy from detached to instant
+2026-02-19T02:27:51.117Z expo:telemetry Recording 1 event(s)
+2026-02-19T02:27:51.122Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env
+2026-02-19T02:27:51.122Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development does not exist, skipping this env file
+2026-02-19T02:27:51.122Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:27:51.122Z expo:env "SUPABASE_URL" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:27:51.122Z expo:env "SUPABASE_ANON_KEY" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:27:51.122Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development.local does not exist, skipping this env file
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+2026-02-19T02:27:51.332Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/babel.config.js
+2026-02-19T02:27:51.333Z expo:doctor:webSupport Ensuring web support is setup
+2026-02-19T02:27:51.346Z expo:doctor:dependencies:getMissingPackages Required package "react-dom" found (no version constraint specified).
+2026-02-19T02:27:51.346Z expo:doctor:dependencies:getMissingPackages Required package "react-native-web" found (no version constraint specified).
+2026-02-19T02:27:51.454Z expo:start:server:devServer Stopping dev server (bundler: metro)
+2026-02-19T02:27:51.454Z expo:start:server:devServer Stopped dev server (bundler: metro)
+2026-02-19T02:27:51.460Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:27:51.844Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T02:27:51.845Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+
+2026-02-19T02:27:51.852Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T02:27:51.852Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+2026-02-19T02:27:52.106Z expo:metro:withMetroResolvers Appending 8 custom resolvers to Metro config. (has custom resolver: false)
+2026-02-19T02:27:52.120Z expo:start:server:urlCreator URL: http://127.0.0.1:8082
+Starting Metro Bundler
+2026-02-19T02:27:52.304Z expo:start:server:middleware:serveStatic Serving static files from: /home/tunga/HUB/BUs/flash_report_supabase/public
+2026-02-19T02:27:52.350Z expo:start:server:urlCreator URL: exp://192.168.1.21:8082
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+2026-02-19T02:27:52.394Z expo:start:server:developmentSession Development session ping (runtime: native, url: exp://192.168.1.21:8082)
+2026-02-19T02:27:52.598Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/metro.config.js
+2026-02-19T02:27:52.599Z expo:start:server:metro:waitForTypescript Watching file changes: [
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env'
+]
+2026-02-19T02:27:52.599Z expo:doctor:typescriptSupport Ensuring TypeScript support is setup
+2026-02-19T02:27:52.606Z expo:doctor:dependencies:getMissingPackages Required package "typescript" found (no version constraint specified).
+2026-02-19T02:27:52.607Z expo:doctor:dependencies:getMissingPackages Required package "@types/react" found (no version constraint specified).
+2026-02-19T02:27:52.611Z expo:typed-routes Removing typed routes side-effects (experiments.typedRoutes: false)
+2026-02-19T02:27:52.645Z expo:doctor:dependencies:bundledNativeModules Fetching bundled native modules from the server...
+2026-02-19T02:27:52.870Z expo:doctor:dependencies:validate Checking dependencies for 54.0.0: {
+  '@expo/metro-runtime': '~6.1.2',
+  '@expo/vector-icons': '^15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  '@react-native/gradle-plugin': '0.81.5',
+  '@react-navigation/material-top-tabs': '^7.4.13',
+  expo: '~54.0.33',
+  'expo-build-properties': '~1.0.10',
+  'expo-constants': '~18.0.13',
+  'expo-font': '~14.0.11',
+  'expo-linking': '~8.0.11',
+  'expo-mail-composer': '^15.0.8',
+  'expo-notifications': '~0.32.16',
+  'expo-print': '~15.0.8',
+  'expo-router': '~6.0.23',
+  'expo-sharing': '~14.0.8',
+  'expo-sqlite': '~16.0.10',
+  'expo-status-bar': '~3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '~2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '~4.1.1',
+  'react-native-safe-area-context': '~5.6.0',
+  'react-native-screens': '~4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-tab-view': '^4.1.0',
+  'react-native-web': '^0.21.0',
+  '@react-native-community/cli': '^20.1.1',
+  '@supabase/supabase-js': '^2.96.0',
+  '@types/node': '^25.2.3',
+  '@types/react': '~19.1.0',
+  '@types/react-native': '^0.72.8',
+  'babel-preset-expo': '^54.0.10',
+  'patch-package': '^8.0.1',
+  'postinstall-postinstall': '^2.1.0',
+  typescript: '~5.9.2'
+}
+2026-02-19T02:27:52.870Z expo:doctor:dependencies:validate Comparing known versions: [
+  '@expo/metro-runtime',
+  '@expo/vector-icons',
+  '@react-native-community/datetimepicker',
+  'expo',
+  'expo-build-properties',
+  'expo-constants',
+  'expo-font',
+  'expo-linking',
+  'expo-mail-composer',
+  'expo-notifications',
+  'expo-print',
+  'expo-router',
+  'expo-sharing',
+  'expo-sqlite',
+  'expo-status-bar',
+  'react',
+  'react-dom',
+  'react-native',
+  'react-native-gesture-handler',
+  'react-native-pager-view',
+  'react-native-reanimated',
+  'react-native-safe-area-context',
+  'react-native-screens',
+  'react-native-svg',
+  'react-native-web',
+  '@types/react',
+  'babel-preset-expo',
+  'typescript'
+]
+2026-02-19T02:27:52.870Z expo:doctor:dependencies:validate Skipping packages that cannot be versioned automatically: [
+  '@react-native/gradle-plugin',
+  '@react-navigation/material-top-tabs',
+  'react-native-tab-view',
+  '@react-native-community/cli',
+  '@supabase/supabase-js',
+  '@types/node',
+  '@types/react-native',
+  'patch-package',
+  'postinstall-postinstall'
+]
+2026-02-19T02:27:52.883Z expo:doctor:dependencies:validate Package versions: {
+  '@expo/metro-runtime': '6.1.2',
+  '@expo/vector-icons': '15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  expo: '54.0.33',
+  'expo-build-properties': '1.0.10',
+  'expo-constants': '18.0.13',
+  'expo-font': '14.0.11',
+  'expo-linking': '8.0.11',
+  'expo-mail-composer': '15.0.8',
+  'expo-notifications': '0.32.16',
+  'expo-print': '15.0.8',
+  'expo-router': '6.0.23',
+  'expo-sharing': '14.0.8',
+  'expo-sqlite': '16.0.10',
+  'expo-status-bar': '3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '4.1.6',
+  'react-native-safe-area-context': '5.6.2',
+  'react-native-screens': '4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-web': '0.21.2',
+  '@types/react': '19.1.17',
+  'babel-preset-expo': '54.0.10',
+  typescript: '5.9.3'
+}
+2026-02-19T02:27:52.889Z expo:doctor:dependencies:validate Incorrect dependencies: []
+Waiting on http://localhost:8082
+Logs for your project will appear below.
+2026-02-19T02:27:53.048Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:27:53.048Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:27:53.055Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:27:53.056Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:01.518Z expo:start:server:metro:multi-platform Enabling alias: react-native-vector-icons -> @expo/vector-icons
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+| 2026-02-19T02:28:04.041Z expo:babel:exports Found assignment to module.exports or exports at 17
+| 2026-02-19T02:28:04.075Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:04.081Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react.production.js
+| 2026-02-19T02:28:04.087Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:04.092Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-jsx-dev-runtime.production.js
+| 2026-02-19T02:28:04.117Z expo:babel:exports Found assignment to module.exports or exports at 30
+| 2026-02-19T02:28:04.253Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:04.261Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-jsx-runtime.production.js
+| 2026-02-19T02:28:04.280Z expo:babel:exports Found assignment to module.exports or exports at 8
+Web ./index.ts ▓▓▓▓░░░░░░░░░░░░ 25.0% (123/246)
+| 2026-02-19T02:28:05.164Z expo:babel:exports Found assignment to module.exports or exports at 6
+2026-02-19T02:28:05.172Z expo:start:server:metro:multi-platform Using React Navigation's web modal implementation.
+| 2026-02-19T02:28:05.177Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:05.238Z expo:babel:exports Found assignment to module.exports or exports at 39
+| 2026-02-19T02:28:05.288Z expo:babel:exports Found assignment to module.exports or exports at 325
+| 2026-02-19T02:28:05.372Z expo:babel:exports Found assignment to module.exports or exports at 739
+2026-02-19T02:28:05.468Z expo:metro:tsconfig-paths @features/settings/SettingsScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/settings/SettingsScreen
+2026-02-19T02:28:05.484Z expo:metro:tsconfig-paths @features/business-units/BusinessUnitsScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/business-units/BusinessUnitsScreen
+2026-02-19T02:28:05.494Z expo:metro:tsconfig-paths @features/partners/PartnersScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/partners/PartnersScreen
+| 2026-02-19T02:28:05.711Z expo:babel:exports Found assignment to module.exports or exports at 325
+| 2026-02-19T02:28:05.807Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:05.893Z expo:babel:exports Found assignment to module.exports or exports at 14
+| 2026-02-19T02:28:06.859Z expo:babel:exports Found assignment to module.exports or exports at 1
+| 2026-02-19T02:28:06.918Z expo:babel:exports Found assignment to module.exports or exports at 52
+| 2026-02-19T02:28:06.945Z expo:babel:exports Found assignment to module.exports or exports at 54
+| 2026-02-19T02:28:06.971Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:06.986Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:06.995Z expo:babel:exports Found assignment to module.exports or exports at 51
+| 2026-02-19T02:28:07.007Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:07.018Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.027Z expo:babel:exports Found assignment to module.exports or exports at 38
+| 2026-02-19T02:28:07.027Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.042Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:07.046Z expo:babel:exports Found assignment to module.exports or exports at 37
+| 2026-02-19T02:28:07.058Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:07.084Z expo:babel:exports Found assignment to module.exports or exports at 37
+| 2026-02-19T02:28:07.095Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:07.097Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:07.136Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.174Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:07.179Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:07.195Z expo:babel:exports Found assignment to module.exports or exports at 37
+2026-02-19T02:28:07.384Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T02:28:07.384Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T02:28:07.385Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T02:28:07.385Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T02:28:07.385Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T02:28:07.397Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T02:28:07.397Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T02:28:07.397Z expo:metro:tsconfig-paths @core/application/services/testDataService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/testDataService
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @core/application/services/managingPartnerService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/managingPartnerService
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @core/infrastructure/repositories/categoryRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/categoryRepository
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @core/infrastructure/db/supabaseClient -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/db/supabaseClient
+2026-02-19T02:28:07.398Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T02:28:07.399Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T02:28:07.430Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T02:28:07.430Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T02:28:07.430Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T02:28:07.431Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T02:28:07.434Z expo:metro:tsconfig-paths @core/infrastructure/repositories/partnerRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/partnerRepository
+2026-02-19T02:28:07.434Z expo:metro:tsconfig-paths @core/application/utils/format -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/utils/format
+2026-02-19T02:28:07.447Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/AppRegistry/AppContainer.js" to shim
+| 2026-02-19T02:28:07.482Z expo:babel:exports Found assignment to module.exports or exports at 49
+| 2026-02-19T02:28:07.525Z expo:babel:exports Found assignment to module.exports or exports at 12
+| 2026-02-19T02:28:07.558Z expo:babel:exports Found assignment to module.exports or exports at 28
+| 2026-02-19T02:28:07.687Z expo:babel:exports Found assignment to module.exports or exports at 63
+| 2026-02-19T02:28:07.843Z expo:babel:exports Found assignment to module.exports or exports at 38
+| 2026-02-19T02:28:07.871Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:07.881Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.889Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.920Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:07.940Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/BackHandler/index.js" to shim
+| 2026-02-19T02:28:07.938Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.965Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:07.966Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:07.999Z expo:babel:exports Found assignment to module.exports or exports at 40
+| 2026-02-19T02:28:08.008Z expo:babel:exports Found assignment to module.exports or exports at 40
+| 2026-02-19T02:28:08.025Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.030Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:08.036Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.061Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.063Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.088Z expo:babel:exports Found assignment to module.exports or exports at 40
+| 2026-02-19T02:28:08.097Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.097Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.111Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.157Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.161Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.172Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.186Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.200Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:08.206Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.208Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.211Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.216Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.216Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:08.222Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.232Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.234Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.235Z expo:babel:router getExpoRouterAppRoot /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo-router/build/onboard/Tutorial.js /home/tunga/HUB/BUs/flash_report_supabase/app ../../../../app
+| 2026-02-19T02:28:08.248Z expo:babel:router getExpoRouterAppRoot /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo-router/build/onboard/Tutorial.js /home/tunga/HUB/BUs/flash_report_supabase/app ../../../../app
+| 2026-02-19T02:28:08.293Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:08.311Z expo:babel:exports Found assignment to module.exports or exports at 9
+| 2026-02-19T02:28:08.319Z expo:babel:exports Found assignment to module.exports or exports at 3
+2026-02-19T02:28:08.536Z expo:metro:tsconfig-paths @core/infrastructure/repositories/partnerRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/partnerRepository
+2026-02-19T02:28:08.537Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T02:28:08.545Z expo:metro:tsconfig-paths @core/infrastructure/repositories/cashMovementRepository.js -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/cashMovementRepository.js
+2026-02-19T02:28:08.548Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T02:28:08.548Z expo:metro:tsconfig-paths @core/infrastructure/repositories/categoryRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/categoryRepository
+2026-02-19T02:28:08.548Z expo:metro:tsconfig-paths @core/infrastructure/db/supabaseClient -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/db/supabaseClient
+Web ./index.ts ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.8% (428/676)
+| 2026-02-19T02:28:08.682Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:08.691Z expo:babel:exports Found assignment to module.exports or exports at 15
+| 2026-02-19T02:28:08.693Z expo:babel:exports Found assignment to module.exports or exports at 1
+| 2026-02-19T02:28:08.704Z expo:babel:exports Found assignment to module.exports or exports at 48
+| 2026-02-19T02:28:08.721Z expo:babel:exports Found assignment to module.exports or exports at 48
+| 2026-02-19T02:28:08.760Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:08.761Z expo:babel:exports Found assignment to module.exports or exports at 12
+| 2026-02-19T02:28:09.202Z expo:babel:exports Found assignment to module.exports or exports at 12
+| 2026-02-19T02:28:09.213Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.219Z expo:babel:exports Found assignment to module.exports or exports at 40
+| 2026-02-19T02:28:09.224Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.227Z expo:babel:exports Found assignment to module.exports or exports at 37
+| 2026-02-19T02:28:09.239Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.250Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.251Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.269Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.278Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.309Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.313Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:09.317Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:09.328Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.381Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:09.395Z expo:babel:exports Found assignment to module.exports or exports at 39
+| 2026-02-19T02:28:09.399Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.409Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:09.414Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:09.427Z expo:babel:exports Found assignment to module.exports or exports at 37
+| 2026-02-19T02:28:09.446Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:09.462Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.472Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.477Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:09.480Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.485Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.488Z expo:babel:exports Found assignment to module.exports or exports at 28
+| 2026-02-19T02:28:09.492Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:09.508Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:09.510Z expo:babel:exports Found assignment to module.exports or exports at 39
+| 2026-02-19T02:28:09.525Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:09.605Z expo:babel:inline-manifest public manifest {
+|   extra: {
+|     supabaseUrl: 'https://mjyjavwuguzmwxofdxsr.supabase.co',
+|     supabaseAnonKey: 'sb_publishable_iLDNgPhf7e3XoTV_mvEZWQ_ET57QB05',
+|     useSupabase: true,
+|     offlineMode: false
+|   },
+|   name: 'flash_report_supabase',
+|   slug: 'flash_report_supabase',
+|   version: '2.0.0',
+|   description: 'Flash Report con Supabase PostgreSQL',
+|   sdkVersion: '54.0.0',
+|   platforms: [ 'ios', 'android', 'web' ],
+|   primaryColor: undefined,
+|   web: {
+|     meta: undefined,
+|     build: undefined,
+|     scope: undefined,
+|     crossorigin: undefined,
+|     description: 'Flash Report con Supabase PostgreSQL',
+|     startUrl: undefined,
+|     shortName: 'flash_report_supabase',
+|     display: undefined,
+|     orientation: undefined,
+|     dir: undefined,
+|     barStyle: undefined,
+|     backgroundColor: undefined,
+|     themeColor: undefined,
+|     lang: undefined,
+|     name: 'flash_report_supabase'
+|   }
+| }
+2026-02-19T02:28:09.783Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T02:28:09.812Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T02:28:09.812Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T02:28:09.812Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T02:28:09.881Z expo:metro:tsconfig-paths @core/application/utils/format -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/utils/format
+2026-02-19T02:28:10.171Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T02:28:10.171Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T02:28:10.315Z expo:metro:tsconfig-paths @core/application/services/managingPartnerService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/managingPartnerService
+| 2026-02-19T02:28:10.334Z expo:babel:exports Found assignment to module.exports or exports at 35
+2026-02-19T02:28:10.338Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-dom-client.production.js
+| 2026-02-19T02:28:10.444Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.447Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.465Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.466Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.469Z expo:babel:exports Found assignment to module.exports or exports at 461
+| 2026-02-19T02:28:10.475Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.479Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.485Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.487Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.491Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.496Z expo:babel:exports Found assignment to module.exports or exports at 18
+| 2026-02-19T02:28:10.498Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:10.547Z expo:babel:exports Found assignment to module.exports or exports at 215
+| 2026-02-19T02:28:10.977Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:10.991Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:10.992Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:11.000Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:11.007Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:11.028Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:11.039Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:11.044Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:11.054Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:11.071Z expo:babel:exports Found assignment to module.exports or exports at 36
+| 2026-02-19T02:28:11.095Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:11.098Z expo:babel:exports Found assignment to module.exports or exports at 39
+| 2026-02-19T02:28:11.104Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:11.107Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-refresh-runtime.production.min.js
+| 2026-02-19T02:28:11.109Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:11.124Z expo:babel:exports Found assignment to module.exports or exports at 1
+| 2026-02-19T02:28:11.140Z expo:babel:exports Found assignment to module.exports or exports at 6
+2026-02-19T02:28:11.171Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-dom.production.js
+| 2026-02-19T02:28:11.162Z expo:babel:exports Found assignment to module.exports or exports at 20
+| 2026-02-19T02:28:11.168Z expo:babel:exports Found assignment to module.exports or exports at 35
+| 2026-02-19T02:28:11.645Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:11.651Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:11.723Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:11.726Z expo:babel:exports Found assignment to module.exports or exports at 319
+| 2026-02-19T02:28:11.748Z expo:babel:exports Found assignment to module.exports or exports at 17
+| 2026-02-19T02:28:11.751Z expo:babel:exports Found assignment to module.exports or exports at 42
+| 2026-02-19T02:28:11.763Z expo:babel:exports Found assignment to module.exports or exports at 136
+| 2026-02-19T02:28:11.776Z expo:babel:exports Found assignment to module.exports or exports at 11
+| 2026-02-19T02:28:11.785Z expo:babel:exports Found assignment to module.exports or exports at 28
+| 2026-02-19T02:28:11.787Z expo:babel:exports Found assignment to exports at 9
+| 2026-02-19T02:28:11.957Z expo:babel:exports Found assignment to module.exports or exports at 360
+| 2026-02-19T02:28:12.012Z expo:babel:exports Found assignment to module.exports or exports at 3
+2026-02-19T02:28:12.019Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.js
+| 2026-02-19T02:28:12.017Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:12.021Z expo:babel:exports Found assignment to module.exports or exports at 4
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 74.9% ( 870/1050)
+| 2026-02-19T02:28:12.653Z expo:babel:exports Found assignment to module.exports or exports at 496
+2026-02-19T02:28:12.824Z expo:start:server:middleware:serveStatic Maybe serve static: /.well-known/appspecific/com.chrome.devtools.json
+2026-02-19T02:28:12.832Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:12.836Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:12.846Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:12.846Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+| 2026-02-19T02:28:12.907Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:13.071Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:13.099Z expo:babel:exports Found assignment to module.exports or exports at 645
+| 2026-02-19T02:28:13.147Z expo:babel:exports Found assignment to module.exports or exports at 160
+| 2026-02-19T02:28:13.265Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.282Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.286Z expo:babel:exports Found assignment to module.exports or exports at 24876
+| 2026-02-19T02:28:13.289Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.308Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.329Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.339Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.351Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:13.380Z expo:babel:exports Found assignment to module.exports or exports at 117
+| 2026-02-19T02:28:14.238Z expo:babel:exports Found assignment to module.exports or exports at 22
+| 2026-02-19T02:28:14.241Z expo:babel:exports Found assignment to module.exports or exports at 2
+| 2026-02-19T02:28:14.245Z expo:babel:exports Found assignment to module.exports or exports at 54
+| 2026-02-19T02:28:14.246Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:14.247Z expo:babel:exports Found assignment to module.exports or exports at 80
+| 2026-02-19T02:28:14.252Z expo:babel:exports Found assignment to module.exports or exports at 2
+| 2026-02-19T02:28:14.261Z expo:babel:exports Found assignment to module.exports or exports at 59
+| 2026-02-19T02:28:14.263Z expo:babel:exports Found assignment to module.exports or exports at 22
+| 2026-02-19T02:28:14.264Z expo:babel:exports Found assignment to module.exports or exports at 28
+2026-02-19T02:28:14.377Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/BackHandler/index.js" to shim
+| 2026-02-19T02:28:14.410Z expo:babel:exports Found assignment to module.exports or exports at 81
+| 2026-02-19T02:28:14.414Z expo:babel:exports Found assignment to module.exports or exports at 15
+| 2026-02-19T02:28:14.563Z expo:babel:exports Found assignment to module.exports or exports at 182
+2026-02-19T02:28:14.588Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.min.js
+| 2026-02-19T02:28:14.582Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:14.584Z expo:babel:exports Found assignment to module.exports or exports at 4
+| 2026-02-19T02:28:14.591Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:14.826Z expo:babel:exports Found assignment to module.exports or exports at 103
+| 2026-02-19T02:28:15.027Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:15.040Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/scheduler.production.js
+| 2026-02-19T02:28:15.049Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.054Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.058Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.062Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.063Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.067Z expo:babel:exports Found assignment to module.exports or exports at 5
+| 2026-02-19T02:28:15.087Z expo:babel:exports Found assignment to module.exports or exports at 18
+| 2026-02-19T02:28:15.138Z expo:babel:exports Found assignment to module.exports or exports at 78
+| 2026-02-19T02:28:15.162Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:15.172Z expo:babel:exports Found assignment to module.exports or exports at 8
+| 2026-02-19T02:28:15.174Z expo:babel:exports Found assignment to module.exports or exports at 32
+| 2026-02-19T02:28:15.263Z expo:babel:exports Found assignment to module.exports or exports at 192
+| 2026-02-19T02:28:15.268Z expo:babel:exports Found assignment to module.exports or exports at 6
+| 2026-02-19T02:28:15.350Z expo:babel:exports Found assignment to module.exports or exports at 4
+2026-02-19T02:28:15.354Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.min.js
+| 2026-02-19T02:28:15.358Z expo:babel:exports Found assignment to module.exports or exports at 18
+| 2026-02-19T02:28:15.460Z expo:babel:exports Found assignment to module.exports or exports at 182
+| 2026-02-19T02:28:15.489Z expo:babel:exports Found assignment to module.exports or exports at 7
+| 2026-02-19T02:28:15.497Z expo:babel:exports Found assignment to module.exports or exports at 1
+| 2026-02-19T02:28:15.539Z expo:babel:exports Found assignment to module.exports or exports at 3
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 93.4% (1245/1288)
+| 2026-02-19T02:28:15.712Z expo:babel:exports Found assignment to module.exports or exports at 152
+| 2026-02-19T02:28:15.748Z expo:babel:exports Found assignment to module.exports or exports at 2
+| 2026-02-19T02:28:15.765Z expo:babel:exports Found assignment to module.exports or exports at 3
+| 2026-02-19T02:28:15.995Z expo:babel:exports Found assignment to module.exports or exports at 1151
+| 2026-02-19T02:28:16.026Z expo:babel:exports Found assignment to module.exports or exports at 1481
+2026-02-19T02:28:16.200Z expo:metro-config:serializer:env-var Injecting environment variables in virtual module.
+Web Bundled 14746ms index.ts (1318 modules)
+2026-02-19T02:28:16.774Z expo:metro:logger skipping bundle events for 3 {
+  buildID: '3',
+  bundleDetails: {
+    bundleType: 'map',
+    customResolverOptions: [Object: null prototype] {},
+    customTransformOptions: [Object: null prototype] { engine: 'hermes', routerRoot: 'app' },
+    dev: true,
+    entryFile: '/home/tunga/HUB/BUs/flash_report_supabase/index.ts',
+    minify: false,
+    platform: 'web',
+    buildID: '3'
+  },
+  isPrefetch: false,
+  type: 'bundle_build_started'
+}
+ LOG  [web] Logs will appear in the browser console
+2026-02-19T02:28:19.042Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T02:28:19.059Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T02:28:19.060Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:19.060Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:19.060Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:19.060Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:19.161Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T02:28:19.173Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T02:28:19.177Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:19.178Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:19.179Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:19.179Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:33.261Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:33.262Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:33.262Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:33.262Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:52.178Z expo:metro:logger skipping bundle events for 7 {
+  buildID: '7',
+  bundleDetails: {
+    bundleType: 'map',
+    customResolverOptions: [Object: null prototype] {},
+    customTransformOptions: [Object: null prototype] { engine: 'hermes', routerRoot: 'app' },
+    dev: true,
+    entryFile: '/home/tunga/HUB/BUs/flash_report_supabase/App.tsx',
+    minify: false,
+    platform: 'web',
+    buildID: '7'
+  },
+  isPrefetch: false,
+  type: 'bundle_build_started'
+}
+2026-02-19T02:28:52.447Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T02:28:52.470Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T02:28:52.482Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:52.483Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:52.490Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:52.490Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:52.506Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T02:28:52.535Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T02:28:52.536Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:52.536Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:52.536Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:52.536Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T02:28:59.459Z expo:start:server:middleware:serveStatic Maybe serve static: /(tabs)/index
+2026-02-19T02:28:59.464Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:28:59.464Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:28:59.464Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:28:59.464Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+2026-02-19T02:28:59.646Z expo:metro-config:serializer:env-var Injecting environment variables in virtual module.
+Web Bundled 158ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+2026-02-19T02:29:01.461Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T02:29:01.471Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T02:29:01.476Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T02:29:01.476Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T02:29:01.477Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T02:29:01.477Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html

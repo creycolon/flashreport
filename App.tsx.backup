@@ -1,0 +1,101 @@
+import { ExpoRoot } from 'expo-router';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+  errorInfo?: ErrorInfo;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('🔴 APP ERROR BOUNDARY CAUGHT:', error);
+    console.error('🔴 ERROR INFO:', errorInfo);
+    this.setState({ errorInfo });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      console.error('🔴 ERROR BOUNDARY: Rendering error UI', this.state.error);
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Error en la aplicación</Text>
+          <Text style={styles.error}>{this.state.error?.message}</Text>
+          <Text style={styles.stack}>{this.state.error?.stack}</Text>
+          <Text style={styles.hint}>Revisa la consola para más detalles</Text>
+        </View>
+      );
+    }
+
+    console.error('🔴 ERROR BOUNDARY: Rendering children normally');
+    return this.props.children;
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a1a1a',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ff1744',
+    marginBottom: 20,
+  },
+  error: {
+    fontSize: 16,
+    color: '#ffffff',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  stack: {
+    fontSize: 12,
+    color: '#a0a0a0',
+    marginBottom: 20,
+    fontFamily: 'monospace',
+  },
+  hint: {
+    fontSize: 12,
+    color: '#a0a0a0',
+    fontStyle: 'italic',
+  },
+});
+
+let ctx;
+try {
+  // Use require.context to load app directory
+  // @ts-ignore: require.context is webpack-specific but used by Expo Router
+  ctx = require.context('./app');
+  console.error('🟪 APP.TSX: require.context keys:', ctx.keys());
+} catch (error) {
+  console.error('🟪 APP.TSX: ERROR in require.context:', error);
+  // Fallback to empty context
+  ctx = { keys: () => [] } as any;
+}
+
+export default function App() {
+  console.error('🟪 APP.TSX: Rendering ExpoRoot with ErrorBoundary');
+  return (
+    <ErrorBoundary>
+      <ExpoRoot context={ctx} />
+    </ErrorBoundary>
+  );
+}

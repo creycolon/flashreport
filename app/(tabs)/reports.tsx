@@ -1,5 +1,5 @@
-import { ReportsScreen } from '../../src/ui/screens/ReportsScreen';
+import { ReportsScreen } from '@features/reports/ReportsScreen';
 
 export default function Reports() {
-    return <ReportsScreen />;
+  return <ReportsScreen />;
 }

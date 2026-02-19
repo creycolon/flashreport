@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { View, StyleSheet, FlatList, TouchableOpacity, Alert, ActivityIndicator, ScrollView, Platform, Modal, TouchableWithoutFeedback } from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { View, StyleSheet, FlatList, TouchableOpacity, Alert, ActivityIndicator, ScrollView, Platform, Modal } from 'react-native';
 import { useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme';
@@ -17,8 +17,6 @@ export const MovementsListScreen = () => {
     const [lastMovementId, setLastMovementId] = useState<string | null>(null);
     const [balanceInfo, setBalanceInfo] = useState({ total_credits: 0, total_debits: 0, balance: 0 });
     const [showDropdown, setShowDropdown] = useState(false);
-    const [buttonLayout, setButtonLayout] = useState<{x: number, y: number, width: number, height: number} | null>(null);
-    const buttonRef = useRef<View>(null);
 
     // Filters
     const [dateFilter, setDateFilter] = useState('7d'); // 1d, 7d, 30d, all
@@ -30,26 +28,15 @@ export const MovementsListScreen = () => {
             flex: 1, 
             padding: theme.spacing.md,
             overflow: 'visible',
-            ...Platform.select({
-                web: {
-                    position: 'static',
-                },
-                default: {
-                    position: 'relative',
-                }
-            }),
-        },
-        header: { 
-            marginBottom: theme.spacing.md,
             position: 'relative',
-            zIndex: Platform.OS === 'web' ? 10000 : 1,
         },
+        header: { marginBottom: theme.spacing.md },
         buSelectorRow: { 
             flexDirection: 'row', 
             alignItems: 'center', 
             marginBottom: 8, 
             position: 'relative',
-            zIndex: Platform.OS === 'web' ? 10000 : 10,
+            zIndex: Platform.OS === 'web' ? 100 : 10,
             overflow: 'visible',
         },
         buSelectorButton: { 
@@ -81,15 +68,11 @@ export const MovementsListScreen = () => {
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.25,
             shadowRadius: 3.84,
-            ...Platform.select({
-                web: {
-                    maxHeight: 300,
-                    overflow: 'scroll',
-                    borderWidth: 2,
-                    borderColor: 'red',
-                },
-                default: {}
-            })
+            // Web-specific styles
+            ...(Platform.OS === 'web' && {
+                maxHeight: 300,
+                overflowY: 'auto',
+            }),
         },
         dropdownOption: { 
             paddingVertical: 12, 
@@ -123,6 +106,7 @@ export const MovementsListScreen = () => {
         modalOptionSelected: { backgroundColor: colors.primary + '20' },
         modalOptionText: { flex: 1 },
         modalOptionColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
+
         dateFilterRow: { flexDirection: 'row', marginTop: 8, gap: 8 },
         dateChip: { paddingVertical: 4, paddingHorizontal: 10, borderRadius: 4, borderBottomWidth: 2, borderBottomColor: 'transparent' },
         activeDateChip: { borderBottomColor: colors.primary },
@@ -130,12 +114,8 @@ export const MovementsListScreen = () => {
             padding: theme.spacing.md, 
             marginBottom: theme.spacing.md, 
             backgroundColor: colors.cardBackground,
-            ...(Platform.OS === 'web' ? {
-                position: 'static',
-            } : {
-                zIndex: 0,
-                position: 'relative',
-            }),
+            zIndex: 0,
+            position: 'relative',
         },
         summaryVerticalList: { },
         summaryRowItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 0 },
@@ -168,7 +148,7 @@ export const MovementsListScreen = () => {
     };
 
     const loadData = async () => {
-        // Debug: console.log('[MovementsList] loadData called, selectedBu:', selectedBu, 'dateFilter:', dateFilter);
+        console.log('[MovementsList] loadData called, selectedBu:', selectedBu, 'dateFilter:', dateFilter);
         setLoading(true);
         try {
             // Load business units if not already loaded
@@ -178,29 +158,29 @@ export const MovementsListScreen = () => {
             }
 
             const { start, end } = getDateRange();
-            // Debug: console.log('[MovementsList] date range:', { start, end });
+            console.log('[MovementsList] date range:', { start, end });
 
             if (selectedBu === 'all') {
-                // Debug: console.log('[MovementsList] Fetching all movements...');
+                console.log('[MovementsList] Fetching all movements...');
                 const [list, balance] = await Promise.all([
                     (cashMovementRepository as any).listAll(300, 0, start, end),
                     (cashMovementRepository as any).getGlobalBalance(start, end)
                 ]);
-                // Debug: console.log('[MovementsList] listAll result:', list?.length, 'movements');
-                // Debug: console.log('[MovementsList] balance result:', balance);
+                console.log('[MovementsList] listAll result:', list?.length, 'movements');
+                console.log('[MovementsList] balance result:', balance);
                 setMovements(list || []);
                 setBalanceInfo(balance || { total_credits: 0, total_debits: 0, balance: 0 });
                 setLastMovementId(null);
             } else {
-                // Debug: console.log('[MovementsList] Fetching movements for BU:', selectedBu);
+                console.log('[MovementsList] Fetching movements for BU:', selectedBu);
                 const [list, last, balance] = await Promise.all([
                     (cashMovementRepository as any).listByBusinessUnit(selectedBu, 200, 0, start, end),
                     (cashMovementRepository as any).getLastMovementForBU(selectedBu),
                     (cashMovementRepository as any).getBalance(selectedBu, start, end)
                 ]);
-                 // Debug: console.log('[MovementsList] listByBusinessUnit result:', list?.length, 'movements');
-                 // Debug: console.log('[MovementsList] last movement:', last?.id);
-                // Debug: console.log('[MovementsList] balance result:', balance);
+                console.log('[MovementsList] listByBusinessUnit result:', list?.length, 'movements');
+                console.log('[MovementsList] last movement:', last?.id);
+                console.log('[MovementsList] balance result:', balance);
                 setMovements(list || []);
                 setLastMovementId(last?.id || null);
                 setBalanceInfo(balance || { total_credits: 0, total_debits: 0, balance: 0 });
@@ -208,7 +188,7 @@ export const MovementsListScreen = () => {
         } catch (error) {
             console.error('[MovementsList] Error:', error);
         } finally {
-            // Debug: console.log('[MovementsList] loadData completed');
+            console.log('[MovementsList] loadData completed');
             setLoading(false);
         }
     };
@@ -218,19 +198,6 @@ export const MovementsListScreen = () => {
             loadData();
         }, [selectedBu, dateFilter])
     );
-
-    useEffect(() => {
-        if (Platform.OS === 'web' && showDropdown && buttonRef.current) {
-            buttonRef.current.measureInWindow((x, y, width, height) => {
-                setButtonLayout({ x, y, width, height });
-            });
-        }
-    }, [showDropdown]);
-
-    const handleButtonLayout = (event: any) => {
-        const { x, y, width, height } = event.nativeEvent.layout;
-        setButtonLayout({ x, y, width, height });
-    };
 
     // ... (handleDelete and renderItem stay same but adding BU name in list if all)
     const handleDelete = (id: string) => {
@@ -301,13 +268,11 @@ export const MovementsListScreen = () => {
                     <Typography variant="h2">Movimientos</Typography>
 
                     {/* Business Unit Selector */}
-                    <Typography variant="label" style={{ marginBottom: 4 }}>Filtrar por Local</Typography>
+                    <Typography variant="label" style={{ marginBottom: 4 }}>Filtrar Negocio</Typography>
                     <View style={styles.buSelectorRow}>
                         <TouchableOpacity 
-                            ref={buttonRef}
                             style={styles.buSelectorButton}
                              onPress={() => setShowDropdown(!showDropdown)}
-                             onLayout={handleButtonLayout}
                         >
                             <Typography style={styles.buSelectorText} weight="bold">
                                 {getSelectedBuName()}
@@ -318,7 +283,7 @@ export const MovementsListScreen = () => {
                         {showDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>Filtrar por Local</Typography>
+                                    <Typography variant="caption" weight="bold" color={colors.primary}>Filtrar por</Typography>
                                 </View>
                                 <TouchableOpacity
                                     style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
@@ -357,7 +322,8 @@ export const MovementsListScreen = () => {
                 </View>
 
                 {/* Summary Card */}
-                <Card style={styles.summaryCard}>
+                
+                
                     <View style={styles.summaryVerticalList}>
                         <View style={styles.summaryRowItem}>
                              <Typography variant="caption" color={colors.textSecondary}>Ingresos</Typography>

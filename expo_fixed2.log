@@ -1,0 +1,18 @@
+2026-02-19T02:00:45.991Z expo:telemetry Switching strategy from detached to instant
+2026-02-19T02:00:46.048Z expo:telemetry Recording 1 event(s)
+2026-02-19T02:00:46.053Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env
+2026-02-19T02:00:46.053Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development does not exist, skipping this env file
+2026-02-19T02:00:46.053Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:00:46.053Z expo:env "SUPABASE_URL" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:00:46.053Z expo:env "SUPABASE_ANON_KEY" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T02:00:46.053Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development.local does not exist, skipping this env file
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+2026-02-19T02:00:46.353Z expo:utils:getRunningProcess pid: 224644 for port: 8081
+› Port 8081 is running this app in another window
+  /home/tunga/HUB/BUs/flash_report_supabase (pid 224644)
+Input is required, but 'npx expo' is in non-interactive mode.
+Required input:
+> Use port 8082 instead?
+› Skipping dev server

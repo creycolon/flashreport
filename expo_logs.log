@@ -1,0 +1,10 @@
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+Starting Metro Bundler
+Skipping dependency validation in offline mode
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 1281ms index.ts (1307 modules)
+ LOG  [web] Logs will appear in the browser console

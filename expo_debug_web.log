@@ -1,0 +1,254 @@
+2026-02-19T01:46:21.070Z expo:telemetry Switching strategy from detached to instant
+2026-02-19T01:46:21.125Z expo:telemetry Recording 1 event(s)
+2026-02-19T01:46:21.130Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env
+2026-02-19T01:46:21.130Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development does not exist, skipping this env file
+2026-02-19T01:46:21.130Z expo:env Loaded environment variables from: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T01:46:21.130Z expo:env "SUPABASE_URL" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T01:46:21.130Z expo:env "SUPABASE_ANON_KEY" is already defined and overwritten by: /home/tunga/HUB/BUs/flash_report_supabase/.env.local
+2026-02-19T01:46:21.130Z expo:env /home/tunga/HUB/BUs/flash_report_supabase/.env.development.local does not exist, skipping this env file
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+2026-02-19T01:46:21.341Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/babel.config.js
+2026-02-19T01:46:21.342Z expo:doctor:webSupport Ensuring web support is setup
+2026-02-19T01:46:21.352Z expo:doctor:dependencies:getMissingPackages Required package "react-dom" found (no version constraint specified).
+2026-02-19T01:46:21.352Z expo:doctor:dependencies:getMissingPackages Required package "react-native-web" found (no version constraint specified).
+2026-02-19T01:46:21.458Z expo:start:server:devServer Stopping dev server (bundler: metro)
+2026-02-19T01:46:21.458Z expo:start:server:devServer Stopped dev server (bundler: metro)
+2026-02-19T01:46:21.465Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T01:46:21.871Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T01:46:21.872Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+
+2026-02-19T01:46:21.882Z expo:metro:config react-native-reanimated package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-reanimated/package.json
+2026-02-19T01:46:21.883Z expo:metro:config react-native-worklets package.json: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-worklets/package.json
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+
+Expo Metro config:
+- Version: 54.0.14
+- Extensions: ts, tsx, mjs, js, jsx, json, cjs, scss, sass, css
+- React Native: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native
+- Watch Folders: 
+- Node Module Paths: 
+- Sass: null
+- Reanimated: 4.1.6
+- Worklets: 0.7.3
+- Babel Runtime: null
+
+2026-02-19T01:46:22.139Z expo:metro:withMetroResolvers Appending 8 custom resolvers to Metro config. (has custom resolver: false)
+2026-02-19T01:46:22.154Z expo:start:server:urlCreator URL: http://127.0.0.1:8082
+Starting Metro Bundler
+2026-02-19T01:46:22.303Z expo:start:server:middleware:serveStatic Serving static files from: /home/tunga/HUB/BUs/flash_report_supabase/public
+2026-02-19T01:46:22.346Z expo:start:server:urlCreator URL: exp://192.168.1.21:8082
+2026-02-19T01:46:22.360Z expo:start:server:developmentSession Development session ping (runtime: native, url: exp://192.168.1.21:8082)
+2026-02-19T01:46:22.633Z expo:utils:fileNotifier Observing /home/tunga/HUB/BUs/flash_report_supabase/metro.config.js
+2026-02-19T01:46:22.634Z expo:start:server:metro:waitForTypescript Watching file changes: [
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.local',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env.development',
+  '/home/tunga/HUB/BUs/flash_report_supabase/.env'
+]
+2026-02-19T01:46:22.635Z expo:doctor:typescriptSupport Ensuring TypeScript support is setup
+2026-02-19T01:46:22.644Z expo:doctor:dependencies:getMissingPackages Required package "typescript" found (no version constraint specified).
+2026-02-19T01:46:22.645Z expo:doctor:dependencies:getMissingPackages Required package "@types/react" found (no version constraint specified).
+2026-02-19T01:46:22.649Z expo:typed-routes Removing typed routes side-effects (experiments.typedRoutes: false)
+2026-02-19T01:46:22.669Z expo:doctor:dependencies:bundledNativeModules Fetching bundled native modules from the server...
+2026-02-19T01:46:22.681Z expo:doctor:dependencies:validate Checking dependencies for 54.0.0: {
+  '@expo/metro-runtime': '~6.1.2',
+  '@expo/vector-icons': '^15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  '@react-native/gradle-plugin': '0.81.5',
+  '@react-navigation/material-top-tabs': '^7.4.13',
+  expo: '~54.0.33',
+  'expo-build-properties': '~1.0.10',
+  'expo-constants': '~18.0.13',
+  'expo-font': '~14.0.11',
+  'expo-linking': '~8.0.11',
+  'expo-mail-composer': '^15.0.8',
+  'expo-notifications': '~0.32.16',
+  'expo-print': '~15.0.8',
+  'expo-router': '~6.0.23',
+  'expo-sharing': '~14.0.8',
+  'expo-sqlite': '~16.0.10',
+  'expo-status-bar': '~3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '~2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '~4.1.1',
+  'react-native-safe-area-context': '~5.6.0',
+  'react-native-screens': '~4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-tab-view': '^4.1.0',
+  'react-native-web': '^0.21.0',
+  '@react-native-community/cli': '^20.1.1',
+  '@supabase/supabase-js': '^2.96.0',
+  '@types/node': '^25.2.3',
+  '@types/react': '~19.1.0',
+  '@types/react-native': '^0.72.8',
+  'babel-preset-expo': '^54.0.10',
+  'patch-package': '^8.0.1',
+  'postinstall-postinstall': '^2.1.0',
+  typescript: '~5.9.2'
+}
+2026-02-19T01:46:22.681Z expo:doctor:dependencies:validate Comparing known versions: [
+  '@expo/metro-runtime',
+  '@expo/vector-icons',
+  '@react-native-community/datetimepicker',
+  'expo',
+  'expo-build-properties',
+  'expo-constants',
+  'expo-font',
+  'expo-linking',
+  'expo-mail-composer',
+  'expo-notifications',
+  'expo-print',
+  'expo-router',
+  'expo-sharing',
+  'expo-sqlite',
+  'expo-status-bar',
+  'react',
+  'react-dom',
+  'react-native',
+  'react-native-gesture-handler',
+  'react-native-pager-view',
+  'react-native-reanimated',
+  'react-native-safe-area-context',
+  'react-native-screens',
+  'react-native-svg',
+  'react-native-web',
+  '@types/react',
+  'babel-preset-expo',
+  'typescript'
+]
+2026-02-19T01:46:22.682Z expo:doctor:dependencies:validate Skipping packages that cannot be versioned automatically: [
+  '@react-native/gradle-plugin',
+  '@react-navigation/material-top-tabs',
+  'react-native-tab-view',
+  '@react-native-community/cli',
+  '@supabase/supabase-js',
+  '@types/node',
+  '@types/react-native',
+  'patch-package',
+  'postinstall-postinstall'
+]
+2026-02-19T01:46:22.698Z expo:doctor:dependencies:validate Package versions: {
+  '@expo/metro-runtime': '6.1.2',
+  '@expo/vector-icons': '15.0.3',
+  '@react-native-community/datetimepicker': '8.4.4',
+  expo: '54.0.33',
+  'expo-build-properties': '1.0.10',
+  'expo-constants': '18.0.13',
+  'expo-font': '14.0.11',
+  'expo-linking': '8.0.11',
+  'expo-mail-composer': '15.0.8',
+  'expo-notifications': '0.32.16',
+  'expo-print': '15.0.8',
+  'expo-router': '6.0.23',
+  'expo-sharing': '14.0.8',
+  'expo-sqlite': '16.0.10',
+  'expo-status-bar': '3.0.9',
+  react: '19.1.0',
+  'react-dom': '19.1.0',
+  'react-native': '0.81.5',
+  'react-native-gesture-handler': '2.28.0',
+  'react-native-pager-view': '6.9.1',
+  'react-native-reanimated': '4.1.6',
+  'react-native-safe-area-context': '5.6.2',
+  'react-native-screens': '4.16.0',
+  'react-native-svg': '15.12.1',
+  'react-native-web': '0.21.2',
+  '@types/react': '19.1.17',
+  'babel-preset-expo': '54.0.10',
+  typescript: '5.9.3'
+}
+2026-02-19T01:46:22.705Z expo:doctor:dependencies:validate Incorrect dependencies: []
+Waiting on http://localhost:8082
+Logs for your project will appear below.
+2026-02-19T01:46:22.897Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T01:46:22.898Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T01:46:22.899Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T01:46:22.900Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T01:46:31.584Z expo:start:server:metro:multi-platform Enabling alias: react-native-vector-icons -> @expo/vector-icons
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+2026-02-19T01:46:31.704Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react.production.js
+2026-02-19T01:46:31.721Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-jsx-dev-runtime.production.js
+2026-02-19T01:46:31.759Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-jsx-runtime.production.js
+2026-02-19T01:46:31.797Z expo:start:server:metro:multi-platform Using React Navigation's web modal implementation.
+2026-02-19T01:46:31.820Z expo:metro:tsconfig-paths @features/settings/SettingsScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/settings/SettingsScreen
+2026-02-19T01:46:31.821Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:31.823Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T01:46:31.824Z expo:metro:tsconfig-paths @features/business-units/BusinessUnitsScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/business-units/BusinessUnitsScreen
+2026-02-19T01:46:31.824Z expo:metro:tsconfig-paths @features/partners/PartnersScreen -> /home/tunga/HUB/BUs/flash_report_supabase/src/features/partners/PartnersScreen
+2026-02-19T01:46:31.839Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/AppRegistry/AppContainer.js" to shim
+2026-02-19T01:46:31.948Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T01:46:31.949Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T01:46:31.949Z expo:metro:tsconfig-paths @core/application/services/testDataService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/testDataService
+2026-02-19T01:46:31.949Z expo:metro:tsconfig-paths @core/application/services/managingPartnerService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/managingPartnerService
+2026-02-19T01:46:31.949Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T01:46:31.949Z expo:metro:tsconfig-paths @core/infrastructure/repositories/categoryRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/categoryRepository
+2026-02-19T01:46:31.950Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T01:46:31.950Z expo:metro:tsconfig-paths @core/infrastructure/db/supabaseClient -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/db/supabaseClient
+2026-02-19T01:46:31.950Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:31.950Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T01:46:31.970Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:31.970Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T01:46:31.970Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T01:46:31.970Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T01:46:31.970Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T01:46:31.982Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:31.983Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T01:46:31.983Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T01:46:31.983Z expo:metro:tsconfig-paths @ui/web/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/web/components
+2026-02-19T01:46:31.983Z expo:metro:tsconfig-paths @core/infrastructure/repositories/partnerRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/partnerRepository
+2026-02-19T01:46:31.983Z expo:metro:tsconfig-paths @core/application/utils/format -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/utils/format
+2026-02-19T01:46:32.029Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/BackHandler/index.js" to shim
+2026-02-19T01:46:32.112Z expo:metro:tsconfig-paths @core/infrastructure/repositories/cashMovementRepository.js -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/cashMovementRepository.js
+2026-02-19T01:46:32.112Z expo:metro:tsconfig-paths @core/infrastructure/repositories/businessUnitRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/businessUnitRepository
+2026-02-19T01:46:32.112Z expo:metro:tsconfig-paths @core/infrastructure/repositories/categoryRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/categoryRepository
+2026-02-19T01:46:32.112Z expo:metro:tsconfig-paths @core/infrastructure/db/supabaseClient -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/db/supabaseClient
+2026-02-19T01:46:32.113Z expo:metro:tsconfig-paths @core/infrastructure/repositories/partnerRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/partnerRepository
+2026-02-19T01:46:32.113Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T01:46:32.120Z expo:metro:tsconfig-paths @core/infrastructure/repositories/configRepository -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/infrastructure/repositories/configRepository
+2026-02-19T01:46:32.142Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T01:46:32.142Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:32.156Z expo:metro:tsconfig-paths @core/application/services/managingPartnerService -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/services/managingPartnerService
+2026-02-19T01:46:32.175Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-dom-client.production.js
+2026-02-19T01:46:32.292Z expo:metro:tsconfig-paths @ui/shared/components -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/components
+2026-02-19T01:46:32.292Z expo:metro:tsconfig-paths @ui/shared/theme/ThemeContext -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme/ThemeContext
+2026-02-19T01:46:32.292Z expo:metro:tsconfig-paths @ui/shared/theme -> /home/tunga/HUB/BUs/flash_report_supabase/src/ui/shared/theme
+2026-02-19T01:46:32.295Z expo:metro:tsconfig-paths @core/application/utils/format -> /home/tunga/HUB/BUs/flash_report_supabase/src/core/application/utils/format
+2026-02-19T01:46:32.355Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-refresh-runtime.production.min.js
+2026-02-19T01:46:32.489Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.min.js
+2026-02-19T01:46:32.503Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-dom.production.js
+2026-02-19T01:46:32.554Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.js
+2026-02-19T01:46:32.605Z expo:metro:withMetroResolvers Custom resolver (requestPostRewrites) threw: FailedToResolveNameError. (module: expo-asset, platform: web, env: undefined, origin: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo-font/build/FontLoader.web.js)
+2026-02-19T01:46:32.606Z expo:start:server:metro:fallback-resolver Fallback resolution for web: expo-asset -> from origin: expo
+2026-02-19T01:46:32.694Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/react-is.production.min.js
+2026-02-19T01:46:32.728Z expo:start:server:metro:multi-platform Redirecting module "/home/tunga/HUB/BUs/flash_report_supabase/node_modules/react-native-web/dist/exports/BackHandler/index.js" to shim
+2026-02-19T01:46:32.768Z expo:start:server:metro:multi-platform Skipping production module: ./cjs/scheduler.production.js
+2026-02-19T01:46:32.842Z expo:metro-config:serializer:env-var Injecting environment variables in virtual module.
+Web Bundled 1322ms index.ts (1312 modules)
+ LOG  [web] Logs will appear in the browser console
+2026-02-19T01:46:34.596Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T01:46:34.604Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T01:46:34.605Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T01:46:34.605Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T01:46:34.605Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T01:46:34.606Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html
+2026-02-19T01:46:34.608Z expo:start:server:middleware:serveStatic Maybe serve static: /favicon.ico
+2026-02-19T01:46:34.615Z expo:start:server:middleware:favicon No favicon defined in the Expo Config, skipping generation.
+2026-02-19T01:46:34.616Z expo:start:server:middleware:manifest Resolved entry point: index.ts (project root: /home/tunga/HUB/BUs/flash_report_supabase)
+2026-02-19T01:46:34.616Z expo:start:server:metro:router Using app as the root directory for Expo Router.
+2026-02-19T01:46:34.616Z expo:customize:templates @expo/webpack-config template for "index.html" not found, falling back on @expo/cli
+2026-02-19T01:46:34.616Z expo:customize:templates Local @expo/cli template for "index.html" not found, falling back on template relative to @expo/cli: /home/tunga/HUB/BUs/flash_report_supabase/node_modules/expo/node_modules/@expo/cli/static/template/index.html

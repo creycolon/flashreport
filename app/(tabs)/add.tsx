@@ -1,5 +1,5 @@
-import { AddMovementScreen } from '../../src/ui/screens/AddMovementScreen';
+import { AddMovementScreen } from '@features/movements/AddMovementScreen';
 
 export default function Add() {
-    return <AddMovementScreen />;
+  return <AddMovementScreen />;
 }

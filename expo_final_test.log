@@ -1,0 +1,20 @@
+env: load .env.local .env
+env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+Starting Metro Bundler
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Waiting on http://localhost:8082
+Logs for your project will appear below.
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web ./index.ts ▓▓▓▓▓▓▓▓░░░░░░░░ 55.3% (175/304)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 70.6% (555/696)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.5% ( 938/1061)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 97.4% (1283/1300)
+Web Bundled 14307ms index.ts (1318 modules)
+ LOG  [web] Logs will appear in the browser console
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 90ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 84ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console

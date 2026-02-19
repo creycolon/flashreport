@@ -1,9 +1,9 @@
-// Polyfill navigator and clipboard API for React Native environments
-// This must run before any other imports to prevent "Cannot read 'clipboard'" errors
+ // Polyfill navigator and clipboard API for React Native environments
+ // This must run before any other imports to prevent "Cannot read 'clipboard'" errors
 
- console.log('[Polyfill] Initializing clipboard polyfill');
+  console.log('[Polyfill] Initializing clipboard polyfill');
 
- try {
+  try {
    // Log environment detection (minimal)
    console.log('[Polyfill] Environment:', {
      hasWindow: typeof window !== 'undefined',
