@@ -1,9 +1,0 @@
-env: load .env.local .env
-env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
-Starting project at /home/tunga/HUB/BUs/flash_report_supabase
-Starting Metro Bundler
-Tunnel URL not found (it might not be ready yet), falling back to LAN URL.
-warning: Bundler cache is empty, rebuilding (this may take a minute)
-Skipping dependency validation in offline mode
-Waiting on http://localhost:8081
-Logs for your project will appear below.

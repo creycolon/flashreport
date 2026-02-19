@@ -1,9 +1,0 @@
-env: load .env.local .env
-env: export SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
-Starting project at /home/tunga/HUB/BUs/flash_report_supabase
-› Port 8081 is running this app in another window
-  /home/tunga/HUB/BUs/flash_report_supabase (pid 257254)
-Input is required, but 'npx expo' is in non-interactive mode.
-Required input:
-> Use port 8082 instead?
-› Skipping dev server
