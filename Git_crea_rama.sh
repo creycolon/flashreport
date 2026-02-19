@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NAME="flash_report_supabase - "
+RAMA="flash_report - "
 
 # Verificar si hay cambios
 if git diff --quiet && git diff --cached --quiet; then
@@ -8,6 +9,7 @@ if git diff --quiet && git diff --cached --quiet; then
     exit 1
 fi
 
+git switch -c "$(RAMA)"
 git add .
 git commit -m "${NAME}$(date +%Y%m%d_%H%M)"
 git branch -M main
