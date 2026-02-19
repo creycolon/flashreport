@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Button, Card } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface BusinessUnitOption {
     id: string;
@@ -40,6 +41,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     onCancel,
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
     const [type, setType] = React.useState<'CR' | 'DB'>('CR');
     const [categoryId, setCategoryId] = React.useState('');
     const [amount, setAmount] = React.useState('');
@@ -369,7 +371,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                     </View>
 
                     <View style={styles.formSection}>
-                        <Typography style={styles.label}>Local</Typography>
+                        <Typography style={styles.label}>{businessUnitName}</Typography>
                         <View style={{ position: 'relative' }}>
                             <TouchableOpacity
                                 style={styles.selectorButton}

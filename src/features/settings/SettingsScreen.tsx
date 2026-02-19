@@ -12,11 +12,13 @@ import { partnerRepository } from '@core/infrastructure/repositories/partnerRepo
 import { supabase } from '@core/infrastructure/db/supabaseClient';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { SettingsEnhanced } from '@ui/web/components';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export const SettingsScreen = () => {
     const router = useRouter();
     const { width: windowWidth } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+    const { businessUnitName } = useBusinessUnitName();
     const [generating, setGenerating] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [dynamicZoom, setDynamicZoom] = useState(true);
@@ -289,14 +291,14 @@ export const SettingsScreen = () => {
                 </View>
 
                 <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Gestión de Catálogos</Typography>
+                    
                     <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Unidades de Negocio</Typography>
+                        <Typography variant="h3" style={{ marginBottom: 4 }}>{businessUnitName}s</Typography>
                          <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                             Configura los locales, colores y orden de visualización en el dashboard.
+                             Configura los {businessUnitName.toLowerCase()}s, colores y orden de visualización en el dashboard.
                          </Typography>
                         <Button
-                            title="Gestionar Locales"
+                            title={`Gestionar ${businessUnitName}s`}
                             variant="outline"
                             onPress={() => router.push('/business-units')}
                         />
@@ -323,7 +325,7 @@ export const SettingsScreen = () => {
                             }
                         </Typography>
                         <Button
-                            title="Cambiar Socio Gerente"
+                            title="Cambio Administrador"
                             variant="outline"
                             onPress={() => setShowManagePartnerModal(true)}
                         />
@@ -338,7 +340,7 @@ export const SettingsScreen = () => {
                              Crea movimientos aleatorios de los últimos 30 días (hasta ayer) para pruebas.
                         </Typography>
                         <Button
-                            title="Generar Datos de Prueba"
+                            title="Carga Datos p/Prueba"
                             onPress={handleGenerateData}
                             loading={generating}
                         />
@@ -409,6 +411,11 @@ export const SettingsScreen = () => {
                                     : 'Tema claro siempre activo'}
                         </Typography>
                     </Card>
+                </View>
+
+                <View style={{ marginVertical: 20, padding: 10, backgroundColor: colors.surface, borderRadius: 8 }}>
+                    <Typography variant="caption" weight="bold">DEBUG businessUnitName:</Typography>
+                    <Typography variant="body" style={{ marginTop: 4 }}>{businessUnitName}</Typography>
                 </View>
 
                 <View style={styles.footer}>

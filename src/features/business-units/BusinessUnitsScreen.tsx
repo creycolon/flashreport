@@ -1,22 +1,25 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Alert, Modal, TextInput, ScrollView, Platform, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Alert, Modal, TextInput, Switch, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
-import { Typography, Card, Button } from '@ui/shared/components';
+import { Typography, Card, Input, Button } from '@ui/shared/components';
 import { BusinessUnitsEnhanced } from '@ui/web/components';
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
+import { formatNumber } from '@core/application/utils/format';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 const COLOR_PALETTE = ['#38ff14', '#ffc107', '#2196f3', '#e91e63', '#9c27b0', '#ff5722', '#795548', '#607d8b'];
 
 export const BusinessUnitsScreen = () => {
     const router = useRouter();
     const { colors } = useTheme();
-    const insets = useSafeAreaInsets();
     const { width: windowWidth } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+    const { businessUnitName } = useBusinessUnitName();
     const [bus, setBus] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
@@ -199,19 +202,27 @@ export const BusinessUnitsScreen = () => {
 
     const styles = useMemo(() => StyleSheet.create({
         safe: { flex: 1, backgroundColor: colors.background },
-        container: { flex: 1, padding: theme.spacing.md },
+        container: { 
+            flex: 1, 
+            paddingHorizontal: theme.spacing.md 
+        },
         headerRow: {
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: theme.spacing.lg,
-            paddingTop: Platform.OS === 'ios' ? 0 : 10
+            paddingTop: Platform.OS === 'ios' ? theme.spacing.md : theme.spacing.lg
         },
         backButton: {
             marginRight: theme.spacing.md,
             marginLeft: -4,
             padding: 4
         },
-        list: { paddingBottom: 100 },
+        listContainer: { 
+            flex: 1 
+        },
+        list: { 
+            paddingBottom: theme.spacing.md 
+        },
         itemCard: { padding: theme.spacing.md, marginBottom: 12 },
         inactiveCard: { opacity: 0.6, backgroundColor: colors.background },
         itemInfo: { flex: 1, marginBottom: 12 },
@@ -220,7 +231,11 @@ export const BusinessUnitsScreen = () => {
         inactiveBadge: { backgroundColor: colors.textMuted, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
         itemActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 },
         actionBtn: { marginRight: 24 },
-        addBtn: { position: 'absolute', bottom: insets.bottom + 20, left: 20, right: 20 },
+        buttonContainer: {
+            paddingTop: theme.spacing.md,
+            paddingBottom: Math.max(theme.spacing.md, insets.bottom),
+            backgroundColor: colors.background
+        },
         modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', justifyContent: 'center', padding: 20 },
         modalContent: { backgroundColor: colors.cardBackground, borderRadius: 16, padding: 24 },
         input: {
@@ -247,12 +262,13 @@ export const BusinessUnitsScreen = () => {
                         <Ionicons name="chevron-back" size={28} color={colors.text} />
                     </TouchableOpacity>
                     <View>
-                        <Typography variant="h1">Locales</Typography>
-                        <Typography variant="body" color={colors.textSecondary}>Gestión de locales</Typography>
+                        <Typography variant="h1">{businessUnitName}s</Typography>
+                        <Typography variant="body" color={colors.textSecondary}>Gestión de {businessUnitName.toLowerCase()}s</Typography>
                     </View>
                 </View>
 
                 <FlatList
+                    style={styles.listContainer}
                     data={bus}
                     keyExtractor={item => item.id}
                     renderItem={renderItem}
@@ -261,20 +277,21 @@ export const BusinessUnitsScreen = () => {
                     onRefresh={loadData}
                 />
 
-                <Button
-                    title="Agregar Local"
-                    onPress={() => handleOpenModal()}
-                    style={styles.addBtn}
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title={`Agregar ${businessUnitName}`}
+                        onPress={() => handleOpenModal()}
+                    />
+                </View>
 
                 <Modal visible={modalVisible} animationType="slide" transparent>
                     <View style={styles.modalOverlay}>
                         <View style={styles.modalContent}>
                             <Typography variant="h2" style={{ marginBottom: 20 }}>
-                                {currentId ? 'Editar Local' : 'Nuevo Local'}
+                                {currentId ? `Editar ${businessUnitName}` : `Nuevo ${businessUnitName}`}
                             </Typography>
 
-                            <Typography variant="label">Nombre del Local</Typography>
+                            <Typography variant="label">Nombre del {businessUnitName}</Typography>
                             <TextInput
                                 style={styles.input}
                                 value={name}

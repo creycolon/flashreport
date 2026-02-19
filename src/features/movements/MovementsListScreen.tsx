@@ -10,6 +10,7 @@ import { formatCurrency, formatDate } from '@core/application/utils/format';
 import { reportService } from '@core/application/services/reportService';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { MovementsFiltersEnhanced, MovementsTableEnhanced, Movement } from '@ui/web/components';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export const MovementsListScreen = () => {
     const [movements, setMovements] = useState<any[]>([]);
@@ -28,6 +29,7 @@ export const MovementsListScreen = () => {
     const { colors } = useTheme();
     const { width: windowWidth } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+    const { businessUnitName } = useBusinessUnitName();
     
     const styles = useMemo(() => StyleSheet.create({
         safe: { flex: 1, backgroundColor: colors.background },
@@ -302,7 +304,7 @@ export const MovementsListScreen = () => {
     };
 
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${businessUnitName.toLowerCase()}s`;
         const bu = bus.find(b => b.id === selectedBu);
         return bu ? bu.name : 'Local no encontrado';
     };
@@ -375,7 +377,7 @@ export const MovementsListScreen = () => {
                     <Typography variant="h2">Movimientos</Typography>
 
                     {/* Business Unit Selector */}
-                    <Typography variant="label" style={{ marginBottom: 4 }}>Filtrar por Local</Typography>
+                    
                     <View style={styles.buSelectorRow}>
                         <TouchableOpacity 
                             ref={buttonRef}
@@ -391,14 +393,12 @@ export const MovementsListScreen = () => {
                         
                         {showDropdown && (
                             <View style={styles.dropdownContainer}>
-                                <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>Filtrar por Local</Typography>
-                                </View>
+                               
                                 <TouchableOpacity
                                     style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
                                     onPress={() => handleSelectBu('all')}
                                 >
-                                    <Typography style={styles.dropdownOptionText} weight="bold">Todos los locales</Typography>
+                                    <Typography style={styles.dropdownOptionText} weight="bold">Todos los {businessUnitName.toLowerCase()}s</Typography>
                                 </TouchableOpacity>
                                 {bus.map(bu => (
                                     <TouchableOpacity

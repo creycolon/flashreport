@@ -412,7 +412,7 @@ export const DashboardScreen = () => {
                             series={chartData.series}
                             height={isLandscape ? 380 : 240}
                             width={chartWidth}
-                            allowZoom={true}
+                            allowZoom={allowZoom}
                             interactive={true}
                         />
                     ) : (

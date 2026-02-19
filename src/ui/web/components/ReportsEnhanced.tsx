@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface Report {
     id: string;
@@ -46,6 +47,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     onViewAuditLog,
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
     const [selectedDateFilter, setSelectedDateFilter] = React.useState(dateFilter);
 
@@ -443,7 +445,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                         {showBuDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
+                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar {businessUnitName}</Typography>
                                 </View>
                                 <TouchableOpacity
                                     style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}

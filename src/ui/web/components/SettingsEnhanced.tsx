@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface SettingsEnhancedProps {
     onManageBusinessUnits?: () => void;
@@ -37,6 +38,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
     deletingData = false,
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
 
     const styles = StyleSheet.create({
         container: {
@@ -208,27 +210,24 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
             </View>
 
             {/* Catalog Management Section */}
-            <View style={styles.section}>
-                <Typography style={styles.sectionTitle}>
-                    Gestión de Catálogos
-                </Typography>
+            <View style={styles.section}>                
                 <View style={styles.settingsGrid}>
                     {/* Business Units */}
                     <Card style={styles.settingCard}>
                         <View style={styles.settingHeader}>
                             <Ionicons name="business" size={24} color={colors.primary} />
                             <Typography variant="caption" color={colors.textMuted}>
-                                Locales
+                                {businessUnitName}s
                             </Typography>
                         </View>
                         <Typography style={styles.settingTitle}>
-                            Unidades de Negocio
+                            {businessUnitName}s
                         </Typography>
                         <Typography style={styles.settingDescription}>
-                            Configura los locales, colores y orden de visualización en el dashboard.
+                            Configura los {businessUnitName.toLowerCase()}s, colores y orden de visualización en el dashboard.
                         </Typography>
                         <Button
-                            title="Gestionar Locales"
+                            title={`Gestionar ${businessUnitName}s`}
                             variant="outline"
                             onPress={onManageBusinessUnits ? onManageBusinessUnits : () => {}}
                             style={{ alignSelf: 'flex-start' }}

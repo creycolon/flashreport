@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Input, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface BusinessUnitOption {
     id: string;
@@ -44,6 +45,7 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
     searchQuery = '',
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
     const [localSearch, setLocalSearch] = useState(searchQuery);
     const [selectedDateFilter, setSelectedDateFilter] = useState(dateFilter);
     const [showBuDropdown, setShowBuDropdown] = useState(false);
@@ -294,14 +296,14 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
                         {showBuDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
+                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar {businessUnitName}</Typography>
                                 </View>
                                 <TouchableOpacity
                                     style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
                                     onPress={() => handleSelectBu('all')}
                                 >
                                     <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
-                                    <Typography style={styles.dropdownOptionText}>Todos los locales</Typography>
+                                    <Typography style={styles.dropdownOptionText}>Todos los {businessUnitName.toLowerCase()}s</Typography>
                                 </TouchableOpacity>
                                 {businessUnits.map(bu => (
                                     <TouchableOpacity

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, ReactNode } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppTheme, ThemePreference } from './useAppTheme';
 import { colorSchemes } from './colors';
 
@@ -26,17 +27,21 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
             loading: false,
         };
         return (
-            <ThemeContext.Provider value={fixedTheme}>
-                {children}
-            </ThemeContext.Provider>
+            <SafeAreaProvider>
+                <ThemeContext.Provider value={fixedTheme}>
+                    {children}
+                </ThemeContext.Provider>
+            </SafeAreaProvider>
         );
     }
     
     const theme = useAppTheme();
     return (
-        <ThemeContext.Provider value={theme}>
-            {children}
-        </ThemeContext.Provider>
+        <SafeAreaProvider>
+            <ThemeContext.Provider value={theme}>
+                {children}
+            </ThemeContext.Provider>
+        </SafeAreaProvider>
     );
 };
 

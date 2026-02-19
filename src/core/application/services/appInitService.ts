@@ -5,6 +5,26 @@ import { configRepository } from '@core/infrastructure/repositories/configReposi
 
 export const appInitService = {
     /**
+     * Verifica que exista un nombre para las unidades de negocio configurado
+     * Si no existe, establece "Negocio" como valor por defecto
+     */
+    ensureBusinessUnitName: async (): Promise<boolean> => {
+        try {
+            const businessUnitName = await (configRepository as any).get('business_unit_name', '');
+            
+            if (!businessUnitName) {
+                await (configRepository as any).set('business_unit_name', 'Negocio');
+                console.log('[AppInit] Nombre de unidad de negocio configurado por defecto: Negocio');
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('[AppInit] Error al configurar nombre de unidad de negocio:', error);
+            return false;
+        }
+    },
+
+    /**
      * Verifica que exista un socio gerente configurado en app_config
      * Si no existe, asigna el socio p1 (o el primer socio activo) como gerente
      * Garantiza que el socio gerente esté activo y tenga is_managing_partner = 1
@@ -193,10 +213,13 @@ export const appInitService = {
         console.log('[AppInit] Iniciando verificación de aplicación...');
         
         try {
-            // 1. Verificar socio gerente
+            // 1. Verificar nombre de unidad de negocio
+            await appInitService.ensureBusinessUnitName();
+            
+            // 2. Verificar socio gerente
             const managingPartnerOk = await appInitService.ensureDefaultManagingPartner();
             
-            // 2. Verificar datos básicos
+            // 3. Verificar datos básicos
             const basicDataOk = await appInitService.ensureBasicData();
             
             const success = managingPartnerOk && basicDataOk;

@@ -8,6 +8,7 @@ import { businessUnitRepository } from '@core/infrastructure/repositories/busine
 import { categoryRepository } from '@core/infrastructure/repositories/categoryRepository';
 import { cashMovementRepository } from '@core/infrastructure/repositories/cashMovementRepository';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export const AddMovementScreen = () => {
     const [type, setType] = useState<'CR' | 'DB'>('CR');
@@ -24,6 +25,7 @@ export const AddMovementScreen = () => {
     const [showDropdown, setShowDropdown] = useState(false);
 
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
 
     const styles = useMemo(() => StyleSheet.create({
         safe: { flex: 1, backgroundColor: colors.background },
@@ -283,7 +285,7 @@ export const AddMovementScreen = () => {
 
                 <Card variant="flat" style={styles.formCard}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                        <Typography variant="label" style={{ marginRight: 8 }}>🏪 Unidad de Negocio</Typography>
+                        <Typography variant="label" style={{ marginRight: 8 }}>🏪 {businessUnitName}</Typography>
                         <View style={{ backgroundColor: colors.primary + '20', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4 }}>
                             
                             {/* <Typography variant="caption" weight="bold" color={colors.primary}>PRINCIPAL</Typography>
@@ -308,7 +310,7 @@ export const AddMovementScreen = () => {
                         {showDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
+                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar {businessUnitName}</Typography>
                                 </View>
                                 {bus.map(bu => (
                                     <TouchableOpacity

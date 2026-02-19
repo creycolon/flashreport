@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Button, Card } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface BusinessUnit {
     id: string;
@@ -38,6 +39,7 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
     onCancel,
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [editingUnit, setEditingUnit] = React.useState<BusinessUnit | null>(null);
     const [name, setName] = React.useState('');
@@ -297,7 +299,7 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
         <View style={styles.container}>
             <View style={styles.header}>
                 <View>
-                    <Typography style={styles.title}>Locales</Typography>
+                    <Typography style={styles.title}>{businessUnitName}s</Typography>
                     <Typography style={styles.subtitle}>
                         {businessUnits.length} {businessUnits.length === 1 ? 'local' : 'locales'} registrados
                     </Typography>
@@ -308,7 +310,7 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
                 >
                     <Ionicons name="add" size={20} color="#fff" />
                     <Typography color="#fff" weight="bold">
-                        Agregar Local
+                        Agregar {businessUnitName}
                     </Typography>
                 </TouchableOpacity>
             </View>
@@ -385,11 +387,10 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
                             <Typography style={styles.modalTitle}>
-                                {editingUnit ? 'Editar Local' : 'Nuevo Local'}
+                                {editingUnit ? `Editar ${businessUnitName}` : `Nuevo ${businessUnitName}`}
                             </Typography>
+                            <Typography variant="label">Nombre del {businessUnitName}</Typography>
                         </View>
-
-                        <Typography variant="label">Nombre del Local</Typography>
                         <TextInput
                             style={styles.input}
                             value={name}

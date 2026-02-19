@@ -5,6 +5,7 @@ import { Typography } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
 import { formatCurrency, formatDate } from '@core/application/utils/format';
+import { useBusinessUnitName } from '@ui/shared/useBusinessUnitName';
 
 export interface Movement {
     id: string;
@@ -41,6 +42,7 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
     loading = false,
 }) => {
     const { colors } = useTheme();
+    const { businessUnitName } = useBusinessUnitName();
 
     const styles = StyleSheet.create({
         container: {
@@ -131,7 +133,7 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
     const columns = [
         { key: 'date', label: 'Fecha', width: 1 },
         { key: 'description', label: 'Descripción', width: 2 },
-        { key: 'businessUnit', label: 'Unidad de Negocio', width: 1.5 },
+        { key: 'businessUnit', label: businessUnitName, width: 1.5 },
         { key: 'pointOfSale', label: 'Punto de Venta', width: 1.5 },
         { key: 'amount', label: 'Monto', width: 1.2 },
         { key: 'actions', label: '', width: 1 },

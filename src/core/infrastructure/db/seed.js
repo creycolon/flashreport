@@ -66,6 +66,7 @@ export const seedInitialData = async (db) => {
             { id: 'cfg1', key: 'THEME_MODE', value: 'DARK' },
             { id: 'cfg2', key: 'PRIMARY_COLOR', value: '#38ff14' },
             { id: 'cfg3', key: 'DEFAULT_ADMIN_ID', value: 'p1' },
+            { id: 'cfg4', key: 'business_unit_name', value: 'Negocio' },
         ];
 
         for (const cfg of configs) {

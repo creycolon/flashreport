@@ -43,6 +43,10 @@
         "android": {
           "newArchEnabled": true
         }
+      }],
+      ["expo-navigation-bar", {
+        "backgroundColor": "#2d2d2d",
+        "visibility": "visible"
       }]
     ],
     "extra": {

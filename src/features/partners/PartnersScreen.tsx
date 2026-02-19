@@ -13,8 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export const PartnersScreen = () => {
     const router = useRouter();
     const { colors } = useTheme();
-    const insets = useSafeAreaInsets();
     const { width: windowWidth } = useWindowDimensions();
+    const insets = useSafeAreaInsets();
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
     const [partners, setPartners] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -324,19 +324,27 @@ export const PartnersScreen = () => {
 
     const styles = useMemo(() => StyleSheet.create({
         safe: { flex: 1, backgroundColor: colors.background },
-        container: { flex: 1, padding: theme.spacing.md },
+        container: { 
+            flex: 1, 
+            paddingHorizontal: theme.spacing.md 
+        },
         headerRow: {
             flexDirection: 'row',
             alignItems: 'center',
             marginBottom: theme.spacing.lg,
-            paddingTop: Platform.OS === 'ios' ? 0 : 10
+            paddingTop: Platform.OS === 'ios' ? theme.spacing.md : theme.spacing.lg
         },
         backButton: {
             marginRight: theme.spacing.md,
             marginLeft: -4,
             padding: 4
         },
-        list: { paddingBottom: 100 },
+        listContainer: { 
+            flex: 1 
+        },
+        list: { 
+            paddingBottom: theme.spacing.md 
+        },
         itemCard: { padding: theme.spacing.md, marginBottom: 12 },
         inactiveCard: { opacity: 0.6, backgroundColor: colors.background },
         itemInfo: { flex: 1, marginBottom: 12 },
@@ -345,7 +353,11 @@ export const PartnersScreen = () => {
         inactiveBadge: { backgroundColor: colors.textMuted, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
         itemActions: { flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 10 },
         actionBtn: { marginRight: 24 },
-        addBtn: { position: 'absolute', bottom: insets.bottom + 20, left: 20, right: 20 },
+        buttonContainer: {
+            paddingTop: theme.spacing.md,
+            paddingBottom: Math.max(theme.spacing.md, insets.bottom),
+            backgroundColor: colors.background
+        },
         modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.7)', padding: 20 },
         modalContent: { backgroundColor: colors.cardBackground, borderRadius: 16, padding: 24 },
         input: {
@@ -375,6 +387,7 @@ export const PartnersScreen = () => {
                 </View>
 
                 <FlatList
+                    style={styles.listContainer}
                     data={partners}
                     keyExtractor={item => item.id}
                     renderItem={renderItem}
@@ -383,11 +396,12 @@ export const PartnersScreen = () => {
                     onRefresh={loadData}
                 />
 
-                <Button
-                    title="Agregar Socio"
-                    onPress={() => handleOpenModal()}
-                    style={styles.addBtn}
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title="Agregar Socio"
+                        onPress={() => handleOpenModal()}
+                    />
+                </View>
 
                 <Modal visible={modalVisible} animationType="slide" transparent>
                     <View style={styles.modalOverlay}>
