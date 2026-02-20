@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
@@ -25,8 +25,9 @@ interface EnhancedSidebarProps {
 
 // Default sidebar items based on stitch design
 export const DEFAULT_SIDEBAR_ITEMS: SidebarItem[] = [
-    { name: 'index', label: 'Dashboard', icon: 'stats-chart' },
+    { name: 'dashboard', label: 'Dashboard', icon: 'stats-chart' },
     { name: 'list', label: 'Movimientos', icon: 'list' },
+    { name: 'add', label: 'Agregar', icon: 'add-circle' },
     { name: 'reports', label: 'Informes', icon: 'analytics' },
     { name: 'settings', label: 'Configuración', icon: 'settings' },
 ];
@@ -40,14 +41,15 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
 }) => {
     const { colors } = useTheme();
     const router = useRouter();
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
     const handleNavigation = (route: string) => {
         if (onNavigate) {
             onNavigate(route);
         } else {
             // Default navigation using expo-router
-            if (route === 'index') {
-                router.navigate('/(tabs)/index');
+            if (route === 'dashboard') {
+                router.navigate('/(tabs)/dashboard');
             } else if (route === 'list') {
                 router.navigate('/(tabs)/list');
             } else if (route === 'reports') {
@@ -138,6 +140,9 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
             borderLeftColor: colors.primary,
             paddingLeft: theme.spacing.md - 4, // Adjust for border
         },
+        sidebarItemHover: {
+            backgroundColor: colors.primary + '10',
+        },
         sidebarIcon: {
             width: collapsed ? 24 : 20,
             alignItems: 'center',
@@ -214,15 +219,21 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
             <ScrollView style={styles.sidebarContent}>
                 {items.map((item) => {
                     const isActive = activeRoute === item.name;
+                    const isHovered = hoveredItem === item.name;
                     return (
                         <TouchableOpacity
                             key={item.name}
                             style={[
                                 styles.sidebarItem,
                                 isActive && styles.sidebarItemActive,
+                                isHovered && !isActive && styles.sidebarItemHover,
                             ]}
                             onPress={() => handleNavigation(item.name)}
                             activeOpacity={0.7}
+                            {...(Platform.OS === 'web' ? {
+                                onMouseEnter: () => setHoveredItem(item.name),
+                                onMouseLeave: () => setHoveredItem(null),
+                            } : {})}
                         >
                             <View style={styles.sidebarIcon}>
                                 <Ionicons

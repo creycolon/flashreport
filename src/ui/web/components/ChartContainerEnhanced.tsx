@@ -8,6 +8,7 @@ import { theme } from '@ui/shared/theme';
 export interface ChartContainerEnhancedProps {
     title: string;
     subtitle?: string;
+    periodLabel?: string;
     periodOptions?: Array<{ label: string; value: string }>;
     onPeriodChange?: (period: string) => void;
     chartData: {
@@ -31,6 +32,7 @@ const defaultPeriodOptions = [
 export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     title,
     subtitle,
+    periodLabel,
     periodOptions = defaultPeriodOptions,
     onPeriodChange,
     chartData,
@@ -145,7 +147,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                 {Platform.OS === 'web' && (
                     <View style={styles.periodSelector}>
                         <Typography style={styles.periodText}>
-                            {periodOptions.find(opt => opt.value === selectedPeriod)?.label}
+                            {periodLabel || periodOptions.find(opt => opt.value === selectedPeriod)?.label}
                         </Typography>
                     </View>
                 )}

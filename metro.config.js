@@ -3,10 +3,6 @@ const path = require('path');
 
 const config = getDefaultConfig(__dirname);
 
-// Ensure TypeScript files are resolved
-config.resolver.sourceExts = ['ts', 'tsx', 'js', 'jsx', 'json', 'cjs', 'mjs'];
-config.resolver.assetExts = config.resolver.assetExts.filter(ext => ext !== 'ts' && ext !== 'tsx');
-
 // Configure path aliases for TypeScript
 config.resolver.extraNodeModules = {
   '@core': path.resolve(__dirname, 'src/core'),

@@ -180,5 +180,147 @@ export const financialService = {
         };
 
         return await cashMovementRepository.create(openingMovement);
+    },
+
+    /**
+     * Gets recent movements for activity feed - one per business unit, from the last date with movement
+     */
+    getRecentMovements: async (limit = 10, dateFilter = null) => {
+        console.log('[financialService] getRecentMovements called, limit:', limit, 'dateFilter:', dateFilter);
+        const bus = await businessUnitRepository.getAll();
+        
+        // Get all movements (more to ensure we get last date per BU)
+        let data;
+        if (dateFilter) {
+            data = await cashMovementRepository.listAll(limit * 10, 0, dateFilter, dateFilter);
+        } else {
+            data = await cashMovementRepository.listAll(limit * 10, 0);
+        }
+        
+        // Group by business unit and get only the last one per unit
+        const lastByBusinessUnit = new Map();
+        for (const mov of (data || [])) {
+            const buId = mov.business_unit_id;
+            const movDate = new Date(mov.transaction_date || mov.created_at);
+            const existing = lastByBusinessUnit.get(buId);
+            if (!existing || movDate > new Date(existing.transaction_date || existing.created_at)) {
+                lastByBusinessUnit.set(buId, mov);
+            }
+        }
+        
+        // Convert to activity format
+        const activities = Array.from(lastByBusinessUnit.values()).map(mov => {
+            const bu = bus.find(b => b.id === mov.business_unit_id);
+            const isCredit = mov.type === 'CR';
+            const movDate = new Date(mov.transaction_date || mov.created_at);
+            
+            return {
+                id: mov.id,
+                title: isCredit ? `Ingreso - ${bu?.name || 'Caja'}` : `Egreso - ${bu?.name || 'Caja'}`,
+                description: mov.description || (isCredit ? 'Entrada de dinero' : 'Salida de dinero'),
+                amount: isCredit ? `+$${parseFloat(mov.amount).toLocaleString('es-AR')}` : `-$${parseFloat(mov.amount).toLocaleString('es-AR')}`,
+                amountType: isCredit ? 'positive' : 'negative',
+                time: movDate.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: '2-digit' }),
+                icon: isCredit ? 'trending-up' : 'trending-down',
+                type: isCredit ? 'revenue' : 'expense',
+            };
+        });
+        
+        // Sort by date descending and limit
+        activities.sort((a, b) => {
+            const dateA = new Date(a.time.split('/').reverse().join('-'));
+            const dateB = new Date(b.time.split('/').reverse().join('-'));
+            return dateB.getTime() - dateA.getTime();
+        });
+        
+        console.log('[financialService] returning activities (one per BU):', activities.length);
+        return activities.slice(0, limit);
+    },
+
+    /**
+     * Gets box status (open/closed for today)
+     */
+    getBoxStatus: async () => {
+        console.log('[financialService] getBoxStatus called');
+        const bus = await businessUnitRepository.getAll();
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Get today's movements per business unit
+        const data = await cashMovementRepository.listAll(1000, 0, today, today);
+        
+        // Group by business unit
+        const unitsWithMovement = new Set((data || []).map(m => m.business_unit_id));
+        
+        const open = unitsWithMovement.size;
+        const closed = bus.length - open;
+        
+        console.log('[financialService] box status:', { open, closed, total: bus.length });
+        
+        return {
+            open,
+            closed,
+            total: bus.length
+        };
+    },
+
+    /**
+     * Gets global metrics for a specific date
+     */
+    getGlobalMetricsByDate: async (date) => {
+        console.log('[financialService] getGlobalMetricsByDate called, date:', date);
+        const bus = await businessUnitRepository.getAll();
+        
+        const globalBalance = await cashMovementRepository.getGlobalBalance(date, date);
+        console.log('[financialService] globalBalance for date:', globalBalance);
+
+        const result = {
+            totalSales: globalBalance?.total_credits || 0,
+            totalTickets: globalBalance?.ticket_count || 0,
+            busCount: bus.length
+        };
+        console.log('[financialService] returning metrics by date:', result);
+        return result;
+    },
+
+    /**
+     * Gets box status for a specific date
+     */
+    getBoxStatusByDate: async (date) => {
+        console.log('[financialService] getBoxStatusByDate called, date:', date);
+        const bus = await businessUnitRepository.getAll();
+        
+        // Get movements for specific date per business unit
+        const data = await cashMovementRepository.listAll(1000, 0, date, date);
+        
+        // Group by business unit
+        const unitsWithMovement = new Set((data || []).map(m => m.business_unit_id));
+        
+        const open = unitsWithMovement.size;
+        const closed = bus.length - open;
+        
+        console.log('[financialService] box status by date:', { open, closed, total: bus.length });
+        
+        return {
+            open,
+            closed,
+            total: bus.length
+        };
     }
 };
+
+/**
+ * Helper to get relative time string
+ */
+function getRelativeTime(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffMins < 1) return 'Hace un momento';
+    if (diffMins < 60) return `Hace ${diffMins} min`;
+    if (diffHours < 24) return `Hace ${diffHours}h`;
+    if (diffDays < 7) return `Hace ${diffDays}d`;
+    return date.toLocaleDateString('es-AR');
+}
