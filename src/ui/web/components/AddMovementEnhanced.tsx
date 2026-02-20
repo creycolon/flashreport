@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Platform, Modal, TextInput, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Platform, Modal, TextInput, ScrollView, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Typography, Button, Card } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
@@ -40,13 +40,16 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     onCancel,
 }) => {
     const { colors } = useTheme();
+    const { width: windowWidth } = useWindowDimensions();
+    const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+
     const [type, setType] = React.useState<'CR' | 'DB'>('CR');
     const [categoryId, setCategoryId] = React.useState('');
     const [amount, setAmount] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [selectedBu, setSelectedBu] = React.useState('');
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
-    const [showCategoryDropdown, setShowCategoryDropdown] = React.useState(false);
+    const [showBuModal, setShowBuModal] = React.useState(false);
     const [date, setDate] = React.useState<Date>(new Date());
     const [submitting, setSubmitting] = React.useState(false);
 
@@ -105,20 +108,25 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             borderWidth: 1,
             borderColor: colors.border,
             borderRadius: theme.spacing.borderRadius.xl,
-            padding: theme.spacing.lg,
+            padding: theme.spacing.md,
             flex: 1,
+            ...(isWebDesktop && {
+                maxWidth: Math.round(windowWidth * 0.5),
+                minWidth: 400,
+                alignSelf: 'center',
+            }),
         },
         header: {
-            marginBottom: theme.spacing.lg,
+            marginBottom: theme.spacing.md,
         },
         title: {
             color: colors.text,
-            fontSize: theme.typography.sizes.xl,
+            fontSize: theme.typography.sizes.lg,
             fontWeight: 'bold',
         },
         subtitle: {
             color: colors.textSecondary,
-            fontSize: theme.typography.sizes.sm,
+            fontSize: theme.typography.sizes.xs,
             marginTop: theme.spacing.xs,
         },
         formCard: {
@@ -126,20 +134,22 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             borderWidth: 1,
             borderColor: colors.border,
             borderRadius: theme.spacing.borderRadius.lg,
-            padding: theme.spacing.xl,
+            padding: theme.spacing.md,
         },
         typeSelector: {
             flexDirection: 'row',
-            gap: theme.spacing.md,
-            marginBottom: theme.spacing.lg,
+            gap: theme.spacing.sm,
+            marginBottom: theme.spacing.sm,
         },
         typeButton: {
             flex: 1,
-            padding: theme.spacing.lg,
-            borderRadius: theme.spacing.borderRadius.lg,
+            paddingVertical: theme.spacing.sm,
+            paddingHorizontal: theme.spacing.md,
+            borderRadius: theme.spacing.borderRadius.md,
             borderWidth: 2,
             borderColor: colors.border,
             alignItems: 'center',
+            minHeight: 60,
         },
         typeButtonActiveCredit: {
             borderColor: colors.success,
@@ -150,27 +160,27 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             backgroundColor: colors.danger + '10',
         },
         typeIcon: {
-            marginBottom: theme.spacing.sm,
+            marginBottom: theme.spacing.xs,
         },
         typeLabel: {
-            fontSize: theme.typography.sizes.md,
+            fontSize: theme.typography.sizes.sm,
             fontWeight: 'bold',
         },
         formRow: {
-            marginBottom: theme.spacing.lg,
+            marginBottom: theme.spacing.md,
         },
         label: {
             color: colors.text,
-            fontSize: theme.typography.sizes.sm,
+            fontSize: theme.typography.sizes.xs,
             fontWeight: '600',
-            marginBottom: theme.spacing.sm,
+            marginBottom: theme.spacing.xs,
         },
         input: {
             backgroundColor: colors.background,
             color: colors.text,
-            padding: theme.spacing.md,
-            borderRadius: theme.spacing.borderRadius.md,
-            fontSize: theme.typography.sizes.md,
+            padding: theme.spacing.sm,
+            borderRadius: theme.spacing.borderRadius.sm,
+            fontSize: theme.typography.sizes.sm,
             borderWidth: 1,
             borderColor: colors.border,
         },
@@ -178,15 +188,15 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             backgroundColor: colors.background,
             borderWidth: 1,
             borderColor: colors.border,
-            borderRadius: theme.spacing.borderRadius.md,
-            padding: theme.spacing.md,
+            borderRadius: theme.spacing.borderRadius.sm,
+            padding: theme.spacing.sm,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
         },
         selectorText: {
             color: colors.text,
-            fontSize: theme.typography.sizes.md,
+            fontSize: theme.typography.sizes.sm,
         },
         selectorPlaceholder: {
             color: colors.textMuted,
@@ -201,19 +211,21 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             borderColor: colors.border,
             borderRadius: theme.spacing.borderRadius.md,
             marginTop: theme.spacing.xs,
-            zIndex: 1000,
-            maxHeight: 300,
-            ...(Platform.OS === 'web' && {
-                overflowY: 'auto',
-            }),
+            zIndex: 10001,
+            maxHeight: 200,
+            elevation: 10,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
         },
         dropdownItem: {
-            padding: theme.spacing.md,
+            padding: theme.spacing.sm,
             borderBottomWidth: 1,
             borderBottomColor: colors.border + '30',
             flexDirection: 'row',
             alignItems: 'center',
-            gap: theme.spacing.sm,
+            gap: theme.spacing.xs,
         },
         dropdownItemSelected: {
             backgroundColor: colors.primary + '20',
@@ -226,12 +238,12 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
         categoryChips: {
             flexDirection: 'row',
             flexWrap: 'wrap',
-            gap: theme.spacing.sm,
-            marginTop: theme.spacing.sm,
+            gap: theme.spacing.xs,
+            marginTop: theme.spacing.xs,
         },
         categoryChip: {
-            paddingHorizontal: theme.spacing.md,
-            paddingVertical: theme.spacing.sm,
+            paddingHorizontal: theme.spacing.sm,
+            paddingVertical: theme.spacing.xs,
             borderRadius: theme.spacing.borderRadius.full,
             borderWidth: 1,
             borderColor: colors.border,
@@ -243,7 +255,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
         },
         categoryChipText: {
             color: colors.text,
-            fontSize: theme.typography.sizes.sm,
+            fontSize: theme.typography.sizes.xs,
             fontWeight: '500',
         },
         categoryChipTextActive: {
@@ -255,19 +267,19 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
         },
         amountPrefix: {
             position: 'absolute',
-            left: theme.spacing.md,
-            top: theme.spacing.md,
+            left: theme.spacing.sm,
+            top: theme.spacing.sm,
             color: colors.textSecondary,
-            fontSize: theme.typography.sizes.md,
+            fontSize: theme.typography.sizes.sm,
             fontWeight: 'bold',
         },
         amountInput: {
             backgroundColor: colors.background,
             color: colors.text,
-            padding: theme.spacing.md,
-            paddingLeft: theme.spacing.xl * 2,
-            borderRadius: theme.spacing.borderRadius.md,
-            fontSize: theme.typography.sizes.xl,
+            padding: theme.spacing.sm,
+            paddingLeft: theme.spacing.xl,
+            borderRadius: theme.spacing.borderRadius.sm,
+            fontSize: theme.typography.sizes.lg,
             fontWeight: 'bold',
             borderWidth: 1,
             borderColor: colors.border,
@@ -275,18 +287,18 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
         },
         actions: {
             flexDirection: 'row',
-            gap: theme.spacing.md,
-            marginTop: theme.spacing.xl,
+            gap: theme.spacing.sm,
+            marginTop: theme.spacing.md,
         },
         loadingContainer: {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            padding: theme.spacing.xl,
+            padding: theme.spacing.md,
         },
         formSection: {
-            marginBottom: theme.spacing.xl,
-            paddingBottom: theme.spacing.xl,
+            marginBottom: theme.spacing.md,
+            paddingBottom: theme.spacing.md,
             borderBottomWidth: 1,
             borderBottomColor: colors.border + '30',
         },
@@ -294,6 +306,44 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
             marginBottom: 0,
             paddingBottom: 0,
             borderBottomWidth: 0,
+        },
+        modalOverlay: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 2000,
+        },
+        modalContent: {
+            backgroundColor: colors.surface,
+            borderRadius: theme.spacing.borderRadius.lg,
+            padding: theme.spacing.lg,
+            width: '80%',
+            maxWidth: 400,
+            maxHeight: '60%',
+        },
+        modalTitle: {
+            fontSize: theme.typography.sizes.lg,
+            fontWeight: 'bold',
+            color: colors.text,
+            marginBottom: theme.spacing.md,
+            textAlign: 'center',
+        },
+        modalItem: {
+            padding: theme.spacing.md,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        modalItemText: {
+            fontSize: theme.typography.sizes.md,
+            color: colors.text,
+            marginLeft: theme.spacing.sm,
         },
     });
 
@@ -370,51 +420,31 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
 
                     <View style={styles.formSection}>
                         <Typography style={styles.label}>Local</Typography>
-                        <View style={{ position: 'relative' }}>
+                        <View style={{ position: 'relative', zIndex: Platform.OS !== 'web' ? 10000 : undefined }}>
                             <TouchableOpacity
                                 style={styles.selectorButton}
-                                onPress={() => setShowBuDropdown(!showBuDropdown)}
+                                onPress={() => Platform.OS === 'web' ? setShowBuModal(true) : setShowBuDropdown(!showBuDropdown)}
                             >
                                 {selectedBusinessUnit ? (
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
-                                        <View
-                                            style={[styles.colorIndicator, { backgroundColor: selectedBusinessUnit.color }]}
-                                        />
-                                        <Typography style={styles.selectorText}>
-                                            {selectedBusinessUnit.name}
-                                        </Typography>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs }}>
+                                        <View style={[styles.colorIndicator, { backgroundColor: selectedBusinessUnit.color }]} />
+                                        <Typography style={styles.selectorText}>{selectedBusinessUnit.name}</Typography>
                                     </View>
                                 ) : (
-                                    <Typography style={[styles.selectorText, styles.selectorPlaceholder]}>
-                                        Seleccionar local
-                                    </Typography>
+                                    <Typography style={[styles.selectorText, styles.selectorPlaceholder]}>Seleccionar local</Typography>
                                 )}
-                                <Ionicons
-                                    name={showBuDropdown ? 'chevron-up' : 'chevron-down'}
-                                    size={20}
-                                    color={colors.textSecondary}
-                                />
+                                <Ionicons name="chevron-down" size={16} color={colors.textSecondary} />
                             </TouchableOpacity>
-                            {showBuDropdown && (
+                            {Platform.OS !== 'web' && showBuDropdown && (
                                 <View style={styles.dropdown}>
                                     {businessUnits.map((bu) => (
                                         <TouchableOpacity
                                             key={bu.id}
-                                            style={[
-                                                styles.dropdownItem,
-                                                selectedBu === bu.id && styles.dropdownItemSelected,
-                                            ]}
-                                            onPress={() => {
-                                                setSelectedBu(bu.id);
-                                                setShowBuDropdown(false);
-                                            }}
+                                            style={[styles.dropdownItem, selectedBu === bu.id && styles.dropdownItemSelected]}
+                                            onPress={() => { setSelectedBu(bu.id); setShowBuDropdown(false); }}
                                         >
-                                            <View
-                                                style={[styles.colorIndicator, { backgroundColor: bu.color }]}
-                                            />
-                                            <Typography style={styles.selectorText}>
-                                                {bu.name}
-                                            </Typography>
+                                            <View style={[styles.colorIndicator, { backgroundColor: bu.color }]} />
+                                            <Typography style={styles.selectorText}>{bu.name}</Typography>
                                         </TouchableOpacity>
                                     ))}
                                 </View>
@@ -516,6 +546,38 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                     </View>
                 </View>
             </ScrollView>
+
+            {/* Modal para seleccionar negocio en web */}
+            {Platform.OS === 'web' && showBuModal && (
+                <TouchableOpacity 
+                    style={styles.modalOverlay} 
+                    activeOpacity={1}
+                    onPress={() => setShowBuModal(false)}
+                >
+                    <TouchableOpacity 
+                        style={styles.modalContent} 
+                        activeOpacity={1}
+                        onPress={(e) => e.stopPropagation()}
+                    >
+                        <Typography style={styles.modalTitle}>Seleccionar Local</Typography>
+                        <ScrollView style={{ maxHeight: 300 }}>
+                            {businessUnits.map((bu) => (
+                                <TouchableOpacity
+                                    key={bu.id}
+                                    style={[styles.modalItem, selectedBu === bu.id && styles.dropdownItemSelected]}
+                                    onPress={() => {
+                                        setSelectedBu(bu.id);
+                                        setShowBuModal(false);
+                                    }}
+                                >
+                                    <View style={[styles.colorIndicator, { backgroundColor: bu.color }]} />
+                                    <Typography style={styles.modalItemText}>{bu.name}</Typography>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </TouchableOpacity>
+                </TouchableOpacity>
+            )}
         </View>
     );
 };
