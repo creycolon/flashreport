@@ -82,6 +82,16 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         onDateFilterChange?.(filter);
     };
 
+    const getPeriodLabel = () => {
+        const now = new Date();
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        
+        if (selectedDateFilter === '7d') return 'Última Semana';
+        if (selectedDateFilter === '30d') return `Mes de ${monthNames[now.getMonth()]}`;
+        if (selectedDateFilter === 'all') return `Año ${now.getFullYear()}`;
+        return 'Últimos 7 días';
+    };
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -771,7 +781,8 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                     {/* Chart & Activity Section - shared component with filters */}
                     <ChartAndActivitySection
                         chartTitle="Reportes Generados"
-                        chartSubtitle={getSelectedBuName()}
+                        chartSubtitle={getPeriodLabel()}
+                        periodLabel={getPeriodLabel()}
                         chartData={chartData}
                         activityTitle="Actividad Reciente"
                         activityItems={activityItems}

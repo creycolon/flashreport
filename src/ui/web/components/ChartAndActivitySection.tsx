@@ -24,6 +24,7 @@ export interface FilterOption {
 export interface ChartAndActivityProps {
     chartTitle: string;
     chartSubtitle?: string;
+    periodLabel?: string;
     chartData: ChartData;
     activityTitle: string;
     activityItems: ActivityItem[];
@@ -37,6 +38,7 @@ export interface ChartAndActivityProps {
 export const ChartAndActivitySection: React.FC<ChartAndActivityProps> = ({
     chartTitle,
     chartSubtitle,
+    periodLabel,
     chartData,
     activityTitle,
     activityItems,
@@ -98,6 +100,8 @@ export const ChartAndActivitySection: React.FC<ChartAndActivityProps> = ({
                     <ChartContainerEnhanced
                         title={chartTitle}
                         subtitle={getDynamicSubtitle()}
+                        periodLabel={periodLabel}
+                        showPeriodSelector={!!periodLabel}
                         chartData={chartData}
                         height={chartHeight}
                     />

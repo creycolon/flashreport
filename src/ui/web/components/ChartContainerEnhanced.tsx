@@ -11,6 +11,7 @@ export interface ChartContainerEnhancedProps {
     periodLabel?: string;
     periodOptions?: Array<{ label: string; value: string }>;
     onPeriodChange?: (period: string) => void;
+    showPeriodSelector?: boolean;
     chartData: {
         labels: string[];
         series: Array<{
@@ -35,6 +36,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     periodLabel,
     periodOptions = defaultPeriodOptions,
     onPeriodChange,
+    showPeriodSelector = true,
     chartData,
     height = 300,
 }) => {
@@ -144,7 +146,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                         </Typography>
                     )}
                 </View>
-                {Platform.OS === 'web' && (
+                {Platform.OS === 'web' && showPeriodSelector && (
                     <View style={styles.periodSelector}>
                         <Typography style={styles.periodText}>
                             {periodLabel || periodOptions.find(opt => opt.value === selectedPeriod)?.label}
