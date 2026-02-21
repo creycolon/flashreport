@@ -191,6 +191,7 @@ export const MovementsListScreen = () => {
                     (cashMovementRepository as any).listAll(300, 0, start, end),
                     (cashMovementRepository as any).getGlobalBalance(start, end)
                 ]);
+                console.log('[MovementsList] FIRST MOVEMENT:', list?.[0]);
                 // Debug: console.log('[MovementsList] listAll result:', list?.length, 'movements');
                 // Debug: console.log('[MovementsList] balance result:', balance);
                 setMovements(list || []);
@@ -267,13 +268,21 @@ export const MovementsListScreen = () => {
         const isCredit = item.type === 'CR';
         const isLastInBu = item.id === lastMovementId;
         const isEditable = selectedBu === 'all'
-            ? item.id === movements[0]?.id // In "All" view, only the first one (most recent) is deletable
+            ? item.id === movements[0]?.id
             : isLastInBu;
 
         // Usar color del negocio si está disponible
         const selectedColor = getSelectedBuColor();
-        console.log('[MovementsList] item:', item.id, 'bu_color:', item.bu_color, 'isCredit:', isCredit);
-        const itemColor = selectedColor || item.bu_color || (isCredit ? colors.success : colors.danger);
+        
+        // Si selectedBu no es 'all', usar ese color; si es 'all', usar el color del movimiento
+        let itemColor: string;
+        if (selectedBu !== 'all' && selectedColor) {
+            itemColor = selectedColor;
+        } else if (item.bu_color) {
+            itemColor = item.bu_color;
+        } else {
+            itemColor = isCredit ? colors.success : colors.danger;
+        }
 
         return (
             <Card variant="outline" style={styles.itemCard}>
@@ -281,12 +290,10 @@ export const MovementsListScreen = () => {
                 <View style={styles.itemContent}>
                     <View style={styles.itemHeader}>
                         <View>
-                            <Typography weight="bold">{item.category_name || ''}</Typography>
-                            {selectedBu === 'all' && (
-                                <Typography variant="caption" style={{ color: item.bu_color || colors.textSecondary }}>
-                                    {truncateName(item.bu_name)}
-                                </Typography>
-                            )}
+                            <Typography weight="bold">{item.category_name || ''} [{item.bu_color || 'SIN COLOR'}]</Typography>
+                            <Typography variant="caption" style={{ color: colors.textSecondary }}>
+                                {truncateName(item.bu_name)}
+                            </Typography>
                         </View>
                         <Typography color={isCredit ? colors.success : colors.danger} weight="bold">
                             {isCredit ? '+' : '-'}{formatCurrency(item.amount)}

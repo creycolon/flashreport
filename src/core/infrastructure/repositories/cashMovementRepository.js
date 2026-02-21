@@ -80,7 +80,8 @@ export const cashMovementRepository = {
             .from('cash_movements')
             .select(`
                 *,
-                movement_categories!inner(name, code)
+                movement_categories!inner(name, code),
+                business_units!inner(name, color)
             `)
             .eq('business_unit_id', businessUnitId)
             .eq('is_active', true);
@@ -108,7 +109,9 @@ export const cashMovementRepository = {
         return data.map(item => ({
             ...item,
             category_name: item.movement_categories?.name,
-            category_code: item.movement_categories?.code
+            category_code: item.movement_categories?.code,
+            bu_name: item.business_units?.name,
+            bu_color: item.business_units?.color
         }));
     },
 
