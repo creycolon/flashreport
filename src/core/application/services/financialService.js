@@ -223,6 +223,7 @@ export const financialService = {
                 time: movDate.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: '2-digit' }),
                 icon: isCredit ? 'trending-up' : 'trending-down',
                 type: isCredit ? 'revenue' : 'expense',
+                businessUnitColor: bu?.color || null,
             };
         });
         

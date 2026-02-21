@@ -544,7 +544,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                 time: times[index % times.length],
                 icon: 'trending-up' as const,
                 type: 'revenue' as const,
-                color: bu.color, // Pass business unit color
+                businessUnitColor: bu.color, // Pass business unit color
             };
         });
     };

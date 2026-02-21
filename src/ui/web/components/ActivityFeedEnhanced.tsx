@@ -16,6 +16,7 @@ export interface ActivityItem {
     time: string;
     icon: React.ComponentProps<typeof Ionicons>['name'];
     type: ActivityType;
+    businessUnitColor?: string;
 }
 
 export interface ActivityFeedEnhancedProps {
@@ -174,14 +175,18 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
                     const activityColors = getActivityColors(item.type, colors);
                     const amountColor = item.amountType ? getAmountColor(item.amountType, colors) : colors.text;
                     
+                    // Usar color del negocio si está disponible, si no usar el color por tipo
+                    const iconColor = item.businessUnitColor || activityColors.icon;
+                    const iconBgColor = item.businessUnitColor ? item.businessUnitColor + '20' : activityColors.background;
+                    
                     return (
                         <TouchableOpacity
                             key={item.id}
                             style={styles.activityItem}
                             activeOpacity={0.7}
                         >
-                            <View style={[styles.iconContainer, { backgroundColor: activityColors.background }]}>
-                                <Ionicons name={item.icon} size={20} color={activityColors.icon} />
+                            <View style={[styles.iconContainer, { backgroundColor: iconBgColor }]}>
+                                <Ionicons name={item.icon} size={20} color={iconColor} />
                             </View>
                             <View style={styles.content}>
                                 <Typography style={styles.activityTitle}>
