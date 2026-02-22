@@ -28,24 +28,24 @@ export const seedInitialData = async (db) => {
             );
         }
 
-         // 2. Seed Movement Categories
-         const categories = [
-             { id: 'cat1', code: 'CIERRE_CAJA', name: 'Cierre de Caja', type: 'CR', desc: 'Ingreso operativo por ventas' },
-             { id: 'cat2', code: 'GASTO_OPERATIVO', name: 'Gasto Operativo', type: 'DB', desc: 'Gastos de local' },
-             { id: 'cat3', code: 'RETIRO_SOCIO', name: 'Retiro de Socio', type: 'DB', desc: 'Retiro de fondos por socio' },
-             { id: 'cat4', code: 'DISTRIBUCION', name: 'Distribución de Utilidades', type: 'DB', desc: 'Reparto trimestral/semestral' },
-             { id: 'cat5', code: 'AJUSTE', name: 'Ajuste de Saldo', type: 'BOTH', desc: 'Correcciones administrativas' },
-         ];
+        // 2. Seed Movement Categories
+        const categories = [
+            { id: 'cat1', code: 'CIERRE_CAJA', name: 'Cierre de Caja', type: 'CR', desc: 'Ingreso operativo por ventas' },
+            { id: 'cat2', code: 'GASTO_OPERATIVO', name: 'Gasto Operativo', type: 'DB', desc: 'Gastos de local' },
+            { id: 'cat3', code: 'RETIRO_SOCIO', name: 'Retiro de Socio', type: 'DB', desc: 'Retiro de fondos por socio' },
+            { id: 'cat4', code: 'DISTRIBUCION', name: 'Distribución de Utilidades', type: 'DB', desc: 'Reparto trimestral/semestral' },
+            { id: 'cat5', code: 'AJUSTE', name: 'Ajuste de Saldo', type: 'BOTH', desc: 'Correcciones administrativas' },
+        ];
 
-         console.log('[Seed] Inserting movement categories...');
-         for (const c of categories) {
-             console.log(`[Seed] Category: ${c.code} (${c.name}) type=${c.type}`);
-             await db.runAsync(
-                 `INSERT OR REPLACE INTO movement_categories (id, code, name, type, description) VALUES (?, ?, ?, ?, ?)`,
-                 [c.id, c.code, c.name, c.type, c.desc]
-             );
-         }
-         console.log('[Seed] Categories inserted.');
+        console.log('[Seed] Inserting movement categories...');
+        for (const c of categories) {
+            console.log(`[Seed] Category: ${c.code} (${c.name}) type=${c.type}`);
+            await db.runAsync(
+                `INSERT OR REPLACE INTO movement_categories (id, code, name, type, description) VALUES (?, ?, ?, ?, ?)`,
+                [c.id, c.code, c.name, c.type, c.desc]
+            );
+        }
+        console.log('[Seed] Categories inserted.');
 
         // 3. Seed Business Units
         const units = [
@@ -58,6 +58,12 @@ export const seedInitialData = async (db) => {
             await db.runAsync(
                 `INSERT OR REPLACE INTO business_units (id, name, color, display_order) VALUES (?, ?, ?, ?)`,
                 [u.id, u.name, u.color, u.order]
+            );
+
+            // Seed default POS for each unit
+            await db.runAsync(
+                `INSERT OR REPLACE INTO points_of_sale (business_unit_id, name, fiscal_id) VALUES (?, ?, ?)`,
+                [u.id, `${u.name} POS 1`, 'Identificacion Fiscal']
             );
         }
 

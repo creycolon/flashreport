@@ -63,6 +63,17 @@ CREATE TABLE IF NOT EXISTS movement_categories (
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 5b. Points of Sale
+CREATE TABLE IF NOT EXISTS points_of_sale (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    business_unit_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    fiscal_id TEXT DEFAULT 'Identificacion Fiscal',
+    is_active INTEGER DEFAULT 1 CHECK (is_active IN (0, 1)),
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (business_unit_id) REFERENCES business_units(id)
+);
+
 -- 6. Cash Movements
 CREATE TABLE IF NOT EXISTS cash_movements (
     id TEXT PRIMARY KEY,
@@ -75,6 +86,7 @@ CREATE TABLE IF NOT EXISTS cash_movements (
     reference_id TEXT,
     partner_account_id TEXT,
     created_by TEXT,
+    point_of_sale_id INTEGER,
     is_active INTEGER DEFAULT 1 CHECK (is_active IN (0, 1)),
     closed_period TEXT,
     sequence_number INTEGER,
@@ -82,7 +94,8 @@ CREATE TABLE IF NOT EXISTS cash_movements (
     FOREIGN KEY (business_unit_id) REFERENCES business_units(id),
     FOREIGN KEY (category_id) REFERENCES movement_categories(id),
     FOREIGN KEY (partner_account_id) REFERENCES partner_accounts(id),
-    FOREIGN KEY (created_by) REFERENCES partners(id)
+    FOREIGN KEY (created_by) REFERENCES partners(id),
+    FOREIGN KEY (point_of_sale_id) REFERENCES points_of_sale(id)
 );
 
 -- 7. App Configuration

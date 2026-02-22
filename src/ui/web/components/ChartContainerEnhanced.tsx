@@ -42,6 +42,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
 }) => {
     const { colors } = useTheme();
     const { width: windowWidth } = useWindowDimensions();
+    const [containerWidth, setContainerWidth] = useState(0);
     const [selectedPeriod, setSelectedPeriod] = useState(periodOptions[0].value);
 
     const handlePeriodChange = (value: string) => {
@@ -51,7 +52,14 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
         }
     };
 
-    const chartWidth = windowWidth >= 1024 ? windowWidth - 500 : windowWidth - 48;
+    const handleLayout = (event: any) => {
+        const { width } = event.nativeEvent.layout;
+        setContainerWidth(width);
+    };
+
+    // Calculate chart width based on actual container size
+    // Subtract padding (lg = 16px * 2 = 32px)
+    const chartWidth = containerWidth > 32 ? containerWidth - 32 : (windowWidth >= 1024 ? windowWidth - 500 : windowWidth - 48);
 
     const styles = StyleSheet.create({
         container: {
@@ -134,7 +142,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     const xAxisLabels = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={handleLayout}>
             <View style={styles.header}>
                 <View style={styles.titleContainer}>
                     <Typography style={styles.title}>
@@ -163,7 +171,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                     width={chartWidth}
                     interactive={Platform.OS === 'web'}
                 />
-                
+
                 {/* Custom x-axis labels for web */}
                 {Platform.OS === 'web' && chartData.labels.length === 0 && (
                     <View style={styles.xAxisLabels}>

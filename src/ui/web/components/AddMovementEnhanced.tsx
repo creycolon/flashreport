@@ -4,15 +4,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Button, Card } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { pointOfSaleRepository } from '@core/infrastructure/repositories/pointOfSaleRepository';
 
 export interface BusinessUnitOption {
-    id: string;
+    id: string | number;
     name: string;
     color: string;
 }
 
 export interface Category {
-    id: string;
+    id: string | number;
     name: string;
     type: 'CR' | 'DB';
 }
@@ -22,12 +23,13 @@ export interface AddMovementEnhancedProps {
     categories: Category[];
     loading?: boolean;
     onSubmit?: (movement: {
-        businessUnitId: string;
+        businessUnitId: string | number;
         type: 'CR' | 'DB';
-        categoryId: string;
+        categoryId: string | number;
         amount: number;
         description: string;
         date: Date;
+        pointOfSaleId?: number;
     }) => Promise<void> | void;
     onCancel?: () => void;
 }
@@ -44,20 +46,50 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
 
     const [type, setType] = React.useState<'CR' | 'DB'>('CR');
-    const [categoryId, setCategoryId] = React.useState('');
+    const [categoryId, setCategoryId] = React.useState<string | number>('');
     const [amount, setAmount] = React.useState('');
     const [description, setDescription] = React.useState('');
-    const [selectedBu, setSelectedBu] = React.useState('');
+    const [selectedBu, setSelectedBu] = React.useState<string | number>('');
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
     const [showBuModal, setShowBuModal] = React.useState(false);
     const [date, setDate] = React.useState<Date>(new Date());
     const [submitting, setSubmitting] = React.useState(false);
+    const [pointsOfSale, setPointsOfSale] = React.useState<any[]>([]);
+    const [selectedPos, setSelectedPos] = React.useState<number | ''>('');
+    const [showPosModal, setShowPosModal] = React.useState(false);
+    const dateInputRef = React.useRef<any>(null);
+
+    const handleWebDateChange = (e: any) => {
+        const val = e.target.value;
+        if (val) {
+            setDate(new Date(val));
+        }
+    };
 
     React.useEffect(() => {
         if (businessUnits.length > 0 && !selectedBu) {
             setSelectedBu(businessUnits[0].id);
         }
     }, [businessUnits]);
+
+    React.useEffect(() => {
+        const loadPOS = async () => {
+            if (selectedBu) {
+                try {
+                    const posList = await pointOfSaleRepository.listByBusinessUnit(selectedBu);
+                    setPointsOfSale(posList);
+                    if (posList.length > 0) {
+                        setSelectedPos(posList[0].id);
+                    } else {
+                        setSelectedPos('');
+                    }
+                } catch (error) {
+                    console.error('Error loading POS:', error);
+                }
+            }
+        };
+        loadPOS();
+    }, [selectedBu]);
 
     React.useEffect(() => {
         const filteredCategories = categories.filter(cat => cat.type === type);
@@ -78,14 +110,22 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
         }
 
         setSubmitting(true);
+        let finalDescription = description.trim();
+        if (!finalDescription) {
+            const buName = businessUnits.find(b => b.id === selectedBu)?.name || 'Local';
+            const catName = categories.find(c => c.id === categoryId)?.name || 'Movimiento';
+            finalDescription = `${catName} del día - ${buName}`;
+        }
+
         try {
             await onSubmit?.({
                 businessUnitId: selectedBu,
                 type,
                 categoryId,
                 amount: amountNum,
-                description,
+                description: finalDescription,
                 date,
+                pointOfSaleId: selectedPos || undefined,
             });
             // Reset form
             setAmount('');
@@ -453,6 +493,31 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                     </View>
 
                     <View style={styles.formSection}>
+                        <Typography style={styles.label}>Punto de Venta</Typography>
+                        <View style={{ position: 'relative' }}>
+                            <TouchableOpacity
+                                style={styles.selectorButton}
+                                onPress={() => setShowPosModal(true)}
+                                disabled={!selectedBu || pointsOfSale.length === 0}
+                            >
+                                {selectedPos ? (
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs }}>
+                                        <Ionicons name="storefront-outline" size={16} color={colors.primary} />
+                                        <Typography style={styles.selectorText}>
+                                            {pointsOfSale.find(p => p.id === selectedPos)?.name || 'Seleccionar POS'}
+                                        </Typography>
+                                    </View>
+                                ) : (
+                                    <Typography style={[styles.selectorText, styles.selectorPlaceholder]}>
+                                        {pointsOfSale.length === 0 ? 'No hay POS configurados' : 'Seleccionar punto de venta'}
+                                    </Typography>
+                                )}
+                                <Ionicons name="chevron-down" size={16} color={colors.textSecondary} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View style={styles.formSection}>
                         <Typography style={styles.label}>Categoría</Typography>
                         <View style={styles.categoryChips}>
                             {filteredCategories.map((cat) => (
@@ -507,12 +572,31 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
 
                     <View style={styles.lastSection}>
                         <Typography style={styles.label}>Fecha y Hora</Typography>
+                        {Platform.OS === 'web' && (
+                            <input
+                                type="datetime-local"
+                                ref={dateInputRef}
+                                style={{
+                                    position: 'absolute',
+                                    opacity: 0,
+                                    width: 0,
+                                    height: 0,
+                                    zIndex: -1,
+                                }}
+                                value={date.toISOString().slice(0, 16)}
+                                onChange={handleWebDateChange}
+                            />
+                        )}
                         <TouchableOpacity
                             style={styles.selectorButton}
                             onPress={() => {
-                                // In a real app, show date picker
-                                const newDate = new Date();
-                                setDate(newDate);
+                                if (Platform.OS === 'web') {
+                                    dateInputRef.current?.showPicker?.() || dateInputRef.current?.click();
+                                } else {
+                                    // Fallback if needed, though mobile uses AddMovementScreen
+                                    const newDate = new Date();
+                                    setDate(newDate);
+                                }
                             }}
                         >
                             <Typography style={styles.selectorText}>
@@ -549,13 +633,13 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
 
             {/* Modal para seleccionar negocio en web */}
             {Platform.OS === 'web' && showBuModal && (
-                <TouchableOpacity 
-                    style={styles.modalOverlay} 
+                <TouchableOpacity
+                    style={styles.modalOverlay}
                     activeOpacity={1}
                     onPress={() => setShowBuModal(false)}
                 >
-                    <TouchableOpacity 
-                        style={styles.modalContent} 
+                    <TouchableOpacity
+                        style={styles.modalContent}
                         activeOpacity={1}
                         onPress={(e) => e.stopPropagation()}
                     >
@@ -572,6 +656,37 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                                 >
                                     <View style={[styles.colorIndicator, { backgroundColor: bu.color }]} />
                                     <Typography style={styles.modalItemText}>{bu.name}</Typography>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </TouchableOpacity>
+                </TouchableOpacity>
+            )}
+            {/* Modal para seleccionar punto de venta en web */}
+            {Platform.OS === 'web' && showPosModal && (
+                <TouchableOpacity
+                    style={styles.modalOverlay}
+                    activeOpacity={1}
+                    onPress={() => setShowPosModal(false)}
+                >
+                    <TouchableOpacity
+                        style={styles.modalContent}
+                        activeOpacity={1}
+                        onPress={(e) => e.stopPropagation()}
+                    >
+                        <Typography style={styles.modalTitle}>Seleccionar Punto de Venta</Typography>
+                        <ScrollView style={{ maxHeight: 300 }}>
+                            {pointsOfSale.map((pos) => (
+                                <TouchableOpacity
+                                    key={pos.id}
+                                    style={[styles.modalItem, selectedPos === pos.id && styles.dropdownItemSelected]}
+                                    onPress={() => {
+                                        setSelectedPos(pos.id);
+                                        setShowPosModal(false);
+                                    }}
+                                >
+                                    <Ionicons name="storefront-outline" size={20} color={colors.primary} />
+                                    <Typography style={styles.modalItemText}>{pos.name}</Typography>
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>

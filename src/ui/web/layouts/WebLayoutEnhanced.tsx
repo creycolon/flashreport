@@ -14,6 +14,8 @@ import { AddMovementEnhanced } from '../components/AddMovementEnhanced';
 import { businessUnitRepository } from '../../../core/infrastructure/repositories/businessUnitRepository';
 import { categoryRepository } from '../../../core/infrastructure/repositories/categoryRepository';
 import { cashMovementRepository } from '../../../core/infrastructure/repositories/cashMovementRepository';
+import { partnerRepository } from '../../../core/infrastructure/repositories/partnerRepository';
+import { managingPartnerService } from '../../../core/application/services/managingPartnerService';
 import { useState, useEffect } from 'react';
 
 export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRoute?: string }> = ({ children, activeRoute }) => {
@@ -26,6 +28,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
     // AddMovementEnhanced data
     const [businessUnits, setBusinessUnits] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
+    const [currentPartnerId, setCurrentPartnerId] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -34,12 +37,24 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
 
     const loadData = async () => {
         try {
-            const [bus, cats] = await Promise.all([
+            const [bus, cats, partner, allPartners] = await Promise.all([
                 businessUnitRepository.getAll(),
-                categoryRepository.getAll()
+                categoryRepository.getAll(),
+                managingPartnerService.getCurrentManagingPartner(),
+                partnerRepository.getAll()
             ]);
             setBusinessUnits(bus || []);
             setCategories(cats || []);
+
+            // Set current partner with fallback
+            if (partner) {
+                setCurrentPartnerId(partner.id);
+            } else if (allPartners && allPartners.length > 0) {
+                setCurrentPartnerId(allPartners[0].id);
+                console.log(`[WebLayout] No managing partner, fallback to: ${allPartners[0].name}`);
+            } else {
+                setCurrentPartnerId(null);
+            }
         } catch (error) {
             console.error('Error loading data for AddMovementEnhanced:', error);
         } finally {
@@ -53,9 +68,9 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
             type: movement.type,
             categoryId: movement.categoryId,
             amount: movement.amount,
-            description: movement.description,
+            description: movement.description.trim(),
             date: movement.date.toISOString(),
-            createdBy: 'p1',
+            createdBy: currentPartnerId || null,
         });
     };
 

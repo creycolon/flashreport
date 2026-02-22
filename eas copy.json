@@ -28,7 +28,7 @@
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "app-bnundle"
       },
       "ios": {
         "enterpriseProvisioning": "universal"

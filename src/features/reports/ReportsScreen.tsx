@@ -6,8 +6,10 @@ import { theme } from '@ui/shared/theme';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
+import { configRepository } from '@core/infrastructure/repositories/configRepository';
 import { reportService } from '@core/application/services/reportService';
 import { ReportsEnhanced } from '@ui/web/components';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
 
 export const ReportsScreen = () => {
     const [bus, setBus] = useState<any[]>([]);
@@ -15,6 +17,7 @@ export const ReportsScreen = () => {
     const [loading, setLoading] = useState(false);
     const [dateFilter, setDateFilter] = useState('7d');
     const [showDropdown, setShowDropdown] = useState(false);
+    const [businessLabel, setBusinessLabel] = useState('Local');
     const { colors } = useTheme();
     const { width: windowWidth } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
@@ -29,15 +32,15 @@ export const ReportsScreen = () => {
         buChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: colors.border },
         activeChip: { backgroundColor: colors.primary, borderColor: colors.primary },
         divider: { height: 1, backgroundColor: colors.border, marginVertical: 10 },
-        buSelectorRow: { 
-            marginBottom: theme.spacing.md, 
+        buSelectorRow: {
+            marginBottom: theme.spacing.md,
             position: 'relative',
             zIndex: Platform.OS === 'web' ? 10000 : 1,
             overflow: 'visible',
         },
-        buSelectorButtonPrimary: { 
-            flexDirection: 'row', 
-            alignItems: 'center', 
+        buSelectorButtonPrimary: {
+            flexDirection: 'row',
+            alignItems: 'center',
             backgroundColor: colors.primary + '08',
             borderWidth: 2,
             borderColor: colors.primary + '40',
@@ -70,17 +73,17 @@ export const ReportsScreen = () => {
             }),
             zIndex: 10001,
         },
-        dropdownHeader: { 
-            paddingVertical: 10, 
-            paddingHorizontal: 16, 
-            borderBottomWidth: 1, 
+        dropdownHeader: {
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            borderBottomWidth: 1,
             borderBottomColor: colors.primary + '40',
             backgroundColor: colors.primary + '20',
         },
-        dropdownOption: { 
-            paddingVertical: 12, 
-            paddingHorizontal: 16, 
-            borderBottomWidth: 1, 
+        dropdownOption: {
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            borderBottomWidth: 1,
             borderBottomColor: colors.border,
             flexDirection: 'row',
             alignItems: 'center',
@@ -93,12 +96,15 @@ export const ReportsScreen = () => {
     const loadBus = useCallback(async () => {
         const data = await businessUnitRepository.getAll();
         setBus(data);
+
+        const label = await (configRepository as any).get('default_business', 'Local');
+        setBusinessLabel(label);
     }, []);
 
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
         const bu = bus.find(b => b.id === selectedBu);
-        return bu ? bu.name : 'Local no encontrado';
+        return bu ? bu.name : `${businessLabel} no encontrado`;
     };
 
     const getSelectedBu = () => {
@@ -172,6 +178,7 @@ export const ReportsScreen = () => {
                 onGenerateReport={handleGenerateEnhancedReport}
                 onExportReport={handleExportReport}
                 onViewAuditLog={handleViewAuditLog}
+                businessLabel={businessLabel}
             />
         );
     }
@@ -187,10 +194,10 @@ export const ReportsScreen = () => {
                 </View>
 
                 <Card variant="flat" style={styles.reportCard}>
-                    <Typography variant="label">🏪 Unidad de Negocio</Typography>
+                    <Typography variant="label">🏪 {businessLabel}</Typography>
                     <Typography variant="caption" color={colors.textMuted} style={{ marginBottom: 8 }}>Selecciona el destino</Typography>
                     <View style={styles.buSelectorRow}>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.buSelectorButtonPrimary}
                             onPress={() => setShowDropdown(!showDropdown)}
                         >
@@ -202,18 +209,18 @@ export const ReportsScreen = () => {
                             </Typography>
                             <Ionicons name={showDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.textSecondary} style={styles.buSelectorIcon} />
                         </TouchableOpacity>
-                        
+
                         {showDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
+                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar {businessLabel}</Typography>
                                 </View>
                                 <TouchableOpacity
                                     style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
                                     onPress={() => handleSelectBu('all')}
                                 >
                                     <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
-                                    <Typography style={styles.dropdownOptionText}>Todos los locales</Typography>
+                                    <Typography style={styles.dropdownOptionText}>Todos los {pluralizeSpanish(businessLabel)}</Typography>
                                 </TouchableOpacity>
                                 {bus.map(bu => (
                                     <TouchableOpacity
@@ -244,7 +251,7 @@ export const ReportsScreen = () => {
                             >
                                 <Typography
                                     variant="caption"
-                                     color={dateFilter === f ? colors.text : colors.textSecondary}
+                                    color={dateFilter === f ? colors.text : colors.textSecondary}
                                     weight="bold"
                                 >
                                     {f === 'hoy' ? 'Hoy' : f === '7d' ? 'Últ. 7 días' : f === '30d' ? 'Últ. 30 días' : 'Histórico'}
@@ -257,7 +264,7 @@ export const ReportsScreen = () => {
 
                     <Typography variant="h3" style={{ marginBottom: 10 }}>Cierre de Movimientos</Typography>
                     <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 20 }}>
-                        Este reporte incluye los créditos y débitos del local y rango seleccionados.
+                        Este reporte incluye los créditos y débitos del {businessLabel.toLowerCase()} y rango seleccionados.
                     </Typography>
 
                     <Button

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, StyleSheet, useWindowDimensions, Platform } from 'react-native';
-import Svg, { Polyline, Circle, G, Text as SvgText, Path, Line } from 'react-native-svg';
+import Svg, { Polyline, Circle, G, Text as SvgText, Path, Line, Defs, ClipPath, Rect } from 'react-native-svg';
 import { theme } from '@ui/shared/theme';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 
@@ -178,7 +178,7 @@ const ChartContent = ({
         series.forEach((s, idx) => {
             const value = s.data[selectedIndex] || 0;
             const y = scaleY(value);
-            
+
             elements.push(
                 <Circle
                     key={`tooltip-circle-${s.id}`}
@@ -238,6 +238,17 @@ const ChartContent = ({
 
     return (
         <Svg height={chartHeight + 20} width={chartWidth}>
+            <Defs>
+                <ClipPath id="chartArea">
+                    <Rect
+                        x={paddingLeft}
+                        y={paddingTop}
+                        width={drawableWidth}
+                        height={drawableHeight}
+                    />
+                </ClipPath>
+            </Defs>
+
             {renderLevels.map((val) => {
                 const y = scaleY(val);
                 return (
@@ -261,7 +272,10 @@ const ChartContent = ({
                 );
             })}
 
-            {renderSeries}
+            <G clipPath="url(#chartArea)">
+                {renderSeries}
+            </G>
+
             {renderInteractiveElements}
 
             {labels.map((label: string, idx: number) => {
@@ -300,15 +314,15 @@ const ChartContent = ({
 const MobileChart = (props: LineChartProps & { chartWidth: number; chartHeight: number; colors: any }) => {
     const { labels, series, chartWidth, chartHeight, colors, interactive, onPointSelect } = props;
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-    
+
     // Usar require dentro del componente para evitar errores en web
     let Gesture, GestureDetector, useSharedValue, useAnimatedStyle, withSpring, Animated;
-    
+
     try {
         ({ Gesture, GestureDetector } = require('react-native-gesture-handler'));
         ({ useSharedValue, useAnimatedStyle, withSpring } = require('react-native-reanimated'));
         Animated = require('react-native-reanimated').default;
-        
+
         // Check if required functions are available
         if (!Gesture || !GestureDetector || !useSharedValue || !useAnimatedStyle || !withSpring || !Animated) {
             throw new Error('Gesture libraries not fully available');
@@ -402,7 +416,7 @@ const MobileChart = (props: LineChartProps & { chartWidth: number; chartHeight: 
 
     return (
         <GestureDetector gesture={gesture}>
-            <View 
+            <View
                 style={[styles.container, { height: chartHeight + 40, width: chartWidth }]}
                 onStartShouldSetResponder={interactive ? () => true : undefined}
                 onMoveShouldSetResponder={interactive ? () => true : undefined}
@@ -453,7 +467,7 @@ const WebChart = (props: LineChartProps & { chartWidth: number; chartHeight: num
     };
 
     return (
-        <View 
+        <View
             style={[styles.container, { height: chartHeight + 40, width: chartWidth }]}
             onStartShouldSetResponder={interactive ? () => true : undefined}
             onMoveShouldSetResponder={interactive ? () => true : undefined}
@@ -474,14 +488,14 @@ const WebChart = (props: LineChartProps & { chartWidth: number; chartHeight: num
     );
 };
 
-export const LineChart = ({ 
-    labels, 
-    series, 
-    height = 200, 
-    width: propWidth, 
+export const LineChart = ({
+    labels,
+    series,
+    height = 200,
+    width: propWidth,
     allowZoom = true,
     interactive = false,
-    onPointSelect 
+    onPointSelect
 }: LineChartProps) => {
     const { width: windowWidth } = useWindowDimensions();
     const { colors } = useTheme();

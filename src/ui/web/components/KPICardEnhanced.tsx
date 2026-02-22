@@ -69,12 +69,12 @@ export const KPICardEnhanced: React.FC<KPICardEnhancedProps> = ({
     onPress,
 }) => {
     const { colors } = useTheme();
-    
+
     const trendColors = trend ? getTrendColors(trend.type, colors) : undefined;
     const statusColors = status ? getTrendColors(status.type, colors) : undefined;
-    
+
     const Container = onPress ? TouchableOpacity : View;
-    
+
     const styles = StyleSheet.create({
         container: {
             backgroundColor: colors.surface,
@@ -122,7 +122,7 @@ export const KPICardEnhanced: React.FC<KPICardEnhancedProps> = ({
             color: colors.text,
             fontSize: theme.typography.sizes.xl,
             fontWeight: '900',
-            lineHeight: 1.2,
+            lineHeight: theme.typography.sizes.xl * 1.2,
             marginBottom: theme.spacing.md,
         },
         subtitle: {
@@ -131,13 +131,13 @@ export const KPICardEnhanced: React.FC<KPICardEnhancedProps> = ({
             fontWeight: '500',
         },
     });
-    
+
     const webStyles = Platform.OS === 'web' ? {
         containerHover: {
             borderColor: colors.primary + '80',
         }
     } : {};
-    
+
     return (
         <Container
             style={styles.container}
@@ -171,15 +171,15 @@ export const KPICardEnhanced: React.FC<KPICardEnhancedProps> = ({
                     </View>
                 )}
             </View>
-            
+
             <Typography style={styles.title}>
                 {title}
             </Typography>
-            
+
             <Typography style={styles.value}>
                 {value}
             </Typography>
-            
+
             {subtitle && (
                 <Typography style={styles.subtitle}>
                     {subtitle}

@@ -27,10 +27,19 @@ const defaultStorage = {
     { id: 'cat2', name: 'Gastos Generales', type: 'DB' },
     { id: 'cat3', name: 'Retiros', type: 'DB' }
   ],
+  points_of_sale: [
+    { id: 1, business_unit_id: 'bu1', name: 'MCMXII POS 1', fiscal_id: 'Identificacion Fiscal', is_active: 1 },
+    { id: 2, business_unit_id: 'bu2', name: 'FugaZ POS 1', fiscal_id: 'Identificacion Fiscal', is_active: 1 },
+    { id: 3, business_unit_id: 'bu3', name: 'Diburger POS 1', fiscal_id: 'Identificacion Fiscal', is_active: 1 },
+  ],
   cash_movements: [],
   partner_account_transactions: [],
   app_config: [
     { id: 'cfg1', key: 'chart_dynamic_zoom', value: 'true' },
+    { id: 'cfg2', key: 'default_days_chart', value: '7' },
+    { id: 'cfg3', key: 'default_mode', value: 'dark' },
+    { id: 'cfg4', key: 'default_manager', value: '1' },
+    { id: 'cfg5', key: 'default_business', value: 'Negocio' },
   ],
 };
 
@@ -98,7 +107,7 @@ const createWebMock = () => {
               id: params[0], business_unit_id: params[1], transaction_date: params[2],
               type: params[3], category_id: params[4], amount: Number(params[5]) || 0,
               description: params[6], reference_id: params[7], partner_account_id: params[8],
-              created_by: params[9], sequence_number: params[10], is_active: 1
+              created_by: params[9], sequence_number: params[10], point_of_sale_id: params[11], is_active: 1
             });
           } else if (table === 'business_units') {
             // Check if exists (INSERT OR IGNORE simulation)
@@ -141,6 +150,11 @@ const createWebMock = () => {
         const id = params[params.length - 1]; // Usually the last param for WHERE id = ?
         const m = memoryStorage.cash_movements.find(x => x.id === id);
         if (m) m.is_active = 0;
+      }
+      else if (sql.includes('FROM points_of_sale')) {
+        // Used for listByBusinessUnit in mock
+        const buId = params[0];
+        return memoryStorage.points_of_sale.filter(p => p.business_unit_id === buId && p.is_active === 1);
       }
 
       saveToStorage();
@@ -206,6 +220,10 @@ const createWebMock = () => {
           return { ...m, bu_name: bu?.name, bu_color: bu?.color, category_name: cat?.name };
         }).sort((a, b) => b.transaction_date.localeCompare(a.transaction_date) || b.sequence_number - a.sequence_number);
       }
+      if (sql.includes('FROM points_of_sale')) {
+        const buId = params[0];
+        return memoryStorage.points_of_sale.filter(p => p.business_unit_id === buId && p.is_active === 1);
+      }
       return [];
     }
   };
@@ -216,68 +234,68 @@ let dbPromise = null;
 export const getDatabase = async () => {
   if (dbPromise) return dbPromise;
 
-   dbPromise = (async () => {
-     try {
-       console.log('[Database] Opening database...');
-       if (Platform.OS === 'web') {
-         console.log('[Database] Using web mock');
-         return createWebMock();
-       }
+  dbPromise = (async () => {
+    try {
+      console.log('[Database] Opening database...');
+      if (Platform.OS === 'web') {
+        console.log('[Database] Using web mock');
+        return createWebMock();
+      }
 
-       const database = await SQLite.openDatabaseAsync(DATABASE_NAME);
-       console.log('[Database] Database opened successfully');
-       
-       // Ensure schema is initialized (only once)
-       if (!isInitialized) {
-         console.log('[Database] Initializing schema...');
-         try {
-           await database.execAsync(SCHEMA_SQL);
-           console.log('[Database] Schema executed successfully');
-           isInitialized = true;
-           console.log('[Database] Schema initialized');
-           
-           // Check if initial data needs to be seeded
-           try {
-             console.log('[Database] Checking if business_units table has data...');
-             const countResult = await database.getFirstAsync('SELECT COUNT(*) as count FROM business_units');
-             console.log('[Database] Count result:', countResult);
-              if (countResult && countResult.count === 0) {
-                console.log('[Database] No business units found, seeding initial data...');
-                try {
-                  console.log('[Database] Importing seed module...');
-                  const { seedInitialData } = await import('./seed');
-                  console.log('[Database] Seed module imported, calling seedInitialData...');
-                  await seedInitialData(database);
-                  console.log('[Database] Initial data seeded');
-                } catch (seedError) {
-                  console.error('[Database] Seed error details:', seedError);
-                  console.error('[Database] Seed error stack:', seedError.stack);
-                  throw seedError;
-                }
-              } else {
-               console.log(`[Database] business_units already has ${countResult?.count || 0} records`);
-             }
-           } catch (seedError) {
-             console.warn('[Database] Could not seed initial data:', seedError);
-             console.warn('[Database] Seed error stack:', seedError.stack);
-           }
-         } catch (schemaError) {
-           console.error('[Database] Error executing schema:', schemaError);
-           console.error('[Database] Schema error stack:', schemaError.stack);
-           throw schemaError;
-         }
-       } else {
-         console.log('[Database] Schema already initialized');
-       }
-       
-       return database;
-     } catch (error) {
-       console.error('[Database] Error in getDatabase:', error);
-       console.error('[Database] Error stack:', error.stack);
-       dbPromise = null; // Reset on failure so it can retry
-       throw error;
-     }
-   })();
+      const database = await SQLite.openDatabaseAsync(DATABASE_NAME);
+      console.log('[Database] Database opened successfully');
+
+      // Ensure schema is initialized (only once)
+      if (!isInitialized) {
+        console.log('[Database] Initializing schema...');
+        try {
+          await database.execAsync(SCHEMA_SQL);
+          console.log('[Database] Schema executed successfully');
+          isInitialized = true;
+          console.log('[Database] Schema initialized');
+
+          // Check if initial data needs to be seeded
+          try {
+            console.log('[Database] Checking if business_units table has data...');
+            const countResult = await database.getFirstAsync('SELECT COUNT(*) as count FROM business_units');
+            console.log('[Database] Count result:', countResult);
+            if (countResult && countResult.count === 0) {
+              console.log('[Database] No business units found, seeding initial data...');
+              try {
+                console.log('[Database] Importing seed module...');
+                const { seedInitialData } = await import('./seed');
+                console.log('[Database] Seed module imported, calling seedInitialData...');
+                await seedInitialData(database);
+                console.log('[Database] Initial data seeded');
+              } catch (seedError) {
+                console.error('[Database] Seed error details:', seedError);
+                console.error('[Database] Seed error stack:', seedError.stack);
+                throw seedError;
+              }
+            } else {
+              console.log(`[Database] business_units already has ${countResult?.count || 0} records`);
+            }
+          } catch (seedError) {
+            console.warn('[Database] Could not seed initial data:', seedError);
+            console.warn('[Database] Seed error stack:', seedError.stack);
+          }
+        } catch (schemaError) {
+          console.error('[Database] Error executing schema:', schemaError);
+          console.error('[Database] Schema error stack:', schemaError.stack);
+          throw schemaError;
+        }
+      } else {
+        console.log('[Database] Schema already initialized');
+      }
+
+      return database;
+    } catch (error) {
+      console.error('[Database] Error in getDatabase:', error);
+      console.error('[Database] Error stack:', error.stack);
+      dbPromise = null; // Reset on failure so it can retry
+      throw error;
+    }
+  })();
 
   return dbPromise;
 };

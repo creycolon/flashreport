@@ -7,14 +7,17 @@ import { Typography, Input, Button, Card } from '@ui/shared/components';
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
 import { categoryRepository } from '@core/infrastructure/repositories/categoryRepository';
 import { cashMovementRepository } from '@core/infrastructure/repositories/cashMovementRepository';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
+import { partnerRepository } from '@core/infrastructure/repositories/partnerRepository';
+import { pointOfSaleRepository } from '@core/infrastructure/repositories/pointOfSaleRepository';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export const AddMovementScreen = () => {
     const [type, setType] = useState<'CR' | 'DB'>('CR');
-    const [categoryId, setCategoryId] = useState('');
+    const [categoryId, setCategoryId] = useState<number | string>('');
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedBu, setSelectedBu] = useState('');
+    const [selectedBu, setSelectedBu] = useState<number | string>('');
     const [bus, setBus] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
@@ -22,104 +25,108 @@ export const AddMovementScreen = () => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [minDate, setMinDate] = useState<Date | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [currentPartnerId, setCurrentPartnerId] = useState<number | null>(null);
+    const [pointsOfSale, setPointsOfSale] = useState<any[]>([]);
+    const [selectedPos, setSelectedPos] = useState<number | ''>('');
+    const [showPosDropdown, setShowPosDropdown] = useState(false);
 
     const { colors } = useTheme();
 
     const styles = useMemo(() => StyleSheet.create({
         safe: { flex: 1, backgroundColor: colors.background },
         container: { flex: 1 },
-        content: { 
+        content: {
             padding: theme.spacing.md,
             overflow: 'visible',
             position: 'relative',
         },
-         header: { marginBottom: theme.spacing.lg },
-         tabContainer: { flexDirection: 'row', marginBottom: theme.spacing.lg, gap: theme.spacing.md },
-         tab: { flex: 1, height: 45, borderRadius: theme.spacing.borderRadius.md, borderWidth: 1, borderColor: colors.border, justifyContent: 'center', alignItems: 'center' },
-         activeTabCredit: { backgroundColor: colors.success, borderColor: colors.success },
-         activeTabDebit: { backgroundColor: colors.danger, borderColor: colors.danger },
-         formCard: { 
-             padding: theme.spacing.lg,
-             overflow: 'visible',
-             position: 'relative',
-         },
-          buSelectorRow: { 
-              marginBottom: theme.spacing.md, 
-              position: 'relative',
-               zIndex: Platform.OS === 'web' ? 10000 : 1,
-              overflow: 'visible',
-          },
-          buSelectorButton: { 
-              flexDirection: 'row', 
-              alignItems: 'center', 
-              backgroundColor: colors.cardBackground,
-              borderWidth: 1,
-              borderColor: colors.border,
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 12,
-              flex: 1,
-          },
-          buSelectorButtonPrimary: { 
-              flexDirection: 'row', 
-              alignItems: 'center', 
-              backgroundColor: colors.primary + '08',
-              borderWidth: 2,
-              borderColor: colors.primary + '40',
-              borderRadius: 8,
-              paddingHorizontal: 12,
-              paddingVertical: 12,
-              flex: 1,
-              elevation: 2,
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.1,
-              shadowRadius: 2,
-          },
-         buSelectorText: { flex: 1 },
-          buSelectorIcon: { marginLeft: 4 },
-          buSelectorColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
-           dropdownContainer: { 
-               position: 'absolute', 
-               top: '100%', 
-               left: 0, 
-               right: 0,
-               backgroundColor: colors.cardBackground,
-               borderWidth: 1,
-               borderColor: colors.border,
-               borderRadius: 8,
-               marginTop: 4,
-                zIndex: Platform.OS === 'web' ? 2147483647 : 1000,
-               elevation: 5,
-               shadowColor: '#000',
-               shadowOffset: { width: 0, height: 2 },
-               shadowOpacity: 0.25,
-               shadowRadius: 3.84,
-               // Web-specific styles
-               ...(Platform.OS === 'web' && {
-                   maxHeight: 300,
-                   overflowY: 'auto',
-               }),
-           },
-          dropdownOption: { 
-              paddingVertical: 12, 
-              paddingHorizontal: 16, 
-              borderBottomWidth: 1, 
-              borderBottomColor: colors.border,
-              flexDirection: 'row',
-              alignItems: 'center',
-          },
-          dropdownOptionSelected: { backgroundColor: colors.primary + '20' },
-          dropdownOptionText: { flex: 1 },
-           dropdownOptionColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
-            dropdownHeader: { 
-                paddingVertical: 10, 
-                paddingHorizontal: 16, 
-                borderBottomWidth: 1, 
-                borderBottomColor: colors.primary + '40',
-                backgroundColor: colors.primary + '20',
-            },
-          categoryRow: { marginTop: theme.spacing.xs, marginBottom: theme.spacing.lg },
+        header: { marginBottom: theme.spacing.lg },
+        tabContainer: { flexDirection: 'row', marginBottom: theme.spacing.lg, gap: theme.spacing.md },
+        tab: { flex: 1, height: 45, borderRadius: theme.spacing.borderRadius.md, borderWidth: 1, borderColor: colors.border, justifyContent: 'center', alignItems: 'center' },
+        activeTabCredit: { backgroundColor: colors.success, borderColor: colors.success },
+        activeTabDebit: { backgroundColor: colors.danger, borderColor: colors.danger },
+        formCard: {
+            padding: theme.spacing.lg,
+            overflow: 'visible',
+            position: 'relative',
+        },
+        buSelectorRow: {
+            marginBottom: theme.spacing.md,
+            position: 'relative',
+            zIndex: Platform.OS === 'web' ? 10000 : 1,
+            overflow: 'visible',
+        },
+        buSelectorButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: colors.cardBackground,
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 12,
+            flex: 1,
+        },
+        buSelectorButtonPrimary: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: colors.primary + '08',
+            borderWidth: 2,
+            borderColor: colors.primary + '40',
+            borderRadius: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 12,
+            flex: 1,
+            elevation: 2,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 2,
+        },
+        buSelectorText: { flex: 1 },
+        buSelectorIcon: { marginLeft: 4 },
+        buSelectorColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
+        dropdownContainer: {
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            backgroundColor: colors.cardBackground,
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: 8,
+            marginTop: 4,
+            zIndex: Platform.OS === 'web' ? 2147483647 : 1000,
+            elevation: 5,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            // Web-specific styles
+            ...(Platform.OS === 'web' && {
+                maxHeight: 300,
+                overflowY: 'auto',
+            }),
+        },
+        dropdownOption: {
+            paddingVertical: 12,
+            paddingHorizontal: 16,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        dropdownOptionSelected: { backgroundColor: colors.primary + '20' },
+        dropdownOptionText: { flex: 1 },
+        dropdownOptionColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
+        dropdownHeader: {
+            paddingVertical: 10,
+            paddingHorizontal: 16,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.primary + '40',
+            backgroundColor: colors.primary + '20',
+        },
+        categoryRow: { marginTop: theme.spacing.xs, marginBottom: theme.spacing.lg },
         catChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8, borderWidth: 1, borderColor: colors.border, marginRight: theme.spacing.sm },
         catChipActive: { borderColor: colors.primary, backgroundColor: colors.primary + '10' },
         dateInput: { height: 50, backgroundColor: colors.surface, borderRadius: theme.spacing.borderRadius.md, paddingHorizontal: theme.spacing.md, justifyContent: 'center', borderWidth: 1, borderColor: colors.border, marginBottom: theme.spacing.md, marginTop: theme.spacing.xs },
@@ -129,10 +136,45 @@ export const AddMovementScreen = () => {
     useEffect(() => { if (type) loadCategories(type); }, [type]);
 
     const loadInitialData = async () => {
-        const buList = await businessUnitRepository.getAll();
-        setBus(buList);
-        if (buList.length > 0) setSelectedBu(buList[0].id);
+        try {
+            const [buList, partners] = await Promise.all([
+                businessUnitRepository.getAll(),
+                partnerRepository.getAll()
+            ]);
+
+            setBus(buList);
+            if (buList.length > 0) setSelectedBu(buList[0].id);
+
+            // Load current managing partner ID
+            const managingPartner = await managingPartnerService.getCurrentManagingPartner();
+            if (managingPartner) {
+                setCurrentPartnerId(managingPartner.id);
+            } else if (partners.length > 0) {
+                setCurrentPartnerId(partners[0].id);
+            }
+        } catch (error) {
+            console.error('[AddMovement] Error loading initial data:', error);
+        }
     };
+
+    useEffect(() => {
+        const loadPOS = async () => {
+            if (selectedBu) {
+                try {
+                    const posList = await pointOfSaleRepository.listByBusinessUnit(selectedBu);
+                    setPointsOfSale(posList);
+                    if (posList.length > 0) {
+                        setSelectedPos(posList[0].id);
+                    } else {
+                        setSelectedPos('');
+                    }
+                } catch (error) {
+                    console.error('Error loading POS:', error);
+                }
+            }
+        };
+        loadPOS();
+    }, [selectedBu]);
 
     const loadCategories = async (movementType: 'CR' | 'DB') => {
         const catList = await categoryRepository.getByType(movementType);
@@ -156,13 +198,10 @@ export const AddMovementScreen = () => {
         }
     };
 
-    useEffect(() => { if (selectedBu) loadLastMovementDate(selectedBu); }, [selectedBu]);
+    useEffect(() => { if (selectedBu) loadLastMovementDate(selectedBu.toString()); }, [selectedBu]);
 
     const showDatepicker = async () => {
-        console.log('[AddMovement] Showing date picker for Platform:', Platform.OS);
-        
         if (Platform.OS === 'android') {
-            // Usar DateTimePickerAndroid para evitar el bug de dismiss
             const { DateTimePickerAndroid } = require('@react-native-community/datetimepicker');
             try {
                 await DateTimePickerAndroid.open({
@@ -173,7 +212,7 @@ export const AddMovementScreen = () => {
                     onChange: (event: any, selectedDate?: Date) => {
                         if (event.type === 'set' && selectedDate) {
                             if (minDate && selectedDate < minDate) {
-                                Alert.alert('Fecha inválida', `La fecha no puede ser anterior al último movimiento registrado (${formatDate(minDate)})`);
+                                Alert.alert('Fecha inválida', `La fecha no puede ser anterior al último movimiento registrado`);
                                 return;
                             }
                             setDate(selectedDate);
@@ -189,18 +228,12 @@ export const AddMovementScreen = () => {
     };
 
     const handleDateChange = (event: any, selectedDate?: Date) => {
-        console.log('[AddMovement] iOS date picker event:', event, 'selectedDate:', selectedDate);
         setShowDatePicker(false);
-        
-        if (event?.type === 'dismissed' || !selectedDate) {
-            return;
-        }
-        
+        if (!selectedDate) return;
         if (minDate && selectedDate < minDate) {
-            Alert.alert('Fecha inválida', `La fecha no puede ser anterior al último movimiento registrado (${formatDate(minDate)})`);
+            Alert.alert('Fecha inválida', `La fecha no puede ser anterior al último movimiento registrado`);
             return;
         }
-        
         setDate(selectedDate);
     };
 
@@ -209,8 +242,6 @@ export const AddMovementScreen = () => {
     };
 
     const handleSave = async () => {
-        console.log('[AddMovement] Starting save process...');
-        
         if (!amount || !categoryId || !selectedBu) {
             Alert.alert('Error', 'Por favor completa los campos obligatorios');
             return;
@@ -218,32 +249,38 @@ export const AddMovementScreen = () => {
 
         const amountNum = parseFloat(amount);
         if (isNaN(amountNum) || amountNum <= 0) {
-            Alert.alert('Error', 'Por favor ingresa un monto válido mayor a 0');
+            Alert.alert('Error', 'Por favor ingresa un monto válido');
             return;
         }
 
-        setLoading(true);
+        let finalDescription = description.trim();
+        if (!finalDescription) {
+            const buName = bus.find(b => b.id === selectedBu)?.name || 'Local';
+            const catName = categories.find(c => c.id === categoryId)?.name || 'Movimiento';
+            finalDescription = `${catName} del día - ${buName}`;
+        }
+
         try {
+            setLoading(true);
             await cashMovementRepository.create({
                 businessUnitId: selectedBu,
                 type: type,
                 categoryId: categoryId,
                 amount: amountNum,
-                description: description,
+                description: finalDescription,
                 date: date.toISOString(),
-                createdBy: 'p1',
+                createdBy: currentPartnerId || null,
+                pointOfSaleId: selectedPos || null,
             });
 
-            console.log('[AddMovement] Movement saved successfully');
             Alert.alert('Éxito', 'Movimiento registrado correctamente');
-            
             setAmount('');
             setDescription('');
             setDate(new Date());
-            
+
         } catch (error) {
             console.error('[AddMovement] Error saving movement:', error);
-            Alert.alert('Error', 'No se pudo guardar el movimiento: ' + ((error as Error).message || 'Error desconocido'));
+            Alert.alert('Error', 'No se pudo guardar el movimiento');
         } finally {
             setLoading(false);
         }
@@ -273,26 +310,19 @@ export const AddMovementScreen = () => {
                 </View>
 
                 <View style={styles.tabContainer}>
-                     <TouchableOpacity style={[styles.tab, type === 'CR' && styles.activeTabCredit]} onPress={() => setType('CR')}>
-                         <Typography variant="body" weight="bold" color={type === 'CR' ? colors.text : colors.textSecondary}>INGRESO</Typography>
+                    <TouchableOpacity style={[styles.tab, type === 'CR' && styles.activeTabCredit]} onPress={() => setType('CR')}>
+                        <Typography variant="body" weight="bold" color={type === 'CR' ? colors.text : colors.textSecondary}>INGRESO</Typography>
                     </TouchableOpacity>
-                     <TouchableOpacity style={[styles.tab, type === 'DB' && styles.activeTabDebit]} onPress={() => setType('DB')}>
-                         <Typography variant="body" weight="bold" color={type === 'DB' ? colors.text : colors.textSecondary}>EGRESO</Typography>
+                    <TouchableOpacity style={[styles.tab, type === 'DB' && styles.activeTabDebit]} onPress={() => setType('DB')}>
+                        <Typography variant="body" weight="bold" color={type === 'DB' ? colors.text : colors.textSecondary}>EGRESO</Typography>
                     </TouchableOpacity>
                 </View>
 
                 <Card variant="flat" style={styles.formCard}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                        <Typography variant="label" style={{ marginRight: 8 }}>🏪 Unidad de Negocio</Typography>
-                        <View style={{ backgroundColor: colors.primary + '20', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 4 }}>
-                            
-                            {/* <Typography variant="caption" weight="bold" color={colors.primary}>PRINCIPAL</Typography>
-                             */}
-                        </View>
-                    </View>
+                    <Typography variant="label">🏪 Unidad de Negocio</Typography>
                     <Typography variant="caption" color={colors.textMuted} style={{ marginBottom: 8 }}>Selecciona el destino</Typography>
                     <View style={styles.buSelectorRow}>
-                        <TouchableOpacity 
+                        <TouchableOpacity
                             style={styles.buSelectorButtonPrimary}
                             onPress={() => setShowDropdown(!showDropdown)}
                         >
@@ -304,7 +334,7 @@ export const AddMovementScreen = () => {
                             </Typography>
                             <Ionicons name={showDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.textSecondary} style={styles.buSelectorIcon} />
                         </TouchableOpacity>
-                        
+
                         {showDropdown && (
                             <View style={styles.dropdownContainer}>
                                 <View style={styles.dropdownHeader}>
@@ -323,6 +353,53 @@ export const AddMovementScreen = () => {
                             </View>
                         )}
                     </View>
+
+                    <View style={[styles.buSelectorRow, { marginTop: 8 }]}>
+                        <View style={[styles.buSelectorButton, { opacity: 0.7 }]}>
+                            <Ionicons name="storefront-outline" size={18} color={colors.primary} style={{ marginRight: 8 }} />
+                            <Typography style={styles.buSelectorText}>
+                                {selectedBu && selectedBu !== 'all' ? (
+                                    pointsOfSale.length > 0 ? pointsOfSale[0]?.name : 'No hay POS disponibles'
+                                ) : (
+                                    'Selecciona un local para ver POS'
+                                )}
+                            </Typography>
+                        </View>
+                    </View>
+
+                    {/* 
+                    <Typography variant="label" style={{ marginTop: theme.spacing.md }}>Punto de Venta</Typography>                   
+                    <Typography variant="caption" color={colors.textMuted} style={{ marginBottom: 8 }}>Selecciona el punto de venta</Typography>
+                    <View style={[styles.buSelectorRow, { zIndex: showDropdown ? 1 : 100 }]}>
+                        <TouchableOpacity
+                            style={styles.buSelectorButton}
+                            onPress={() => setShowPosDropdown(!showPosDropdown)}
+                            disabled={!selectedBu || pointsOfSale.length === 0}
+                        >
+                            <Ionicons name="storefront-outline" size={18} color={colors.primary} style={{ marginRight: 8 }} />
+                            <Typography style={styles.buSelectorText}>
+                                {selectedPos ? (pointsOfSale.find(p => p.id === selectedPos)?.name) : (pointsOfSale.length === 0 ? 'No hay POS' : 'Seleccionar POS')}
+                            </Typography>
+                            <Ionicons name={showPosDropdown ? "chevron-up" : "chevron-down"} size={18} color={colors.textSecondary} style={styles.buSelectorIcon} />
+                        </TouchableOpacity>
+
+                        {showPosDropdown && (
+                            <View style={styles.dropdownContainer}>
+                                {pointsOfSale.map(pos => (
+                                    <TouchableOpacity
+                                        key={pos.id}
+                                        style={[styles.dropdownOption, selectedPos === pos.id && styles.dropdownOptionSelected]}
+                                        onPress={() => { setSelectedPos(pos.id); setShowPosDropdown(false); }}
+                                    >
+                                        <Ionicons name="storefront-outline" size={16} color={colors.primary} style={{ marginRight: 10 }} />
+                                        <Typography style={styles.dropdownOptionText}>{pos.name}</Typography>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        )}
+                    </View> */}
+
+                    
 
                     <Typography variant="label" style={{ marginTop: theme.spacing.md }}>Categoría</Typography>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryRow}>
@@ -353,10 +430,8 @@ export const AddMovementScreen = () => {
                     )}
 
                     <Button title="Guardar Movimiento" onPress={handleSave} loading={loading} />
-                 </Card>
-
-
-             </ScrollView>
+                </Card>
+            </ScrollView>
         </View>
     );
 };

@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Input, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
 
 export interface BusinessUnitOption {
     id: string;
@@ -22,6 +23,7 @@ export interface MovementsFiltersEnhancedProps {
     onReset?: () => void;
     dateFilter?: string;
     searchQuery?: string;
+    businessLabel?: string;
 }
 
 const dateFilterOptions = [
@@ -42,6 +44,7 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
     onReset,
     dateFilter = '7d',
     searchQuery = '',
+    businessLabel = 'Local',
 }) => {
     const { colors } = useTheme();
     const [localSearch, setLocalSearch] = useState(searchQuery);
@@ -79,9 +82,9 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
     };
 
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
         const bu = businessUnits.find(b => b.id === selectedBu);
-        return bu ? bu.name : 'Local no encontrado';
+        return bu ? bu.name : `${businessLabel} no encontrado`;
     };
 
     const getSelectedBu = () => {
@@ -325,7 +328,7 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
                 </View>
                 <View style={styles.headerRight}>
                     {/* Business Unit Selector - now using Modal */}
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={[styles.actionButton, { paddingHorizontal: theme.spacing.lg }]}
                         onPress={() => setShowBuDropdown(true)}
                     >
@@ -335,10 +338,10 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
                         <Typography style={{ color: colors.text, fontSize: theme.typography.sizes.sm, fontWeight: 'bold' }}>
                             {getSelectedBuName()}
                         </Typography>
-                        <Ionicons 
-                            name="chevron-down" 
-                            size={16} 
-                            color={colors.textSecondary} 
+                        <Ionicons
+                            name="chevron-down"
+                            size={16}
+                            color={colors.textSecondary}
                             style={{ marginLeft: theme.spacing.xs }}
                         />
                     </TouchableOpacity>
@@ -350,19 +353,19 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
                         animationType="fade"
                         onRequestClose={() => setShowBuDropdown(false)}
                     >
-                        <TouchableOpacity 
-                            style={styles.modalOverlay} 
+                        <TouchableOpacity
+                            style={styles.modalOverlay}
                             activeOpacity={1}
                             onPress={() => setShowBuDropdown(false)}
                         >
-                            <TouchableOpacity 
-                                style={styles.modalContent} 
+                            <TouchableOpacity
+                                style={styles.modalContent}
                                 activeOpacity={1}
                                 onPress={(e) => e.stopPropagation()}
                             >
                                 <View style={styles.modalHeader}>
                                     <Typography weight="bold" style={{ fontSize: 18 }}>
-                                        🏪 Seleccionar Unidad de Negocio
+                                        🏪 Seleccionar {businessLabel}
                                     </Typography>
                                     <TouchableOpacity onPress={() => setShowBuDropdown(false)}>
                                         <Ionicons name="close" size={24} color={colors.textSecondary} />
@@ -378,7 +381,7 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
                                     >
                                         <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
                                         <Typography style={styles.dropdownOptionText} weight={selectedBu === 'all' ? 'bold' : 'regular'}>
-                                            Todos los locales
+                                            Todos los {pluralizeSpanish(businessLabel)}
                                         </Typography>
                                     </TouchableOpacity>
                                     {businessUnits.map(bu => (

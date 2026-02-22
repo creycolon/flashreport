@@ -11,6 +11,17 @@
 - ✅ Configuración de build lista
 
 ### 🚀 **Scripts Disponibles:**
+    Para plataforma especifica
+    eas build --platform android --clear-cache
+    eas build --platform ios --clear-cache
+
+    Si ya estas en un proceso iniciado
+        
+    npx expo prebuild --clean
+
+    git add .
+    git commit -m "fix: clearing cache and preparing new build"
+    eas build --platform all --clear-cache
 
 #### **1. Primer Build (Generar Keystore)**
 ```bash

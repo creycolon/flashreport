@@ -127,16 +127,18 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
         },
         content: {
             flex: 1,
+            flexShrink: 1,
         },
         activityTitle: {
             color: colors.text,
             fontSize: theme.typography.sizes.sm,
             fontWeight: 'bold',
-            lineHeight: theme.typography.lineHeights.tight,
+            lineHeight: theme.typography.sizes.sm * theme.typography.lineHeights.tight,
         },
         activityDescription: {
             color: colors.textSecondary,
             fontSize: theme.typography.sizes.xs,
+            lineHeight: theme.typography.sizes.xs * theme.typography.lineHeights.tight,
             marginTop: 2,
         },
         amountContainer: {
@@ -174,11 +176,11 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
                 {items.map((item) => {
                     const activityColors = getActivityColors(item.type, colors);
                     const amountColor = item.amountType ? getAmountColor(item.amountType, colors) : colors.text;
-                    
+
                     // Usar color del negocio si está disponible, si no usar el color por tipo
                     const iconColor = item.businessUnitColor || activityColors.icon;
                     const iconBgColor = item.businessUnitColor ? item.businessUnitColor + '20' : activityColors.background;
-                    
+
                     return (
                         <TouchableOpacity
                             key={item.id}
@@ -189,10 +191,10 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
                                 <Ionicons name={item.icon} size={20} color={iconColor} />
                             </View>
                             <View style={styles.content}>
-                                <Typography style={styles.activityTitle}>
+                                <Typography style={styles.activityTitle} numberOfLines={1}>
                                     {item.title}
                                 </Typography>
-                                <Typography style={styles.activityDescription}>
+                                <Typography style={styles.activityDescription} numberOfLines={1}>
                                     {item.description}
                                 </Typography>
                             </View>

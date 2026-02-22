@@ -6,6 +6,7 @@ import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
 import { ChartAndActivitySection } from './ChartAndActivitySection';
 import { ActivityItem } from './ActivityFeedEnhanced';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
 
 export interface Report {
     id: string;
@@ -34,6 +35,7 @@ export interface ReportsEnhancedProps {
     onGenerateReport?: (type: string) => void;
     onExportReport?: (report: Report) => void;
     onViewAuditLog?: () => void;
+    businessLabel?: string;
 }
 
 export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
@@ -46,6 +48,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     onGenerateReport,
     onExportReport,
     onViewAuditLog,
+    businessLabel = 'Local',
 }) => {
     const { colors } = useTheme();
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
@@ -56,9 +59,9 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     }, [dateFilter]);
 
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
         const bu = businessUnits.find(b => b.id === selectedBu);
-        return bu ? bu.name : 'Local no encontrado';
+        return bu ? bu.name : `${businessLabel} no encontrado`;
     };
 
     const getSelectedBu = () => {
@@ -85,7 +88,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     const getPeriodLabel = () => {
         const now = new Date();
         const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        
+
         if (selectedDateFilter === '7d') return 'Última Semana';
         if (selectedDateFilter === '30d') return `Mes de ${monthNames[now.getMonth()]}`;
         if (selectedDateFilter === 'all') return `Año ${now.getFullYear()}`;
@@ -529,12 +532,12 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
             { id: '2', name: 'Puesto Sur', color: '#2196f3' },
             { id: '3', name: 'Puesto Este', color: '#e91e63' },
         ];
-        
+
         return units.map((bu, index) => {
             const sales = Math.floor(Math.random() * 50000) + 10000;
             const transactions = Math.floor(Math.random() * 100) + 20;
             const times = ['Hace 5 min', 'Hace 42 min', 'Hace 1h', 'Hace 2h', 'Hace 3h'];
-            
+
             return {
                 id: bu.id,
                 title: bu.name,
@@ -563,8 +566,8 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     });
 
     // Filter reports based on selected business unit
-    const filteredReports = selectedBu === 'all' 
-        ? enrichedMockReports 
+    const filteredReports = selectedBu === 'all'
+        ? enrichedMockReports
         : enrichedMockReports.filter(report => report.businessUnitId === selectedBu);
 
     // Filter audit log based on selected business unit (simulated)
@@ -586,11 +589,11 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     const generateChartData = () => {
         // Calculate total days based on filter
         const totalDays = selectedDateFilter === 'hoy' ? 1 : selectedDateFilter === '7d' ? 7 : selectedDateFilter === '30d' ? 30 : selectedDateFilter === '90d' ? 90 : 365;
-        
+
         // Determine number of points to show proportionally (12 points = 1 year)
         let displayPoints: number;
         let labels: string[] = [];
-        
+
         if (totalDays <= 7) {
             // 7 days or less: show all days
             displayPoints = totalDays;
@@ -612,20 +615,20 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
             // 365 days (1 year): show 12 points = 1 per month
             displayPoints = 12;
             const step = Math.floor(totalDays / displayPoints);
-            
+
             for (let i = 0; i < displayPoints; i++) {
                 const date = new Date();
                 date.setDate(date.getDate() - (totalDays - 1 - (i * step)));
                 labels.push(date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }));
             }
         }
-        
+
         // Generate mock data for reports (values in thousands for K format)
         const baseMultiplier = selectedBu === 'all' ? 15000 : 5000;
-        
+
         // Generate data points - match the number of display labels
         const data = labels.map(() => Math.floor(Math.random() * 8000) + baseMultiplier);
-        
+
         // Get business units to use as series (or use mock if empty)
         const units = businessUnits.length > 0 ? businessUnits : [
             { id: '1', name: 'Puesto Norte', color: '#38ff14' },
@@ -637,7 +640,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         const selectedBusinessUnit = selectedBu === 'all' ? null : units.find(u => u.id === selectedBu);
 
         // Generate a series for each business unit when showing all, otherwise single series with business unit color
-        const series = selectedBu === 'all' 
+        const series = selectedBu === 'all'
             ? units.map((bu) => ({
                 id: bu.id,
                 name: bu.name,
@@ -650,7 +653,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                 color: selectedBusinessUnit?.color || colors.primary,
                 data: data,
             }];
-        
+
         return {
             labels: labels,
             series: series,
@@ -668,19 +671,19 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                 animationType="fade"
                 onRequestClose={() => setShowBuDropdown(false)}
             >
-                <TouchableOpacity 
-                    style={styles.modalOverlay} 
+                <TouchableOpacity
+                    style={styles.modalOverlay}
                     activeOpacity={1}
                     onPress={() => setShowBuDropdown(false)}
                 >
-                    <TouchableOpacity 
-                        style={styles.modalContent} 
+                    <TouchableOpacity
+                        style={styles.modalContent}
                         activeOpacity={1}
                         onPress={(e) => e.stopPropagation()}
                     >
                         <View style={styles.modalHeader}>
                             <Typography weight="bold" style={{ fontSize: 18 }}>
-                                🏪 Seleccionar Unidad de Negocio
+                                🏪 Seleccionar {businessLabel}
                             </Typography>
                             <TouchableOpacity onPress={() => setShowBuDropdown(false)}>
                                 <Ionicons name="close" size={24} color={colors.textSecondary} />
@@ -695,9 +698,9 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                                 }}
                             >
                                 <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
-                              {/*   <Typography style={styles.dropdownOptionText} weight={selectedBu === 'all' ? 'bold' : 'regular'}>
-                                    Todos los locales
-                                </Typography> */}
+                                <Typography style={styles.dropdownOptionText} weight={selectedBu === 'all' ? 'bold' : 'regular'}>
+                                    Todos los {pluralizeSpanish(businessLabel)}
+                                </Typography>
                             </TouchableOpacity>
                             {businessUnits.map(bu => (
                                 <TouchableOpacity
@@ -719,8 +722,8 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                 </TouchableOpacity>
             </Modal>
 
-            <ScrollView 
-                style={styles.container} 
+            <ScrollView
+                style={styles.container}
                 contentContainerStyle={{ overflow: 'visible', flexGrow: 1 }}
                 showsVerticalScrollIndicator={true}
             >
@@ -738,7 +741,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                         <View style={[styles.actions, { zIndex: 100, overflow: 'visible' }]}>
                             {/* Business Unit Selector */}
                             <View style={[styles.buSelectorRow, { zIndex: 100, overflow: 'visible' }]}>
-                                <TouchableOpacity 
+                                <TouchableOpacity
                                     style={styles.buSelectorButtonPrimary}
                                     onPress={() => setShowBuDropdown(!showBuDropdown)}
                                 >
@@ -748,11 +751,11 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                                     <Typography style={styles.buSelectorText} weight="bold">
                                         {getSelectedBuName()}
                                     </Typography>
-                                    <Ionicons 
-                                        name={showBuDropdown ? "chevron-up" : "chevron-down"} 
-                                        size={18} 
-                                        color={colors.textSecondary} 
-                                        style={styles.buSelectorIcon} 
+                                    <Ionicons
+                                        name={showBuDropdown ? "chevron-up" : "chevron-down"}
+                                        size={18}
+                                        color={colors.textSecondary}
+                                        style={styles.buSelectorIcon}
                                     />
                                 </TouchableOpacity>
                             </View>

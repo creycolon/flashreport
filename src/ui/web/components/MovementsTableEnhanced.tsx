@@ -14,6 +14,7 @@ export interface Movement {
     type: 'credit' | 'debit';
     businessUnit?: string;
     pointOfSale?: string;
+    pos_name?: string;
     status?: 'pending' | 'completed' | 'cancelled';
 }
 
@@ -50,6 +51,27 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
             borderRadius: theme.spacing.borderRadius.xl,
             overflow: 'hidden',
             flex: 1,
+        },
+        // Row used for the totals summary (web only)
+        summaryRow: {
+            flexDirection: 'row',
+            backgroundColor: colors.surfaceLight,
+            borderTopWidth: 2,
+            borderTopColor: colors.border,
+            paddingVertical: theme.spacing.md,
+            paddingHorizontal: theme.spacing.lg,
+            alignItems: 'center',
+        },
+        summaryCell: {
+            flex: 1,
+            paddingHorizontal: theme.spacing.sm,
+            fontWeight: 'bold',
+        },
+        summaryLabel: {
+            flex: 2,
+            paddingHorizontal: theme.spacing.sm,
+            fontWeight: '600',
+            color: colors.text,
         },
         tableHeader: {
             flexDirection: 'row',
@@ -129,12 +151,12 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
     });
 
     const columns = [
-        { key: 'date', label: 'Fecha', width: 1 },
+        { key: 'date', label: 'Fecha', width: 0.8 },
         { key: 'description', label: 'Descripción', width: 2 },
-        { key: 'businessUnit', label: 'Unidad de Negocio', width: 1.5 },
-        { key: 'pointOfSale', label: 'Punto de Venta', width: 1.5 },
-        { key: 'amount', label: 'Monto', width: 1.2 },
-        { key: 'actions', label: '', width: 1 },
+        { key: 'businessUnit', label: 'Local', width: 1.2 },
+        { key: 'pointOfSale', label: 'POS', width: 1.2 },
+        { key: 'amount', label: 'Monto', width: 1 },
+        { key: 'actions', label: '', width: 0.8 },
     ];
 
     if (loading) {
@@ -163,6 +185,10 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
             </View>
         );
     }
+    // Compute totals for web view
+    const totalCredit = movements.reduce((sum, m) => m.type === 'credit' ? sum + m.amount : sum, 0);
+    const totalDebit = movements.reduce((sum, m) => m.type === 'debit' ? sum + m.amount : sum, 0);
+    const netBalance = totalCredit - totalDebit;
 
     return (
         <View style={styles.container}>
@@ -182,7 +208,7 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
                 {movements.map((movement) => {
                     const statusColor = getStatusColor(movement.type, colors);
                     const amountColor = movement.type === 'credit' ? colors.success : colors.danger;
-                    
+
                     return (
                         <TouchableOpacity
                             key={movement.id}
@@ -196,7 +222,7 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
                                     {movement.date ? formatDate(movement.date.toISOString()) : ''}
                                 </Typography>
                             </View>
-                            
+
                             {/* Description */}
                             <View style={[styles.cell, { flex: columns[1].width }]}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -206,21 +232,21 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
                                     </Typography>
                                 </View>
                             </View>
-                            
+
                             {/* Business Unit */}
                             <View style={[styles.cell, { flex: columns[2].width }]}>
                                 <Typography style={styles.cellText}>
                                     {movement.businessUnit || 'N/A'}
                                 </Typography>
                             </View>
-                            
+
                             {/* Point of Sale */}
                             <View style={[styles.cell, { flex: columns[3].width }]}>
                                 <Typography style={styles.cellText}>
-                                    {movement.pointOfSale || 'N/A'}
+                                    {movement.pos_name || movement.pointOfSale || 'N/A'}
                                 </Typography>
                             </View>
-                            
+
                             {/* Amount */}
                             <View style={[styles.cell, styles.amountCell, { flex: columns[4].width }]}>
                                 <View style={[styles.amountBadge, { backgroundColor: amountColor + '20' }]}>
@@ -232,7 +258,7 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
                                     </Typography>
                                 </View>
                             </View>
-                            
+
                             {/* Actions */}
                             <View style={[styles.cell, styles.actionsCell, { flex: columns[5].width }]}>
                                 {onEdit && (
@@ -255,6 +281,23 @@ export const MovementsTableEnhanced: React.FC<MovementsTableEnhancedProps> = ({
                         </TouchableOpacity>
                     );
                 })}
+                {/* Totals Row (only for web) */}
+                {Platform.OS === 'web' && (
+                    <View style={styles.summaryRow}>
+                        <View style={styles.summaryLabel}>
+                            <Typography weight="bold" color={colors.text}>Totales</Typography>
+                        </View>
+                        <View style={styles.summaryCell}>
+                            <Typography weight="bold" color={colors.success}>Crédito: {formatCurrency(totalCredit)}</Typography>
+                        </View>
+                        <View style={styles.summaryCell}>
+                            <Typography weight="bold" color={colors.danger}>Débito: {formatCurrency(totalDebit)}</Typography>
+                        </View>
+                        <View style={styles.summaryCell}>
+                            <Typography weight="bold" color={colors.text}>Saldo: {formatCurrency(netBalance)}</Typography>
+                        </View>
+                    </View>
+                )}
             </ScrollView>
         </View>
     );
