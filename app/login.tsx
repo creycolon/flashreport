@@ -132,18 +132,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
+        padding: theme.spacing.lg,
     },
     keyboardView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        maxWidth: 400,
     },
     cardWrapper: {
         width: '100%',
-        maxWidth: '30%',
-        minWidth: 320,
     },
     logoContainer: {
         alignItems: 'center',
