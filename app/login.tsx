@@ -12,6 +12,7 @@ export const LoginScreen = () => {
     const { colors, effectiveColorScheme } = useTheme();
     const { width } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && width >= 768;
+    const logoSize = Math.min(width * 0.3, 180);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -62,8 +63,8 @@ export const LoginScreen = () => {
                             ? require('../assets/flash_report_logo_dark.png') 
                             : require('../assets/flash_report_logo.png')} 
                         style={{ 
-                            width: 180, 
-                            height: 180, 
+                            width: logoSize, 
+                            height: logoSize, 
                             resizeMode: 'contain'
                         }}
                     />
