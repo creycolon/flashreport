@@ -494,10 +494,12 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
 
                     <View style={styles.formSection}>
                         {/* Punto de Venta - Debug: mostrar solo valor */}
-                        <Typography style={styles.label}>Punto de Venta</Typography>
-                        <Typography variant="caption" color={colors.textMuted} style={{ fontSize: 10 }}>
-                            {selectedBu ? `ID: ${selectedBu}` : 'Sin negocio'}
-                        </Typography>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                            <Typography style={styles.label}>Punto de Venta</Typography>
+                            <Typography variant="caption" color={colors.textMuted} style={{ fontSize: 10 }}>
+                                {selectedBu ? `ID: ${selectedBu}` : 'Sin negocio'}
+                            </Typography>
+                        </View>
                     </View>
 
                     {/* 
