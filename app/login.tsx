@@ -12,7 +12,7 @@ export const LoginScreen = () => {
     const { colors, effectiveColorScheme } = useTheme();
     const { width } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && width >= 768;
-    const logoSize = Math.min(width * 0.3, 180);
+    const logoSize = isWebDesktop ? 100 : Math.min(width * 0.4, 160);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
