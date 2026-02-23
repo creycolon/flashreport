@@ -496,7 +496,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                         {/* Punto de Venta - Debug: mostrar solo valor */}
                         <Typography style={styles.label}>Punto de Venta</Typography>
                         <Typography variant="caption" color={colors.textMuted} style={{ fontSize: 10 }}>
-                            {selectedBu ? `Cargando... (bu: ${selectedBu})` : 'Seleccione un negocio primero'}
+                            {selectedBu ? `ID: ${selectedBu}` : 'Sin negocio'}
                         </Typography>
                     </View>
 
