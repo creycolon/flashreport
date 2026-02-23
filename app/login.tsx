@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Input, Button } from '@ui/shared/components';
@@ -10,6 +10,8 @@ import { authService } from '@core/application/services/authService';
 export const LoginScreen = () => {
     const router = useRouter();
     const { colors } = useTheme();
+    const { width } = useWindowDimensions();
+    const isWebDesktop = Platform.OS === 'web' && width >= 768;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -61,7 +63,11 @@ export const LoginScreen = () => {
                     </Typography>
                 </View>
 
-                <View style={styles.cardWrapper}>
+                <View style={{
+                    width: '100%',
+                    maxWidth: isWebDesktop ? '30%' : '100%',
+                    minWidth: isWebDesktop ? 320 : undefined,
+                }}>
                     <Card style={styles.card}>
                     <View style={styles.inputContainer}>
                         <Input
@@ -138,9 +144,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
-    },
-    cardWrapper: {
         width: '100%',
     },
     logoContainer: {
