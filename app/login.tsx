@@ -26,14 +26,19 @@ export const LoginScreen = () => {
         setError('');
 
         try {
+            console.log('[Login] Attempting login with:', email);
             const result = await authService.signIn(email, password);
+            console.log('[Login] Result:', result);
             
             if (result.error) {
+                console.log('[Login] Error:', result.error);
                 setError(result.error);
             } else {
+                console.log('[Login] Success, user:', result.user?.email, 'partner:', result.partner);
                 router.replace('/(tabs)');
             }
         } catch (err: any) {
+            console.log('[Login] Catch error:', err);
             setError(err.message || 'Error al iniciar sesión');
         } finally {
             setLoading(false);

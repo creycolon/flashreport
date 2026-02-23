@@ -3,18 +3,23 @@ import { supabase } from '../../infrastructure/db/supabaseClient';
 export const authService = {
     signIn: async (email: string, password: string) => {
         try {
+            console.log('[AuthService] signIn called with:', email);
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
             });
+            console.log('[AuthService] Supabase response - data:', !!data, 'error:', error);
 
             if (error) {
+                console.log('[AuthService] Supabase error:', error.message);
                 return { error: error.message };
             }
 
             if (data.user) {
+                console.log('[AuthService] User found:', data.user.id);
                 await authService.syncPartnerEmail(data.user.id, email);
                 const partner = await authService.getPartnerBySupabaseId(data.user.id);
+                console.log('[AuthService] Partner found:', partner);
                 return { 
                     user: data.user,
                     session: data.session,
@@ -24,6 +29,7 @@ export const authService = {
 
             return { error: 'No se pudo iniciar sesión' };
         } catch (error: any) {
+            console.log('[AuthService] Catch error:', error);
             return { error: error.message || 'Error desconocido' };
         }
     },
