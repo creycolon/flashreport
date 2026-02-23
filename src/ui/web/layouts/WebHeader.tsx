@@ -24,6 +24,7 @@ export const WebHeader: React.FC<WebHeaderProps> = ({
     title = 'Flash Report Dashboard',
     user,
     notificationsCount = 0,
+    onLogout,
 }) => {
     const { colors, themePreference, setThemePreference, effectiveColorScheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
