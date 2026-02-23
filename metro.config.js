@@ -18,20 +18,4 @@ config.resolver.extraNodeModules = {
 // Ensure platform resolution works for web
 config.resolver.platforms = ['ios', 'android', 'web'];
 
-// Filter out worklets version mismatch warnings
-config.transformer = config.transformer || {};
-config.transformer.minifierConfig = config.transformer.minifierConfig || {};
-config.reporter = {
-  update: (event) => {
-    if (event.type === 'client_log' && event.data && event.data.level === 'warn') {
-      const message = event.data.data && event.data.data[0];
-      if (typeof message === 'string' && message.includes('Mismatch between JavaScript part and native part of Worklets')) {
-        return; // Ignore this warning
-      }
-    }
-    // Default logging
-    console.log(event);
-  }
-};
-
 module.exports = config;
