@@ -9,7 +9,7 @@ import { authService } from '@core/application/services/authService';
 
 export const LoginScreen = () => {
     const router = useRouter();
-    const { colors } = useTheme();
+    const { colors, effectiveColorScheme } = useTheme();
     const { width } = useWindowDimensions();
     const isWebDesktop = Platform.OS === 'web' && width >= 768;
     const [email, setEmail] = useState('');
@@ -53,10 +53,18 @@ export const LoginScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
             >
-                <View style={styles.logoContainer}>
+                <View style={[
+                    styles.logoContainer,
+                    effectiveColorScheme === 'dark' && { backgroundColor: '#0d111c', borderRadius: 20, padding: 20 }
+                ]}>
                     <Image 
                         source={require('../assets/flash_report_logo.png')} 
-                        style={{ width: 120, height: 120, resizeMode: 'contain' }}
+                        style={{ 
+                            width: 120, 
+                            height: 120, 
+                            resizeMode: 'contain',
+                            ...(effectiveColorScheme === 'dark' ? { opacity: 0.9 } : {})
+                        }}
                     />
                     <Typography variant="body" color={colors.textSecondary} align="center" style={{ marginTop: theme.spacing.sm }}>
                         Ingresa tus credenciales
