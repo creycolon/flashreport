@@ -61,7 +61,8 @@ export const LoginScreen = () => {
                     </Typography>
                 </View>
 
-                <Card style={styles.card}>
+                <View style={styles.cardWrapper}>
+                    <Card style={styles.card}>
                     <View style={styles.inputContainer}>
                         <Input
                             label="Email"
@@ -115,6 +116,7 @@ export const LoginScreen = () => {
                         </Typography>
                     </TouchableOpacity>
                 </Card>
+                </View>
 
                 <Typography variant="caption" color={colors.textMuted} align="center" style={{ marginTop: theme.spacing.xl }}>
                     © 2025 Flash Report
@@ -128,11 +130,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
     },
     keyboardView: {
         flex: 1,
         justifyContent: 'center',
-        padding: theme.spacing.lg,
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: 400,
+    },
+    cardWrapper: {
+        width: '100%',
+        maxWidth: '30%',
+        minWidth: 320,
     },
     logoContainer: {
         alignItems: 'center',
