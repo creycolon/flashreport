@@ -493,6 +493,15 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                     </View>
 
                     <View style={styles.formSection}>
+                        {/* Punto de Venta - Debug: mostrar solo valor */}
+                        <Typography style={styles.label}>Punto de Venta</Typography>
+                        <Typography variant="caption" color={colors.textMuted} style={{ fontSize: 10 }}>
+                            {selectedBu ? `Cargando... (bu: ${selectedBu})` : 'Seleccione un negocio primero'}
+                        </Typography>
+                    </View>
+
+                    {/* 
+                    <View style={styles.formSection}>
                         <Typography style={styles.label}>Punto de Venta</Typography>
                         <View style={{ position: 'relative' }}>
                             <TouchableOpacity
@@ -516,6 +525,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                             </TouchableOpacity>
                         </View>
                     </View>
+                    */}
 
                     <View style={styles.formSection}>
                         <Typography style={styles.label}>Categoría</Typography>
