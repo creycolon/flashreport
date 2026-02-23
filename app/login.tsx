@@ -35,7 +35,7 @@ export const LoginScreen = () => {
                 setError(result.error);
             } else {
                 console.log('[Login] Success, user:', result.user?.email, 'partner:', result.partner);
-                router.replace('/(tabs)');
+                router.replace('/(tabs)/dashboard');
             }
         } catch (err: any) {
             console.log('[Login] Catch error:', err);
