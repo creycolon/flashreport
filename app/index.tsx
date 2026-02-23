@@ -1,5 +1,6 @@
 import { Redirect } from 'expo-router';
 
 export default function IndexRedirect() {
-  return <Redirect href="/(tabs)/dashboard" />;
+  // Redirect to login - AuthGuard will handle the rest
+  return <Redirect href="/login" />;
 }

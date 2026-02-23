@@ -38,7 +38,7 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
             if (!isAuth && !inAuthGroup) {
                 router.replace('/login');
             } else if (isAuth && inAuthGroup) {
-                router.replace('/(tabs)');
+                router.replace('/(tabs)/dashboard');
             }
         } catch (error) {
             console.error('Auth check error:', error);
