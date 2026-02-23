@@ -29,6 +29,7 @@ export const DEFAULT_SIDEBAR_ITEMS: SidebarItem[] = [
     { name: 'list', label: 'Movimientos', icon: 'list' },
     { name: 'add', label: 'Agregar', icon: 'add-circle' },
     { name: 'reports', label: 'Informes', icon: 'analytics' },
+    { name: 'profile', label: 'Mi Perfil', icon: 'person' },
     { name: 'settings', label: 'Configuración', icon: 'settings' },
 ];
 

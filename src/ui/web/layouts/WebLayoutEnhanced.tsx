@@ -11,6 +11,7 @@ import { AddMovementScreen } from '../../../features/movements/AddMovementScreen
 import { ReportsScreen } from '../../../features/reports/ReportsScreen';
 import { SettingsScreen } from '../../../features/settings/SettingsScreen';
 import { AddMovementEnhanced } from '../components/AddMovementEnhanced';
+import { ProfileScreen } from '../../../../app/profile';
 import { businessUnitRepository } from '../../../core/infrastructure/repositories/businessUnitRepository';
 import { categoryRepository } from '../../../core/infrastructure/repositories/categoryRepository';
 import { cashMovementRepository } from '../../../core/infrastructure/repositories/cashMovementRepository';
@@ -141,6 +142,13 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
                 return <AddMovementScreen />;
             case 'reports':
                 return <ReportsScreen />;
+            case 'profile':
+                return (
+                    <ProfileScreen 
+                        partner={currentPartner}
+                        onUpdate={(updated) => setCurrentPartner(updated)}
+                    />
+                );
             case 'settings':
                 return <SettingsScreen />;
             default:
