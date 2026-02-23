@@ -10,9 +10,6 @@
       "distribution": "internal",
       "android": {
         "gradleCommand": ":app:assembleDebug"
-      },
-      "ios": {
-        "buildConfiguration": "Debug"
       }
     },
     "preview": {
@@ -20,18 +17,12 @@
       "withoutCredentials": true,
       "android": {
         "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
       }
     },
     "production": {
       "distribution": "store",
       "android": {
         "buildType": "app-bundle"
-      },
-      "ios": {
-        "enterpriseProvisioning": "universal"
       }
     }
   },
@@ -39,10 +30,6 @@
     "production": {
       "android": {
         "track": "internal"
-      },
-      "ios": {
-        "ascAppId": "1234567890",
-        "appleTeamId": "YOUR_TEAM_ID"
       }
     }
   }

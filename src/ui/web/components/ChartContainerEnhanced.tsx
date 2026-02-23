@@ -141,6 +141,8 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     // Mock x-axis labels for days of week
     const xAxisLabels = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
 
+    const hasData = chartData && chartData.labels && chartData.labels.length > 0;
+
     return (
         <View style={styles.container} onLayout={handleLayout}>
             <View style={styles.header}>
@@ -163,6 +165,16 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                 )}
             </View>
 
+            {!hasData ? (
+                <View style={styles.chartPlaceholder}>
+                    <Typography variant="h3" color={colors.textMuted} style={{ marginBottom: theme.spacing.sm }}>
+                        Sin datos
+                    </Typography>
+                    <Typography variant="body" color={colors.textMuted}>
+                        No hay registros para el período seleccionado
+                    </Typography>
+                </View>
+            ) : (
             <View style={styles.chartContainer}>
                 <LineChart
                     labels={chartData.labels}
@@ -183,6 +195,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                     </View>
                 )}
             </View>
+            )}
         </View>
     );
 };

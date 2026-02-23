@@ -1,6 +1,7 @@
 export default {
   expo: {
     // ... config existente
+    scheme: 'flashreport',
     android: {
       package: "com.creycolon.flashreport"
     },

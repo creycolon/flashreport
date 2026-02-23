@@ -6,7 +6,7 @@ import { configRepository } from '@core/infrastructure/repositories/configReposi
 export const appInitService = {
     /**
      * Verifica que exista un socio gerente configurado en app_config
-     * Si no existe, asigna el socio p1 (o el primer socio activo) como gerente
+     * Si no existe, asigna el socio con id=1 (o el primer socio activo) como gerente
      * Garantiza que el socio gerente esté activo y tenga is_managing_partner = 1
      */
     ensureDefaultManagingPartner: async (): Promise<boolean> => {
@@ -14,8 +14,9 @@ export const appInitService = {
             // Debug: console.log('[AppInit] Verificando socio gerente desde configuración...');
             
             // 1. Obtener managing partner ID desde app_config
-            const managingPartnerId = await (configRepository as any).get('managing_partner_id', '');
-            // Debug: console.log(`[AppInit] managing_partner_id en config: ${managingPartnerId || '(vacío)'}`);
+            const storedId = await (configRepository as any).get('default_manager', '');
+            const managingPartnerId = storedId ? parseInt(storedId, 10) : null;
+            // Debug: console.log(`[AppInit] default_manager en config: ${managingPartnerId || '(vacío)'}`);
             
             // 2. Obtener todos los socios activos
             const partners = await (partnerRepository as any).getAll(true);
@@ -56,29 +57,26 @@ export const appInitService = {
             
             // 4. Si no hay socio gerente válido, asignar uno
             if (!targetPartner) {
-                // Buscar socio p1 primero (por defecto)
-                targetPartner = partners.find((p: any) => p.id === 'p1');
+                // Buscar socio con id=1 primero (por defecto)
+                targetPartner = partners.find((p: any) => p.id === 1);
                 
                 if (!targetPartner) {
-                    // Si no hay socio p1, tomar el primer socio activo
+                    // Si no hay socio con id=1, tomar el primer socio activo
                     targetPartner = partners.find((p: any) => !!p.is_active);
                     
                     if (!targetPartner) {
                         console.log('[AppInit] No hay socios activos. Creando socio gerente por defecto...');
                         try {
-                            // Crear socio gerente por defecto con ID 'p1'
+                            // Crear socio gerente por defecto
                             await (partnerRepository as any).create({
-                                id: 'p1',
                                 name: 'Socio Gerente',
                                 alias: 'Admin',
                                 participationPercentage: 50,
                                 role: 'Managing Partner',
-                                 isManagingPartner: true
+                                isManagingPartner: true
                             });
-                            console.log('[AppInit] Socio gerente por defecto creado exitosamente (ID: p1)');
+                            console.log('[AppInit] Socio gerente por defecto creado exitosamente');
                             
-                            // Guardar en configuración
-                            await (configRepository as any).set('managing_partner_id', 'p1');
                             return true;
                             
                         } catch (createError) {
@@ -127,8 +125,8 @@ export const appInitService = {
                 }
                 
                 // Guardar en configuración
-                await (configRepository as any).set('managing_partner_id', targetPartner.id);
-                console.log(`[AppInit] managing_partner_id guardado: ${targetPartner.id}`);
+                await (configRepository as any).set('default_manager', targetPartner.id);
+                console.log(`[AppInit] default_manager guardado: ${targetPartner.id}`);
             }
             
             // 5. Verificar que solo un socio tenga is_managing_partner = 1

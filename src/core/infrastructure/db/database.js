@@ -10,12 +10,12 @@ let isInitialized = false;
 // Datos de fábrica que NUNCA deben faltar
 const defaultStorage = {
   partners: [
-    { id: 'p1', name: 'Administrador Principal', alias: 'Admin', participation_percentage: 50, role: 'Managing Partner', is_managing_partner: 1, is_active: 1 },
-    { id: 'p2', name: 'Socio Operativo', alias: 'Socio 2', participation_percentage: 50, role: 'Partner', is_managing_partner: 0, is_active: 1 },
+    { id: 1, name: 'Administrador Principal', alias: 'Admin', participation_percentage: 50, role: 'Managing Partner', is_managing_partner: 1, is_active: 1 },
+    { id: 2, name: 'Socio Operativo', alias: 'Socio 2', participation_percentage: 50, role: 'Partner', is_managing_partner: 0, is_active: 1 },
   ],
   partner_accounts: [
-    { id: 'acc_p1', partner_id: 'p1', current_balance: 0 },
-    { id: 'acc_p2', partner_id: 'p2', current_balance: 0 },
+    { id: 1, partner_id: 1, current_balance: 0 },
+    { id: 2, partner_id: 2, current_balance: 0 },
   ],
   business_units: [
     { id: 'bu1', name: 'MCMXII', color: '#FF5733', is_active: 1, display_order: 1 },

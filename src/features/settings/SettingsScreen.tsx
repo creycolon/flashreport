@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, SafeAreaView, Alert, Platform, Switch, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@ui/shared/theme';
 import { Typography, Card, Button, ManagePartnerModal } from '@ui/shared/components';
 import { testDataService } from '@core/application/services/testDataService';
@@ -260,27 +261,38 @@ export const SettingsScreen = () => {
         settingRow: { flexDirection: 'row', alignItems: 'center' },
         themeChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: colors.border },
         activeThemeChip: { backgroundColor: colors.primary, borderColor: colors.primary },
+        themeButtons: { flexDirection: 'row', gap: theme.spacing.sm },
+        themeButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: colors.border },
+        toolsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.md },
+        settingHeader: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, marginBottom: theme.spacing.sm },
         footer: { marginTop: 40, paddingBottom: 20 }
     }), [colors]);
 
     if (isWebDesktop) {
         return (
-            <SettingsEnhanced
-                onManageBusinessUnits={() => router.push('/business-units')}
-                onManagePartners={() => router.push('/partners')}
-                onChangeManagingPartner={() => setShowManagePartnerModal(true)}
-                onGenerateMockData={handleGenerateData}
-                onClearData={handleClearData}
-                onFactoryReset={handleFactoryReset}
-                onToggleDynamicZoom={handleToggleZoom}
-                onChangeTheme={setThemePreference}
-                dynamicZoom={dynamicZoom}
-                themePreference={themePreference}
-                managingPartner={managingPartner}
-                generatingData={generating}
-                deletingData={deleting}
-                businessLabel={businessLabel}
-            />
+            <>
+                <SettingsEnhanced
+                    onManageBusinessUnits={() => router.push('/business-units')}
+                    onManagePartners={() => router.push('/partners')}
+                    onChangeManagingPartner={() => setShowManagePartnerModal(true)}
+                    onGenerateMockData={handleGenerateData}
+                    onClearData={handleClearData}
+                    onFactoryReset={handleFactoryReset}
+                    onToggleDynamicZoom={handleToggleZoom}
+                    onChangeTheme={setThemePreference}
+                    dynamicZoom={dynamicZoom}
+                    themePreference={themePreference}
+                    managingPartner={managingPartner}
+                    generatingData={generating}
+                    deletingData={deleting}
+                    businessLabel={businessLabel}
+                />
+                <ManagePartnerModal
+                    visible={showManagePartnerModal}
+                    onClose={() => setShowManagePartnerModal(false)}
+                    onSuccess={handleManagingPartnerSuccess}
+                />
+            </>
         );
     }
 
@@ -299,7 +311,7 @@ export const SettingsScreen = () => {
                     <Card style={styles.toolCard}>
                         <Typography variant="h3" style={{ marginBottom: 4 }}>{businessLabel || 'Unidades de Negocio'}</Typography>
                         <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Configura los locales, colores y orden de visualización en el dashboard.
+                            Configura los {businessLabel?.toLowerCase() || 'locales'}, colores y orden de visualización en el dashboard.
                         </Typography>
                         <Button
                             title={`Gestionar ${businessLabel || 'Locales'}`}
@@ -311,7 +323,7 @@ export const SettingsScreen = () => {
                     <Card style={styles.toolCard}>
                         <Typography variant="h3" style={{ marginBottom: 4 }}>Socios</Typography>
                         <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Administra la lista de socios y sus porcentajes de participación.
+                            Administra los socios de tu negocio y sus porcentajes de participación.
                         </Typography>
                         <Button
                             title="Gestionar Socios"
@@ -319,14 +331,15 @@ export const SettingsScreen = () => {
                             onPress={() => router.push('/partners')}
                         />
                     </Card>
+                </View>
+
+                <View style={styles.section}>
+                    <Typography variant="label" style={styles.sectionLabel}>Gestión del Sistema</Typography>
 
                     <Card style={styles.toolCard}>
                         <Typography variant="h3" style={{ marginBottom: 4 }}>Socio Gerente</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            {managingPartner
-                                ? `${managingPartner.name} (${managingPartner.role})`
-                                : 'No hay socio gerente asignado'
-                            }
+                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 12 }}>
+                            {managingPartner ? `${managingPartner.name} (${managingPartner.alias})` : 'No asignado'}
                         </Typography>
                         <Button
                             title="Cambiar Socio Gerente"
@@ -334,75 +347,41 @@ export const SettingsScreen = () => {
                             onPress={() => setShowManagePartnerModal(true)}
                         />
                     </Card>
-                </View>
 
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Herramientas de Datos</Typography>
-                    <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Generar Simulacro</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Crea movimientos aleatorios de los últimos 30 días (hasta ayer) para pruebas.
-                        </Typography>
-                        <Button
-                            title="Generar Datos de Prueba"
-                            onPress={handleGenerateData}
-                            loading={generating}
-                        />
-                    </Card>
-
-                    <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Borrar Datos</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Borra movimientos de prueba o realiza un reinicio total.
-                        </Typography>
-                        <Button
-                            title="Opciones de Borrado"
-                            variant="outline"
-                            onPress={handleDeleteOptions}
-                            loading={deleting}
-                        />
-                    </Card>
-                </View>
-
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Preferencias Visuales</Typography>
                     <Card style={styles.toolCard}>
                         <View style={styles.settingRow}>
                             <View style={{ flex: 1 }}>
-                                <Typography variant="h3">Lupa en Gráficos</Typography>
+                                <Typography variant="h3" style={{ marginBottom: 4 }}>Zoom Dinámico</Typography>
                                 <Typography variant="body" color={colors.textSecondary}>
-                                    Ajusta el eje Y para ver mejor las variaciones (Zoom dinámico).
+                                    Ajuste automático de gráficos
                                 </Typography>
                             </View>
                             <Switch
                                 value={dynamicZoom}
                                 onValueChange={handleToggleZoom}
-                                trackColor={{ false: colors.border, true: colors.primary + '80' }}
-                                thumbColor={dynamicZoom ? colors.primary : '#f4f3f4'}
+                                trackColor={{ false: colors.border, true: colors.primary }}
+                                thumbColor="#fff"
                             />
                         </View>
                     </Card>
-                </View>
 
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Tema de la Aplicación</Typography>
                     <Card style={styles.toolCard}>
-                        <View style={{ flexDirection: 'row', gap: 12, marginTop: 8 }}>
-                            {(['auto', 'dark', 'light'] as const).map((mode) => (
+                        <Typography variant="h3" style={{ marginBottom: 4 }}>Tema</Typography>
+                        <View style={styles.themeButtons}>
+                            {['auto', 'light', 'dark'].map((theme) => (
                                 <TouchableOpacity
-                                    key={mode}
+                                    key={theme}
                                     style={[
-                                        styles.themeChip,
-                                        themePreference === mode && styles.activeThemeChip
+                                        styles.themeButton,
+                                        themePreference === theme && styles.activeThemeChip
                                     ]}
-                                    onPress={() => { console.warn('[SettingsScreen] Theme chip pressed:', mode); setThemePreference(mode); }}
+                                    onPress={() => setThemePreference(theme as any)}
                                 >
                                     <Typography
-                                        variant="caption"
-                                        weight="bold"
-                                        color={themePreference === mode ? colors.text : colors.textSecondary}
+                                        color={themePreference === theme ? '#fff' : colors.text}
+                                        weight={themePreference === theme ? 'bold' : 'regular'}
                                     >
-                                        {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Oscuro' : 'Claro'}
+                                        {theme === 'auto' ? 'Auto' : theme === 'light' ? 'Claro' : 'Oscuro'}
                                     </Typography>
                                 </TouchableOpacity>
                             ))}
@@ -417,17 +396,48 @@ export const SettingsScreen = () => {
                     </Card>
                 </View>
 
+                <View style={styles.section}>
+                    <Typography variant="label" style={styles.sectionLabel}>Herramientas de Datos</Typography>
+                    <View style={styles.toolsGrid}>
+                        <Card style={styles.toolCard}>
+                            <Typography variant="h3" style={{ marginBottom: 4 }}>Generar Datos</Typography>
+                            <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
+                                Crea movimientos aleatorios de los últimos 30 días para pruebas y demostraciones.
+                            </Typography>
+                            <Button
+                                title={generating ? 'Generando...' : 'Generar Datos de Prueba'}
+                                onPress={handleGenerateData}
+                                loading={generating}
+                                style={{ alignSelf: 'flex-start' }}
+                            />
+                        </Card>
+
+                        <Card style={[styles.toolCard, { borderColor: colors.danger }]}>
+                            <View style={styles.settingHeader}>
+                                <Ionicons name="trash" size={24} color={colors.danger} />
+                                <Typography variant="caption" color={colors.danger}>
+                                    Peligro
+                                </Typography>
+                            </View>
+                            <Typography variant="h3" style={{ marginBottom: 4 }}>Limpiar Datos</Typography>
+                            <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
+                                Elimina todos los movimientos de efectivo. Esta acción no se puede deshacer.
+                            </Typography>
+                            <Button
+                                title={deleting ? 'Eliminando...' : 'Limpiar Datos'}
+                                onPress={handleClearData}
+                                loading={deleting}
+                                style={{ alignSelf: 'flex-start', backgroundColor: colors.danger }}
+                            />
+                        </Card>
+                    </View>
+                </View>
+
                 <View style={styles.footer}>
                     <Typography variant="caption" align="center">Flash Report v1.0.0</Typography>
                     <Typography variant="caption" align="center" color={colors.textMuted}>Hecho para gestión estratégica</Typography>
                 </View>
             </ScrollView>
-
-            <ManagePartnerModal
-                visible={showManagePartnerModal}
-                onClose={() => setShowManagePartnerModal(false)}
-                onSuccess={handleManagingPartnerSuccess}
-            />
         </View>
     );
 };

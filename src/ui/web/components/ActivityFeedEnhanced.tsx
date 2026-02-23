@@ -173,7 +173,13 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
             </View>
 
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={Platform.OS === 'web'}>
-                {items.map((item) => {
+                {items.length === 0 ? (
+                    <View style={{ padding: theme.spacing.lg, alignItems: 'center' }}>
+                        <Typography variant="body" color={colors.textMuted}>
+                            Sin actividad reciente
+                        </Typography>
+                    </View>
+                ) : items.map((item) => {
                     const activityColors = getActivityColors(item.type, colors);
                     const amountColor = item.amountType ? getAmountColor(item.amountType, colors) : colors.text;
 
@@ -212,7 +218,7 @@ export const ActivityFeedEnhanced: React.FC<ActivityFeedEnhancedProps> = ({
                             )}
                         </TouchableOpacity>
                     );
-                })}
+                })} : null
             </ScrollView>
         </View>
     );

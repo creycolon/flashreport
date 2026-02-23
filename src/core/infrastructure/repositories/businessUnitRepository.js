@@ -44,10 +44,12 @@ export const businessUnitRepository = {
 
     create: async ({ name, color, location, displayOrder = 0 }) => {
         const now = new Date().toISOString();
+        const code = `BU-${Date.now()}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
         const { data, error } = await supabase
             .from('business_units')
             .insert({
                 name,
+                code,
                 color,
                 location,
                 display_order: displayOrder,

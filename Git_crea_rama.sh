@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="flash_report_supabase - "
-RAMA="flash_report - "
+
 
 # Verificar si hay cambios
 if git diff --quiet && git diff --cached --quiet; then

@@ -119,6 +119,10 @@ export const testDataService = {
     factoryReset: async () => {
         try {
             console.log('[TestData] Performing factory reset...');
+            
+            // Ensure audit_logs table exists
+            await testDataService.ensureAuditLogsTable();
+            
             // In a real factory reset, we might want to delete more, 
             // but for now, clearing all movements is the core task.
             const { error } = await supabase
@@ -136,6 +140,35 @@ export const testDataService = {
         } catch (error) {
             console.error('[TestData] Error in factoryReset:', error);
             throw error;
+        }
+    },
+
+    /**
+     * Ensures audit_logs table exists, creates it if not
+     */
+    ensureAuditLogsTable: async () => {
+        try {
+            // Check if table exists by trying to select from it
+            const { error: checkError } = await supabase
+                .from('audit_logs')
+                .select('id')
+                .limit(1);
+
+            if (checkError && checkError.code === '42P01') {
+                console.log('[TestData] Creating audit_logs table...');
+                
+                // Create table using raw SQL via rpc or direct query
+                const { error: createError } = await supabase.rpc('create_audit_logs_table', {});
+                
+                // If RPC doesn't exist, try alternative approach
+                if (createError) {
+                    console.log('[TestData] RPC not available, table will be created via migration');
+                }
+            } else if (!checkError) {
+                console.log('[TestData] audit_logs table already exists');
+            }
+        } catch (error) {
+            console.log('[TestData] audit_logs table check skipped:', error);
         }
     }
 };

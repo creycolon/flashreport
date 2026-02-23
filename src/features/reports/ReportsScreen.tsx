@@ -8,6 +8,8 @@ import { Typography, Card, Button } from '@ui/shared/components';
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
 import { configRepository } from '@core/infrastructure/repositories/configRepository';
 import { reportService } from '@core/application/services/reportService';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
+import { auditLogRepository } from '@core/infrastructure/repositories/auditLogRepository';
 import { ReportsEnhanced } from '@ui/web/components';
 import { pluralizeSpanish } from '@core/utils/stringUtils';
 
@@ -152,9 +154,57 @@ export const ReportsScreen = () => {
 
     // Enhanced view for web desktop
     if (isWebDesktop) {
-        const handleGenerateEnhancedReport = (type: string) => {
+        const getPeriodDays = (filter: string): number => {
+            switch (filter) {
+                case '7d': return 7;
+                case '30d': return 30;
+                case 'all': return 365;
+                default: return 7;
+            }
+        };
+
+        const getPeriodLabel = (filter: string): string => {
+            switch (filter) {
+                case '7d': return 'Semana';
+                case '30d': return 'Mes';
+                case 'all': return 'Año';
+                default: return 'Semana';
+            }
+        };
+
+        const getBusinessUnitLabel = () => {
+            if (selectedBu === 'all') return 'Todos';
+            const bu = bus.find(b => b.id === selectedBu);
+            return bu ? bu.name : 'Desconocido';
+        };
+
+        const handleGenerateEnhancedReport = async (type: string) => {
             console.log('Generate enhanced report:', type);
-            // Could map type to existing report generation logic
+            
+            try {
+                const managingPartner = await managingPartnerService.getCurrentManagingPartner();
+                const periodDays = getPeriodDays(dateFilter);
+                const endDate = new Date();
+                const startDate = new Date();
+                startDate.setDate(startDate.getDate() - periodDays);
+
+                await auditLogRepository.create({
+                    userId: managingPartner?.id,
+                    action: 'GENERATE_REPORT',
+                    entityType: type,
+                    businessUnitFilter: getBusinessUnitLabel(),
+                    periodFilter: getPeriodLabel(dateFilter),
+                    periodDays: periodDays,
+                    periodStart: startDate.toISOString().split('T')[0],
+                    periodEnd: endDate.toISOString().split('T')[0],
+                    details: { reportType: type }
+                });
+
+                console.log('[Reports] Audit log saved');
+            } catch (error) {
+                console.error('[Reports] Error saving audit log:', error);
+            }
+
             handleGenerateReport();
         };
 

@@ -7,6 +7,9 @@ import { theme } from '@ui/shared/theme';
 import { ChartAndActivitySection } from './ChartAndActivitySection';
 import { ActivityItem } from './ActivityFeedEnhanced';
 import { pluralizeSpanish } from '@core/utils/stringUtils';
+import { cashMovementRepository } from '@core/infrastructure/repositories/cashMovementRepository';
+import { auditLogRepository } from '@core/infrastructure/repositories/auditLogRepository';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
 
 export interface Report {
     id: string;
@@ -53,10 +56,192 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     const { colors } = useTheme();
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
     const [selectedDateFilter, setSelectedDateFilter] = React.useState(dateFilter);
+    const [loadingData, setLoadingData] = React.useState(false);
+    const [activityData, setActivityData] = React.useState<any[]>([]);
+    const [chartDataReal, setChartDataReal] = React.useState<any>(null);
+    const [hasData, setHasData] = React.useState(false);
+    const [auditLogs, setAuditLogs] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         setSelectedDateFilter(dateFilter);
     }, [dateFilter]);
+
+    React.useEffect(() => {
+        loadAuditLogs();
+    }, []);
+
+    const loadAuditLogs = async () => {
+        try {
+            const logs = await auditLogRepository.list(20, 0);
+            if (logs && logs.length > 0) {
+                setAuditLogs(logs);
+            }
+        } catch (error) {
+            console.log('[ReportsEnhanced] No audit logs yet or error:', error);
+        }
+    };
+
+    const getDaysFromFilter = (filter: string): number => {
+        switch (filter) {
+            case 'hoy': return 1;
+            case '7d': return 7;
+            case '30d': return 30;
+            case '90d': return 90;
+            case 'all': return 365;
+            default: return 7;
+        }
+    };
+
+    const fetchRealData = React.useCallback(async () => {
+        setLoadingData(true);
+        try {
+            const days = getDaysFromFilter(selectedDateFilter);
+            const buId = selectedBu === 'all' ? null : selectedBu;
+            
+            const units = businessUnits.length > 0 ? businessUnits : [
+                { id: '1', name: 'Puesto Norte', color: '#38ff14' },
+                { id: '2', name: 'Puesto Sur', color: '#2196f3' },
+                { id: '3', name: 'Puesto Este', color: '#e91e63' },
+            ];
+            
+            let totalSales = 0;
+            let totalTransactions = 0;
+            let dailySalesData: any[] = [];
+            let activities: any[] = [];
+            let seriesData: any[] = [];
+            
+            if (buId) {
+                const balance = await cashMovementRepository.getBalance(buId, null, null);
+                totalSales = balance.total_credits || 0;
+                totalTransactions = balance.ticket_count || 0;
+                
+                const dailySales = await cashMovementRepository.getDailySales(buId, days);
+                dailySalesData = dailySales;
+                
+                activities = [{
+                    id: buId,
+                    title: units.find(u => u.id === buId)?.name || 'Negocio',
+                    description: `${totalTransactions} transacciones`,
+                    amount: `+$${totalSales.toLocaleString('es-ES')}`,
+                    amountType: 'positive' as const,
+                    time: 'Datos reales',
+                    icon: 'trending-up' as const,
+                    type: 'revenue' as const,
+                    businessUnitColor: units.find(u => u.id === buId)?.color || colors.primary,
+                }];
+                
+                seriesData = [{
+                    id: buId,
+                    name: units.find(u => u.id === buId)?.name || 'Total',
+                    color: units.find(u => u.id === buId)?.color || colors.primary,
+                    data: dailySalesData.map(d => d.total),
+                }];
+            } else {
+                const balance = await cashMovementRepository.getGlobalBalance(null, null);
+                totalSales = balance.total_credits || 0;
+                totalTransactions = balance.ticket_count || 0;
+                
+                const allMovements = await cashMovementRepository.listAll(1000, 0, null, null);
+                
+                const groupedByBuAndDate: any = {};
+                const buTotals: any = {};
+                
+                allMovements.forEach((mov: any) => {
+                    if (mov.type === 'CR') {
+                        const bu = mov.business_unit_id;
+                        const date = mov.transaction_date.split('T')[0];
+                        const amount = parseFloat(mov.amount);
+                        
+                        if (!groupedByBuAndDate[bu]) groupedByBuAndDate[bu] = {};
+                        if (!groupedByBuAndDate[bu][date]) groupedByBuAndDate[bu][date] = 0;
+                        groupedByBuAndDate[bu][date] += amount;
+                        
+                        if (!buTotals[bu]) buTotals[bu] = { transactions: 0, sales: 0 };
+                        buTotals[bu].sales += amount;
+                        buTotals[bu].transactions += 1;
+                    }
+                });
+                
+                const allDates = new Set<string>();
+                Object.values(groupedByBuAndDate).forEach((buData: any) => {
+                    Object.keys(buData).forEach(d => allDates.add(d));
+                });
+                
+                const sortedDates = Array.from(allDates).sort().slice(-days);
+                
+                const labels = sortedDates.map(d => {
+                    const date = new Date(d);
+                    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
+                });
+                
+                seriesData = units.map(bu => {
+                    const buData = groupedByBuAndDate[bu.id] || {};
+                    const data = sortedDates.map(date => buData[date] || 0);
+                    const buInfo = buTotals[bu.id] || { transactions: 0, sales: 0 };
+                    
+                    if (buInfo.sales > 0) {
+                        activities.push({
+                            id: bu.id,
+                            title: bu.name,
+                            description: `${buInfo.transactions} transacciones`,
+                            amount: `+$${buInfo.sales.toLocaleString('es-ES')}`,
+                            amountType: 'positive' as const,
+                            time: 'Datos reales',
+                            icon: 'trending-up' as const,
+                            type: 'revenue' as const,
+                            businessUnitColor: bu.color || colors.primary,
+                        });
+                    }
+                    
+                    return {
+                        id: bu.id,
+                        name: bu.name,
+                        color: bu.color || colors.primary,
+                        data: data,
+                    };
+                }).filter(s => s.data.some((v: number) => v > 0));
+                
+                dailySalesData = sortedDates.map(date => {
+                    let total = 0;
+                    units.forEach(bu => {
+                        const buData = groupedByBuAndDate[bu.id] || {};
+                        total += buData[date] || 0;
+                    });
+                    return { day: date, total };
+                });
+                
+                if (seriesData.length === 0) {
+                    seriesData = [{
+                        id: 'all',
+                        name: 'Total',
+                        color: colors.primary,
+                        data: sortedDates.map(() => 0),
+                    }];
+                }
+            }
+            
+            setHasData(totalSales > 0 || totalTransactions > 0);
+            
+            setActivityData(activities);
+            
+            const labels = dailySalesData.map(d => {
+                const date = new Date(d.day);
+                return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
+            });
+            
+            setChartDataReal({ labels, series: seriesData });
+            
+        } catch (error) {
+            console.error('[ReportsEnhanced] Error fetching real data:', error);
+            setHasData(false);
+        } finally {
+            setLoadingData(false);
+        }
+    }, [selectedBu, selectedDateFilter, businessUnits, colors]);
+
+    React.useEffect(() => {
+        fetchRealData();
+    }, [fetchRealData]);
 
     const getSelectedBuName = () => {
         if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
@@ -526,7 +711,11 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
 
     // Generate activity data for each business unit (ventas del día)
     const generateActivityItems = (): ActivityItem[] => {
-        // Use businessUnits if available, otherwise use mock data
+        if (activityData.length > 0) {
+            return activityData;
+        }
+        
+        // Fallback to mock only if no real data
         const units = businessUnits.length > 0 ? businessUnits : [
             { id: '1', name: 'Puesto Norte', color: '#38ff14' },
             { id: '2', name: 'Puesto Sur', color: '#2196f3' },
@@ -547,7 +736,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                 time: times[index % times.length],
                 icon: 'trending-up' as const,
                 type: 'revenue' as const,
-                businessUnitColor: bu.color, // Pass business unit color
+                businessUnitColor: bu.color,
             };
         });
     };
@@ -570,10 +759,32 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         ? enrichedMockReports
         : enrichedMockReports.filter(report => report.businessUnitId === selectedBu);
 
-    // Filter audit log based on selected business unit (simulated)
-    const filteredAuditLog = selectedBu === 'all'
-        ? mockAuditLog
-        : mockAuditLog.slice(0, 2); // Show fewer items when a specific unit is selected
+    const getRelativeTime = (dateString: string): string => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+        
+        if (diffMins < 60) return `Hace ${diffMins} min`;
+        if (diffHours < 24) return `Hace ${diffHours} h`;
+        if (diffDays < 7) return `Hace ${diffDays} día${diffDays > 1 ? 's' : ''}`;
+        return date.toLocaleDateString('es-ES');
+    };
+
+    // Filter audit log based on selected business unit (use real data if available)
+    const filteredAuditLog = auditLogs.length > 0 
+        ? auditLogs.map(log => ({
+            id: log.id.toString(),
+            action: log.action === 'GENERATE_REPORT' ? 'Generación de reporte' : log.action,
+            user: log.user_id ? `Socio ${log.user_id}` : 'Sistema',
+            details: `${log.business_unit_filter || 'N/A'} - ${log.period_filter || 'N/A'} (${log.period_days} días)`,
+            time: getRelativeTime(log.created_at)
+        }))
+        : (selectedBu === 'all'
+            ? mockAuditLog
+            : mockAuditLog.slice(0, 2));
 
     const getReportTypeColor = (type: string) => {
         switch (type) {
@@ -587,6 +798,15 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
 
     // Generate chart data based on selected filters
     const generateChartData = () => {
+        // Use real data if available
+        if (chartDataReal && chartDataReal.labels && chartDataReal.labels.length > 0) {
+            return chartDataReal;
+        }
+        
+        if (!hasData && !loadingData) {
+            return null;
+        }
+        
         // Calculate total days based on filter
         const totalDays = selectedDateFilter === 'hoy' ? 1 : selectedDateFilter === '7d' ? 7 : selectedDateFilter === '30d' ? 30 : selectedDateFilter === '90d' ? 90 : 365;
 
@@ -762,7 +982,10 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
 
                             <TouchableOpacity
                                 style={[styles.actionButton, styles.actionButtonPrimary]}
-                                onPress={() => onGenerateReport?.('sales')}
+                                onPress={async () => {
+                                    await onGenerateReport?.('sales');
+                                    loadAuditLogs();
+                                }}
                             >
                                 <Ionicons name="add" size={20} color={colors.cardBackground} />
                                 <Typography color={colors.cardBackground} weight="bold">
@@ -782,6 +1005,13 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                     </View>
 
                     {/* Chart & Activity Section - shared component with filters */}
+                    {loadingData ? (
+                        <View style={{ padding: 40, alignItems: 'center' }}>
+                            <Typography variant="body" color={colors.textMuted}>
+                                Cargando datos...
+                            </Typography>
+                        </View>
+                    ) : (
                     <ChartAndActivitySection
                         chartTitle="Reportes Generados"
                         chartSubtitle={getPeriodLabel()}
@@ -798,7 +1028,7 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
                         ]}
                         selectedFilter={selectedDateFilter}
                         onFilterChange={handleDateFilterSelect}
-                    />
+                    />)}
 
                     {/* Recent Reports */}
                     <View style={styles.section}>
