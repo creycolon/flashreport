@@ -148,6 +148,15 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            await authService.signOut();
+            router.replace('/login');
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <EnhancedSidebar
@@ -164,6 +173,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
                         role: currentPartner.is_manager ? 'Gerente' : (currentPartner.is_active ? 'Socio' : 'Inactivo'),
                         avatar: currentPartner.image || undefined
                     } : undefined}
+                    onLogout={handleLogout}
                 />
                 <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
                     {renderScreen()}

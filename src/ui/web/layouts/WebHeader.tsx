@@ -16,6 +16,7 @@ interface WebHeaderProps {
         avatar?: string;
     };
     notificationsCount?: number;
+    onLogout?: () => void;
 }
 
 export const WebHeader: React.FC<WebHeaderProps> = ({
@@ -232,7 +233,10 @@ export const WebHeader: React.FC<WebHeaderProps> = ({
                 <View style={styles.separator} />
 
                 {/* User Profile */}
-                <TouchableOpacity style={styles.userProfile}>
+                <TouchableOpacity 
+                    style={styles.userProfile}
+                    onPress={onLogout}
+                >
                     <View style={styles.userInfo}>
                         <Typography style={styles.userName}>
                             {user?.name || 'Usuario'}

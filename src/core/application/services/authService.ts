@@ -196,6 +196,80 @@ export const authService = {
         return supabase.auth.onAuthStateChange(callback);
     },
 
+    uploadAvatar: async (partnerId: number, imageUri: string): Promise<{ url?: string; error?: string }> => {
+        try {
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            
+            if (userError || !user) {
+                return { error: 'Usuario no autenticado' };
+            }
+
+            const fileName = `avatar_${partnerId}_${Date.now()}.jpg`;
+            
+            const response = await fetch(imageUri);
+            const blob = await response.blob();
+
+            const { data, error } = await supabase.storage
+                .from('avatars')
+                .upload(user.id + '/' + fileName, blob, {
+                    upsert: true,
+                    contentType: 'image/jpeg'
+                });
+
+            if (error) {
+                console.error('[AuthService] Error uploading avatar:', error);
+                return { error: error.message };
+            }
+
+            const { data: { publicUrl } } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(user.id + '/' + fileName);
+
+            await authService.updatePartnerImage(partnerId, publicUrl);
+
+            return { url: publicUrl };
+        } catch (error: any) {
+            console.error('[AuthService] Error uploading avatar:', error);
+            return { error: error.message || 'Error al subir imagen' };
+        }
+    },
+
+    updatePartnerImage: async (partnerId: number, imageUrl: string) => {
+        try {
+            const { error } = await supabase
+                .from('partners')
+                .update({ image: imageUrl })
+                .eq('id', partnerId);
+
+            if (error) {
+                console.error('[AuthService] Error updating partner image:', error);
+                return { error: error.message };
+            }
+
+            return { success: true };
+        } catch (error: any) {
+            return { error: error.message };
+        }
+    },
+
+    updatePartner: async (partnerId: number, data: { name?: string; email?: string; phone?: string; address?: string }) => {
+        try {
+            const { error } = await supabase
+                .from('partners')
+                .update(data)
+                .eq('id', partnerId);
+
+            if (error) {
+                console.error('[AuthService] Error updating partner:', error);
+                return { error: error.message };
+            }
+
+            return { success: true };
+        } catch (error: any) {
+            return { error: error.message };
+        }
+    },
+
     resetPassword: async (email: string) => {
         try {
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
