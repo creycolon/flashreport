@@ -16,6 +16,7 @@ import { categoryRepository } from '../../../core/infrastructure/repositories/ca
 import { cashMovementRepository } from '../../../core/infrastructure/repositories/cashMovementRepository';
 import { partnerRepository } from '../../../core/infrastructure/repositories/partnerRepository';
 import { managingPartnerService } from '../../../core/application/services/managingPartnerService';
+import { authService } from '../../../core/application/services/authService';
 import { useState, useEffect } from 'react';
 
 export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRoute?: string }> = ({ children, activeRoute }) => {
@@ -29,6 +30,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
     const [businessUnits, setBusinessUnits] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
     const [currentPartnerId, setCurrentPartnerId] = useState<number | null>(null);
+    const [currentPartner, setCurrentPartner] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -37,19 +39,25 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
 
     const loadData = async () => {
         try {
-            const [bus, cats, partner, allPartners] = await Promise.all([
+            const [bus, cats, partner, allPartners, authPartnerResult] = await Promise.all([
                 businessUnitRepository.getAll(),
                 categoryRepository.getAll(),
                 managingPartnerService.getCurrentManagingPartner(),
-                partnerRepository.getAll()
+                partnerRepository.getAll(),
+                authService.getCurrentPartner()
             ]);
             setBusinessUnits(bus || []);
             setCategories(cats || []);
-
-            // Set current partner with fallback
-            if (partner) {
+            
+            const loggedInPartner = authPartnerResult?.partner;
+            if (loggedInPartner) {
+                setCurrentPartner(loggedInPartner);
+                setCurrentPartnerId(loggedInPartner.id);
+            } else if (partner) {
+                setCurrentPartner(partner);
                 setCurrentPartnerId(partner.id);
             } else if (allPartners && allPartners.length > 0) {
+                setCurrentPartner(allPartners[0]);
                 setCurrentPartnerId(allPartners[0].id);
                 console.log(`[WebLayout] No managing partner, fallback to: ${allPartners[0].name}`);
             } else {
@@ -150,7 +158,13 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
                 onNewMovement={handleNewMovement}
             />
             <View style={styles.main}>
-                <WebHeader />
+                <WebHeader 
+                    user={currentPartner ? {
+                        name: currentPartner.name || 'Usuario',
+                        role: currentPartner.is_manager ? 'Gerente' : (currentPartner.is_active ? 'Socio' : 'Inactivo'),
+                        avatar: currentPartner.image || undefined
+                    } : undefined}
+                />
                 <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
                     {renderScreen()}
                 </ScrollView>
