@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, useWindowDimensions, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Input, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
@@ -54,10 +53,10 @@ export const LoginScreen = () => {
                 style={styles.keyboardView}
             >
                 <View style={styles.logoContainer}>
-                    <Ionicons name="cash" size={80} color={colors.primary} />
-                    <Typography variant="h1" align="center" style={{ marginTop: theme.spacing.md }}>
-                        Flash Report
-                    </Typography>
+                    <Image 
+                        source={require('../assets/flash_report_logo.png')} 
+                        style={{ width: 120, height: 120, resizeMode: 'contain' }}
+                    />
                     <Typography variant="body" color={colors.textSecondary} align="center" style={{ marginTop: theme.spacing.sm }}>
                         Ingresa tus credenciales
                     </Typography>
