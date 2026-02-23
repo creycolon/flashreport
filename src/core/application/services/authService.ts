@@ -13,6 +13,7 @@ export const authService = {
             }
 
             if (data.user) {
+                await authService.syncPartnerEmail(data.user.id, email);
                 const partner = await authService.getPartnerBySupabaseId(data.user.id);
                 return { 
                     user: data.user,
@@ -40,6 +41,7 @@ export const authService = {
 
             if (data.user) {
                 await authService.linkPartnerToSupabase(partnerId, data.user.id);
+                await authService.syncPartnerEmail(data.user.id, email);
                 const partner = await authService.getPartnerById(partnerId);
                 return { 
                     user: data.user,
@@ -163,6 +165,24 @@ export const authService = {
 
             if (error) {
                 console.error('[AuthService] Error linking partner:', error);
+                return { error: error.message };
+            }
+
+            return { success: true };
+        } catch (error: any) {
+            return { error: error.message };
+        }
+    },
+
+    syncPartnerEmail: async (supabaseId: string, email: string) => {
+        try {
+            const { error } = await supabase
+                .from('partners')
+                .update({ email: email })
+                .eq('supabase_id', supabaseId);
+
+            if (error) {
+                console.error('[AuthService] Error syncing email:', error);
                 return { error: error.message };
             }
 
