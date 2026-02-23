@@ -229,7 +229,7 @@ export const MovementsListScreen = () => {
                 <View style={styles.itemContent}>
                     <View style={styles.itemHeader}>
                         <View>
-                            <Typography weight="bold">{item.category_name || ''}</Typography>
+                            <Typography weight="bold">{truncateName(item.category_name || '', 12)}</Typography>
                             {selectedBu === 'all' && (
                                 <Typography variant="caption" style={{ color: item.bu_color || colors.textSecondary }}>
                                     {truncateName(item.bu_name)}
@@ -332,8 +332,7 @@ export const MovementsListScreen = () => {
                 </View>
 
                 {/* Summary Card */}
-                
-                
+                <Card style={styles.summaryCard}>
                     <View style={styles.summaryVerticalList}>
                         <View style={styles.summaryRowItem}>
                              <Typography variant="caption" color={colors.textSecondary}>Ingresos</Typography>
