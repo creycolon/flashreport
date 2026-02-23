@@ -320,13 +320,11 @@ const MobileChart = (props: LineChartProps & { chartWidth: number; chartHeight: 
 
     try {
         ({ Gesture, GestureDetector } = require('react-native-gesture-handler'));
-        ({ useSharedValue, useAnimatedStyle, withSpring } = require('react-native-reanimated'));
-        Animated = require('react-native-reanimated').default;
-
-        // Check if required functions are available
-        if (!Gesture || !GestureDetector || !useSharedValue || !useAnimatedStyle || !withSpring || !Animated) {
-            throw new Error('Gesture libraries not fully available');
-        }
+        // Reanimated removed - use fallback functions
+        useSharedValue = () => ({ value: 0 });
+        useAnimatedStyle = (style: any) => style;
+        withSpring = (val: number) => val;
+        Animated = { View: require('react-native').View };
     } catch (error) {
         console.warn('Gesture libraries not available:', error);
         // Fall back to non-interactive chart
