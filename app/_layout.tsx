@@ -27,6 +27,18 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
         return () => subscription.unsubscribe();
     }, []);
 
+    useEffect(() => {
+        if (!loading) {
+            const inAuthGroup = segments[0] === 'login' || segments[0] === 'forgot-password';
+            
+            if (!authenticated && !inAuthGroup) {
+                router.replace('/login');
+            } else if (authenticated && inAuthGroup) {
+                router.replace('/(tabs)/dashboard');
+            }
+        }
+    }, [segments, authenticated, loading]);
+
     const checkAuth = async () => {
         try {
             const { session } = await authService.getSession();
