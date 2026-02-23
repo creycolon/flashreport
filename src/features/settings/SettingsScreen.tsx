@@ -11,6 +11,7 @@ import { categoryRepository } from '@core/infrastructure/repositories/categoryRe
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
 import { partnerRepository } from '@core/infrastructure/repositories/partnerRepository';
 import { supabase } from '@core/infrastructure/db/supabaseClient';
+import { authService } from '@core/application/services/authService';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { SettingsEnhanced } from '@ui/web/components';
 import { pluralizeSpanish } from '@core/utils/stringUtils';
@@ -202,6 +203,26 @@ export const SettingsScreen = () => {
             Alert.alert('Error', 'No se pudieron borrar los datos.');
         } finally {
             setDeleting(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        const proceed = Platform.OS === 'web'
+            ? window.confirm('¿Cerrar sesión?')
+            : await new Promise(resolve => {
+                Alert.alert(
+                    'Cerrar Sesión',
+                    '¿Estás seguro de que quieres cerrar sesión?',
+                    [
+                        { text: 'Cancelar', onPress: () => resolve(false), style: 'cancel' },
+                        { text: 'Cerrar Sesión', onPress: () => resolve(true), style: 'destructive' }
+                    ]
+                );
+            });
+
+        if (proceed) {
+            await authService.signOut();
+            router.replace('/login');
         }
     };
 
@@ -431,6 +452,16 @@ export const SettingsScreen = () => {
                             />
                         </Card>
                     </View>
+                </View>
+
+                <View style={styles.section}>
+                    <Button
+                        title="Cerrar Sesión"
+                        variant="outline"
+                        onPress={handleLogout}
+                        style={{ borderColor: colors.danger }}
+                        textStyle={{ color: colors.danger }}
+                    />
                 </View>
 
                 <View style={styles.footer}>
