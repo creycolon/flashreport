@@ -33,7 +33,8 @@ export const financialService = {
         const result = {
             totalSales: globalBalance?.total_credits || 0,
             totalTickets: globalBalance?.ticket_count || 0,
-            busCount: bus.length
+            busCount: bus.length,
+            cashDifference: (globalBalance?.total_credits || 0) - (globalBalance?.total_debits || 0)
         };
         console.log('[financialService] returning metrics:', result);
         return result;
@@ -277,7 +278,8 @@ export const financialService = {
         const result = {
             totalSales: globalBalance?.total_credits || 0,
             totalTickets: globalBalance?.ticket_count || 0,
-            busCount: bus.length
+            busCount: bus.length,
+            cashDifference: (globalBalance?.total_credits || 0) - (globalBalance?.total_debits || 0)
         };
         console.log('[financialService] returning metrics by date:', result);
         return result;

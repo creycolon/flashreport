@@ -15,6 +15,7 @@ interface MetricData {
     busCount: number;
     boxesOpen: number;
     boxesClosed: number;
+    cashDifference: number;
 }
 
 interface ChartSeries {
@@ -53,7 +54,8 @@ export const DashboardScreen = () => {
         totalTickets: 0,
         busCount: 0,
         boxesOpen: 0,
-        boxesClosed: 0
+        boxesClosed: 0,
+        cashDifference: 0
     });
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
@@ -195,7 +197,7 @@ export const DashboardScreen = () => {
                 filterDate
             });
             setMetrics({
-                ...(globalMetrics || { totalSales: 0, totalTickets: 0, busCount: 0 }),
+                ...(globalMetrics || { totalSales: 0, totalTickets: 0, busCount: 0, cashDifference: 0 }),
                 boxesOpen: boxStatus?.open || 0,
                 boxesClosed: boxStatus?.closed || 0
             });
@@ -366,10 +368,14 @@ export const DashboardScreen = () => {
             },
             {
                 title: 'Diferencia de Caja',
-                value: '-$125.50',
-                subtitle: 'PENDIENTE DE REVISIÓN',
+                value: formatCurrency(metrics.cashDifference),
+                subtitle: metrics.cashDifference === 0 ? 'BALANCE OK' : (metrics.cashDifference < 0 ? 'GASTOS MAYORES A INGRESOS' : 'EXCEDENTE'),
                 icon: 'scale' as const,
-                status: { label: 'Crítico', type: 'critical' as const },
+                status: metrics.cashDifference === 0 
+                    ? { label: 'OK', type: 'active' as const }
+                    : metrics.cashDifference < 0 
+                        ? { label: 'Gastos', type: 'warning' as const }
+                        : { label: 'Excedente', type: 'positive' as const },
             },
         ];
 
