@@ -62,8 +62,8 @@ export const LoginScreen = () => {
                             ? require('../assets/flash_report_logo_dark.png') 
                             : require('../assets/flash_report_logo.png')} 
                         style={{ 
-                            width: 120, 
-                            height: 120, 
+                            width: 180, 
+                            height: 180, 
                             resizeMode: 'contain'
                         }}
                     />
