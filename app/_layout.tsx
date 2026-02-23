@@ -40,22 +40,32 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
     }, [segments, authenticated, loading]);
 
     const checkAuth = async () => {
+        console.log('[AuthGuard] checkAuth starting...');
         try {
-            const { session } = await authService.getSession();
+            console.log('[AuthGuard] calling getSession...');
+            const { session, error } = await authService.getSession();
+            console.log('[AuthGuard] session result:', { hasSession: !!session, error });
+            
             const isAuth = !!session;
             setAuthenticated(isAuth);
             
             const inAuthGroup = segments[0] === 'login' || segments[0] === 'forgot-password';
+            console.log('[AuthGuard] isAuth:', isAuth, 'inAuthGroup:', inAuthGroup, 'segments:', segments);
             
             if (!isAuth && !inAuthGroup) {
+                console.log('[AuthGuard] Redirecting to /login');
                 router.replace('/login');
             } else if (isAuth && inAuthGroup) {
+                console.log('[AuthGuard] Redirecting to /dashboard');
                 router.replace('/(tabs)/dashboard');
+            } else {
+                console.log('[AuthGuard] No redirect needed');
             }
         } catch (error) {
-            console.error('Auth check error:', error);
+            console.error('[AuthGuard] Error:', error);
             router.replace('/login');
         } finally {
+            console.log('[AuthGuard] checkAuth finished, setting loading=false');
             setLoading(false);
         }
     };
