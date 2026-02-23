@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, KeyboardAvoidingView, Platform, TouchableOpacity, useWindowDimensions, Image } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Input, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
