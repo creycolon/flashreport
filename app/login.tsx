@@ -58,12 +58,13 @@ export const LoginScreen = () => {
                     effectiveColorScheme === 'dark' && { backgroundColor: '#0d111c', borderRadius: 20, padding: 20 }
                 ]}>
                     <Image 
-                        source={require('../assets/flash_report_logo.png')} 
+                        source={effectiveColorScheme === 'dark' 
+                            ? require('../assets/flash_report_logo_dark.png') 
+                            : require('../assets/flash_report_logo.png')} 
                         style={{ 
                             width: 120, 
                             height: 120, 
-                            resizeMode: 'contain',
-                            ...(effectiveColorScheme === 'dark' ? { opacity: 0.9 } : {})
+                            resizeMode: 'contain'
                         }}
                     />
                     <Typography variant="body" color={colors.textSecondary} align="center" style={{ marginTop: theme.spacing.sm }}>
