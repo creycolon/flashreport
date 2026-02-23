@@ -53,17 +53,6 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
 }
 
-    if (loading) {
-        return (
-            <View style={styles.loading}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
-
-    return <>{children}</>;
-}
-
 export default function RootLayout() {
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
