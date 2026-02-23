@@ -309,15 +309,16 @@ export const MovementsListScreen = () => {
                 <View style={styles.itemContent}>
                     <View style={styles.itemHeader}>
                         <View>
-                            <Typography weight="bold">{truncateName(item.category_name || '', 12)}</Typography>
+                            <Typography variant="body" weight="bold">{truncateName(item.category_name || '', 12)}</Typography>
                             <Typography variant="caption" style={{ color: colors.textSecondary }}>
                                 {truncateName(item.bu_name)}
                             </Typography>
                         </View>
                         <Typography
+                            variant="body"
                             color={isCredit ? colors.success : colors.danger}
                             weight="bold"
-                            style={{ textAlign: 'right', flex: 1 }}
+                            style={{ textAlign: 'right', flex: 1, fontSize: 12 }}
                         >
                             {isCredit ? '+' : '-'}{formatCurrency(item.amount)}
                         </Typography>
