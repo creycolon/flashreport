@@ -11,8 +11,10 @@ export const LoginScreen = () => {
     const router = useRouter();
     const { colors, effectiveColorScheme } = useTheme();
     const { width } = useWindowDimensions();
-    const isWebDesktop = Platform.OS === 'web' && width >= 768;
-    const logoSize = isWebDesktop ? 100 : Math.min(width * 0.4, 160);
+    const isWebDesktop = Platform.OS === 'web' && width >= 1024;
+    //const logoSize = isWebDesktop ? 300 : Math.min(width * 0.4, 180); 
+    const logoSize = isWebDesktop ? 500 : Math.min(width * 0.75, 320);   
+    const LOGO_ASPECT_RATIO = 600 / 200; // 3:1 — dimensiones reales del banner
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -54,23 +56,20 @@ export const LoginScreen = () => {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.keyboardView}
             >
-                <View style={[
-                    styles.logoContainer,
-                    effectiveColorScheme === 'dark' && { backgroundColor: '#0d111c', borderRadius: 20, padding: 20 }
-                ]}>
+                <View style={styles.logoContainer}>
                     <Image 
                         source={effectiveColorScheme === 'dark' 
-                            ? require('../assets/flash_report_logo_dark.png') 
-                            : require('../assets/flash_report_logo.png')} 
+                            ? require('../assets/flash-report-banner-dark-600x200.png') 
+                            : require('../assets/flash-report-banner-light-600x200.png')} 
                         style={{ 
-                            width: logoSize, 
-                            height: logoSize, 
-                            resizeMode: 'contain'
+                            width: logoSize,
+                            height: logoSize / LOGO_ASPECT_RATIO,  // ✅ Alto calculado en base al aspect ratio real 3:1
+                            resizeMode: 'contain',
                         }}
                     />
-                    <Typography variant="body" color={colors.textSecondary} align="center" style={{ marginTop: theme.spacing.sm }}>
+                    {/* <Typography variant="body" color={colors.textSecondary} align="center" style={{ marginTop: theme.spacing.sm }}>
                         Ingresa tus credenciales
-                    </Typography>
+                    </Typography> */}
                 </View>
 
                 <View style={{
