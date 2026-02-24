@@ -7,6 +7,7 @@ import { theme } from '@ui/shared/theme';
 import { Typography, Card, Input, Button } from '@ui/shared/components';
 import { PartnersEnhanced } from '@ui/web/components';
 import { partnerRepository } from '@core/infrastructure/repositories/partnerRepository';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
 import { formatNumber } from '@core/application/utils/format';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -263,14 +264,87 @@ export const PartnersScreen = () => {
             handleDelete(id, isActive);
         };
 
-        const handleToggleManaging = (id: string, isManaging: boolean) => {
-            // This is complex logic, for now just toggle
-            // In real app, we should implement proper managing partner logic
+        const handleToggleManaging = async (id: string, isManaging: boolean) => {
             const partner = partners.find(p => p.id === id);
-            if (partner) {
-                // Call repository to update managing partner
-                // For now, just alert
-                Alert.alert('Info', 'Funcionalidad de socio gerente en desarrollo');
+            if (!partner) return;
+
+            if (isManaging) {
+                // Quitar gerencia
+                Alert.alert(
+                    'Quitar Gerencia',
+                    `¿Estás seguro de que deseas quitar la gerencia a ${partner.name}?`,
+                    [
+                        { text: 'Cancelar', style: 'cancel' },
+                        {
+                            text: 'Sí, quitar',
+                            style: 'destructive',
+                            onPress: async () => {
+                                try {
+                                    await (partnerRepository as any).update(id, {
+                                        name: partner.name,
+                                        alias: partner.alias,
+                                        participationPercentage: partner.participation_percentage,
+                                        role: partner.role,
+                                        isManagingPartner: false,
+                                        isActive: partner.is_active
+                                    });
+                                    loadData();
+                                    Alert.alert('Éxito', 'Se ha quitado la gerencia correctamente.');
+                                } catch (error) {
+                                    Alert.alert('Error', 'No se pudo quitar la gerencia.');
+                                }
+                            }
+                        }
+                    ]
+                );
+            } else {
+                // Asignar gerencia - primero quitar al actual si existe
+                const currentManager = partners.find(p => p.is_managing_partner && p.is_active);
+                
+                const messages = currentManager 
+                    ? `El socio ${currentManager.name} perderá la gerencia. ¿Deseas asignar la gerencia a ${partner.name}?`
+                    : `¿Deseas asignar la gerencia a ${partner.name}?`;
+
+                Alert.alert(
+                    'Asignar Gerencia',
+                    messages,
+                    [
+                        { text: 'Cancelar', style: 'cancel' },
+                        {
+                            text: 'Sí, asignar',
+                            onPress: async () => {
+                                try {
+                                    // Si hay un gerente actual, quitarle la gerencia
+                                    if (currentManager && currentManager.id !== id) {
+                                        await (partnerRepository as any).update(currentManager.id, {
+                                            name: currentManager.name,
+                                            alias: currentManager.alias,
+                                            participationPercentage: currentManager.participation_percentage,
+                                            role: currentManager.role,
+                                            isManagingPartner: false,
+                                            isActive: currentManager.is_active
+                                        });
+                                    }
+                                    
+                                    // Asignar gerencia al nuevo socio
+                                    await (partnerRepository as any).update(id, {
+                                        name: partner.name,
+                                        alias: partner.alias,
+                                        participationPercentage: partner.participation_percentage,
+                                        role: partner.role,
+                                        isManagingPartner: true,
+                                        isActive: partner.is_active
+                                    });
+                                    
+                                    loadData();
+                                    Alert.alert('Éxito', `${partner.name} ahora es el socio gerente.`);
+                                } catch (error) {
+                                    Alert.alert('Error', 'No se pudo asignar la gerencia.');
+                                }
+                            }
+                        }
+                    ]
+                );
             }
         };
 
@@ -316,6 +390,7 @@ export const PartnersScreen = () => {
                         onToggleActive={handleToggleActive}
                         onToggleManaging={handleToggleManaging}
                         onSave={handleSaveEnhanced}
+                        onBack={() => router.back()}
                     />
                 </View>
             </SafeAreaView>

@@ -25,6 +25,8 @@ export interface PartnersEnhancedProps {
     onAddNew?: () => void;
     onSave?: (partner: Omit<Partner, 'id'> & { id?: string }) => Promise<void> | void;
     onCancel?: () => void;
+    onBack?: () => void;
+    onManageBusinessUnits?: () => void;
 }
 
 export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
@@ -37,6 +39,8 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
     onAddNew,
     onSave,
     onCancel,
+    onBack,
+    onManageBusinessUnits,
 }) => {
     const { colors } = useTheme();
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -48,6 +52,15 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
     const [isManaging, setIsManaging] = React.useState(false);
     const [isActive, setIsActive] = React.useState(true);
     const [saving, setSaving] = React.useState(false);
+    const [menuOpenId, setMenuOpenId] = React.useState<string | null>(null);
+    const [selectedPartner, setSelectedPartner] = React.useState<Partner | null>(null);
+    const [showActionsModal, setShowActionsModal] = React.useState(false);
+
+    const handleMenuAction = (partner: Partner) => {
+        setSelectedPartner(partner);
+        setMenuOpenId(null);
+        setShowActionsModal(true);
+    };
 
     const handleOpenModal = (partner?: Partner) => {
         if (partner) {
@@ -116,9 +129,15 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
         },
         header: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: theme.spacing.lg,
+        },
+        backButton: {
+            padding: 4,
+            marginRight: theme.spacing.sm,
+        },
+        headerContent: {
+            flex: 1,
         },
         title: {
             color: colors.text,
@@ -150,6 +169,7 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
             borderColor: colors.border,
             borderRadius: theme.spacing.borderRadius.lg,
             padding: theme.spacing.lg,
+            zIndex: 1,
             ...(Platform.OS === 'web' ? { width: '30%', minWidth: 280 } : { width: '100%' }),
         },
         partnerHeader: {
@@ -231,11 +251,39 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
         actions: {
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            gap: theme.spacing.sm,
+            alignItems: 'center',
             marginTop: theme.spacing.lg,
             borderTopWidth: 1,
             borderTopColor: colors.border + '30',
             paddingTop: theme.spacing.md,
+        },
+        menuButton: {
+            padding: theme.spacing.sm,
+            borderRadius: theme.spacing.borderRadius.md,
+        },
+        menuDropdown: {
+            position: 'absolute',
+            right: 0,
+            top: 40,
+            backgroundColor: colors.surface,
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: theme.spacing.borderRadius.md,
+            paddingVertical: theme.spacing.xs,
+            minWidth: 180,
+            zIndex: 100,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+            elevation: 5,
+        },
+        menuItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.spacing.md,
+            paddingHorizontal: theme.spacing.lg,
+            minHeight: 44,
         },
         actionButton: {
             paddingHorizontal: theme.spacing.md,
@@ -267,6 +315,15 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
             padding: theme.spacing.xl,
             width: Platform.OS === 'web' ? 500 : '100%',
             maxWidth: '100%',
+        },
+        actionModalItem: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingVertical: theme.spacing.lg,
+            paddingHorizontal: theme.spacing.lg,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            minHeight: 56,
         },
         modalHeader: {
             marginBottom: theme.spacing.lg,
@@ -322,22 +379,23 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View>
+                {onBack && (
+                    <TouchableOpacity onPress={onBack} style={styles.backButton}>
+                        <Ionicons name="chevron-back" size={28} color={colors.text} />
+                    </TouchableOpacity>
+                )}
+                <View style={[styles.headerContent, onBack && { marginLeft: 8 }]}>
                     <Typography style={styles.title}>Socios</Typography>
                     <Typography style={styles.subtitle}>
                         {partners.length} {partners.length === 1 ? 'socio' : 'socios'} registrados
                         {managingPartner && ` • Socio Gerente: ${managingPartner.name}`}
                     </Typography>
                 </View>
-                <TouchableOpacity
-                    style={styles.addButton}
+                <Button
+                    title={`+ Agregar Socio`}
                     onPress={() => onAddNew ? onAddNew() : handleOpenModal()}
-                >
-                    <Ionicons name="add" size={20} color="#fff" />
-                    <Typography color="#fff" weight="bold">
-                        Agregar Socio
-                    </Typography>
-                </TouchableOpacity>
+                    style={{ backgroundColor: colors.primary, paddingHorizontal: 16, paddingVertical: 8 }}
+                />
             </View>
 
             <ScrollView>
@@ -362,7 +420,7 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                         )}
                                     </View>
                                 </View>
-                                <View style={{ flexDirection: 'row', gap: theme.spacing.sm }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
                                     {partner.is_managing_partner && partner.is_active && (
                                         <View style={styles.managingBadge}>
                                             <Typography style={styles.managingText}>
@@ -377,6 +435,14 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                             </Typography>
                                         </View>
                                     )}
+                                    <View style={{ position: 'relative', zIndex: 1 }}>
+                                        <TouchableOpacity
+                                            style={styles.menuButton}
+                                            onPress={() => handleMenuAction(partner)}
+                                        >
+                                            <Ionicons name="ellipsis-vertical" size={24} color={colors.text} />
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
 
@@ -403,46 +469,6 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                 </View>
                             </View>
 
-                            <View style={styles.actions}>
-                                <TouchableOpacity
-                                    style={styles.actionButton}
-                                    onPress={() => onEdit ? onEdit(partner) : handleOpenModal(partner)}
-                                >
-                                    <Typography style={styles.actionText}>
-                                        EDITAR
-                                    </Typography>
-                                </TouchableOpacity>
-                                {partner.is_managing_partner ? (
-                                    <TouchableOpacity
-                                        style={styles.actionButton}
-                                        onPress={() => onToggleManaging?.(partner.id, partner.is_managing_partner)}
-                                    >
-                                        <Typography style={styles.dangerActionText}>
-                                            QUITAR GERENCIA
-                                        </Typography>
-                                    </TouchableOpacity>
-                                ) : (
-                                    <TouchableOpacity
-                                        style={styles.actionButton}
-                                        onPress={() => onToggleManaging?.(partner.id, partner.is_managing_partner)}
-                                    >
-                                        <Typography style={styles.successActionText}>
-                                            ASIGNAR GERENCIA
-                                        </Typography>
-                                    </TouchableOpacity>
-                                )}
-                                <TouchableOpacity
-                                    style={styles.actionButton}
-                                    onPress={() => onToggleActive?.(partner.id, partner.is_active)}
-                                >
-                                    <Typography style={[
-                                        styles.actionText,
-                                        partner.is_active ? styles.dangerActionText : styles.successActionText
-                                    ]}>
-                                        {partner.is_active ? 'DAR DE BAJA' : 'REACTIVAR'}
-                                    </Typography>
-                                </TouchableOpacity>
-                            </View>
                         </Card>
                     ))}
                 </View>
@@ -526,6 +552,63 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                 disabled={saving}
                             />
                         </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* Actions Modal */}
+            <Modal visible={showActionsModal} animationType="fade" transparent>
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.modalHeader}>
+                            <Typography style={styles.modalTitle}>
+                                Acciones para {selectedPartner?.name}
+                            </Typography>
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.actionModalItem}
+                            onPress={() => {
+                                setShowActionsModal(false);
+                                onEdit ? selectedPartner && onEdit(selectedPartner) : handleOpenModal(selectedPartner!);
+                            }}
+                        >
+                            <Ionicons name="create-outline" size={24} color={colors.primary} />
+                            <Typography style={{ marginLeft: 12, color: colors.text }}>Editar</Typography>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.actionModalItem}
+                            onPress={() => {
+                                setShowActionsModal(false);
+                                selectedPartner && onToggleManaging?.(selectedPartner.id, selectedPartner.is_managing_partner);
+                            }}
+                        >
+                            <Ionicons name={selectedPartner?.is_managing_partner ? "person-remove-outline" : "person-add-outline"} size={24} color={colors.text} />
+                            <Typography style={{ marginLeft: 12, color: colors.text }}>
+                                {selectedPartner?.is_managing_partner ? 'Quitar Gerencia' : 'Asignar Gerencia'}
+                            </Typography>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.actionModalItem}
+                            onPress={() => {
+                                setShowActionsModal(false);
+                                selectedPartner && onToggleActive?.(selectedPartner.id, selectedPartner.is_active);
+                            }}
+                        >
+                            <Ionicons name={selectedPartner?.is_active ? "person-remove-outline" : "person-add-outline"} size={24} color={selectedPartner?.is_active ? colors.danger : colors.success} />
+                            <Typography style={{ marginLeft: 12, color: selectedPartner?.is_active ? colors.danger : colors.success }}>
+                                {selectedPartner?.is_active ? 'Dar de Baja' : 'Reactivar'}
+                            </Typography>
+                        </TouchableOpacity>
+
+                        <Button
+                            title="Cancelar"
+                            variant="outline"
+                            onPress={() => setShowActionsModal(false)}
+                            style={{ marginTop: theme.spacing.lg }}
+                        />
                     </View>
                 </View>
             </Modal>

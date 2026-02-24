@@ -1,0 +1,13 @@
+env: load .env.local .env
+env: export EXPO_NO_VCS EAS_PROJECT_ROOT EAS_BUILD_NO_EXPO_GO_WARNING NODE_OPTIONS SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
+Starting project at /home/tunga/HUB/BUs/flash_report_supabase
+Starting Metro Bundler
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web ./index.ts ▓▓▓▓▓▓░░░░░░░░░░ 37.7% (213/347)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 63.2% (608/785)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 77.2% (1055/1235)
+Web Bundled 12582ms index.ts (1422 modules)
+ LOG  [web] Logs will appear in the browser console
+Web Bundled 92ms index.ts (1 module)

@@ -1,5 +1,4 @@
 import { supabase } from '../db/supabaseClient.js';
-import { generateId } from '../../application/utils/idGenerator.js';
 
 export const configRepository = {
     get: async (key, defaultValue = null) => {
@@ -20,23 +19,35 @@ export const configRepository = {
     set: async (key, value) => {
         const valueStr = String(value);
         const now = new Date().toISOString();
-        const id = generateId();
         
-        // Upsert using Supabase's upsert (ON CONFLICT)
-        const { error } = await supabase
+        // First try to update existing record
+        const { data: existing, error: fetchError } = await supabase
             .from('app_config')
-            .upsert({
-                id,
-                key,
-                value: valueStr,
-                updated_at: now
-            }, {
-                onConflict: 'key'
-            });
+            .select('id')
+            .eq('key', key)
+            .single();
         
-        if (error) {
-            console.error('[configRepo] Error setting config:', error);
-            throw error;
+        if (existing) {
+            // Update existing
+            const { error } = await supabase
+                .from('app_config')
+                .update({ value: valueStr, updated_at: now })
+                .eq('key', key);
+            
+            if (error) {
+                console.error('[configRepo] Error updating config:', error);
+                throw error;
+            }
+        } else {
+            // Insert new (no envíes id, la base de datos lo genera automáticamente)
+            const { error } = await supabase
+                .from('app_config')
+                .insert({ key, value: valueStr, updated_at: now });
+            
+            if (error) {
+                console.error('[configRepo] Error inserting config:', error);
+                throw error;
+            }
         }
         
         return true;

@@ -14,8 +14,7 @@ if (typeof global.requestAnimationFrame === 'undefined') {
   };
 }
 
-// Import gesture handler and reanimated to ensure they're initialized
+// Import gesture handler to ensure it's initialized
 import 'react-native-gesture-handler';
-import 'react-native-reanimated';
 
 import 'expo-router/entry';

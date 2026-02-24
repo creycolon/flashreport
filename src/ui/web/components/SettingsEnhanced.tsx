@@ -19,6 +19,7 @@ export interface SettingsEnhancedProps {
     managingPartner?: { name: string; role: string } | null;
     generatingData?: boolean;
     deletingData?: boolean;
+    businessLabel?: string;
 }
 
 export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
@@ -35,6 +36,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
     managingPartner = null,
     generatingData = false,
     deletingData = false,
+    businessLabel = 'Negocio',
 }) => {
     const { colors } = useTheme();
 
@@ -218,19 +220,19 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                         <View style={styles.settingHeader}>
                             <Ionicons name="business" size={24} color={colors.primary} />
                             <Typography variant="caption" color={colors.textMuted}>
-                                Locales
+                                {businessLabel}
                             </Typography>
                         </View>
                         <Typography style={styles.settingTitle}>
-                            Unidades de Negocio
+                            Catálogo de {businessLabel}s
                         </Typography>
                         <Typography style={styles.settingDescription}>
-                            Configura los locales, colores y orden de visualización en el dashboard.
+                            Configura los {businessLabel.toLowerCase()}s, colores y orden de visualización en el dashboard.
                         </Typography>
                         <Button
-                            title="Gestionar Locales"
+                            title={`Gestionar ${businessLabel}s`}
                             variant="outline"
-                            onPress={onManageBusinessUnits ? onManageBusinessUnits : () => {}}
+                            onPress={onManageBusinessUnits ? onManageBusinessUnits : () => { }}
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>
@@ -252,7 +254,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                         <Button
                             title="Gestionar Socios"
                             variant="outline"
-                            onPress={onManagePartners ? onManagePartners : () => {}}
+                            onPress={onManagePartners ? onManagePartners : () => { }}
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>
@@ -277,7 +279,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                         <Button
                             title="Cambiar Socio Gerente"
                             variant="outline"
-                            onPress={onChangeManagingPartner ? onChangeManagingPartner : () => {}}
+                            onPress={onChangeManagingPartner ? onChangeManagingPartner : () => { }}
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>
@@ -306,7 +308,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                         </Typography>
                         <Button
                             title={generatingData ? 'Generando...' : 'Generar Datos de Prueba'}
-                            onPress={onGenerateMockData ? onGenerateMockData : () => {}}
+                            onPress={onGenerateMockData ? onGenerateMockData : () => { }}
                             loading={generatingData}
                             style={{ alignSelf: 'flex-start' }}
                         />
@@ -327,17 +329,17 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                             Borra movimientos de prueba o realiza un reinicio total del sistema.
                         </Typography>
                         <View style={{ flexDirection: 'row', gap: theme.spacing.sm }}>
-                             <Button
+                            <Button
                                 title="Borrar Movimientos"
                                 variant="outline"
-                                onPress={onClearData ? onClearData : () => {}}
+                                onPress={onClearData ? onClearData : () => { }}
                                 loading={deletingData}
                                 style={{ flex: 1 }}
                             />
-                             <Button
+                            <Button
                                 title="Reinicio Total"
                                 variant="outline"
-                                onPress={onFactoryReset ? onFactoryReset : () => {}}
+                                onPress={onFactoryReset ? onFactoryReset : () => { }}
                                 loading={deletingData}
                                 style={{ flex: 1 }}
                             />
@@ -438,7 +440,7 @@ export const SettingsEnhancedExample: React.FC = () => {
             onChangeTheme={(theme) => console.log('Change theme', theme)}
             dynamicZoom={true}
             themePreference="auto"
-            managingPartner={{ name: 'Carlos Mendoza', role: 'Socio Gerente' }}
+            managingPartner={{ name: 'CRISTIAN', role: 'ADMIN' }}
         />
     );
 };

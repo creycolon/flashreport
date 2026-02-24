@@ -13,6 +13,9 @@ interface MetricData {
     totalSales: number;
     totalTickets: number;
     busCount: number;
+    boxesOpen: number;
+    boxesClosed: number;
+    cashDifference: number;
 }
 
 interface ChartSeries {
@@ -32,15 +35,33 @@ export const DashboardScreen = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [allowZoom, setAllowZoom] = useState(true);
     const [selectedDays, setSelectedDays] = useState(7);
+    const [periodType, setPeriodType] = useState<'week' | 'month' | 'year'>('week');
+
+    // Calculate days for each period type dynamically
+    const getDaysForPeriod = (type: 'week' | 'month' | 'year'): number => {
+        const now = new Date();
+        if (type === 'week') return 7;
+        if (type === 'month') {
+            return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        }
+        return 365;
+    };
+    
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [resetTimer, setResetTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
     const [metrics, setMetrics] = useState<MetricData>({
         totalSales: 0,
         totalTickets: 0,
-        busCount: 0
+        busCount: 0,
+        boxesOpen: 0,
+        boxesClosed: 0,
+        cashDifference: 0
     });
     const [chartData, setChartData] = useState<ChartData>({
         labels: [],
         series: []
     });
+    const [recentActivities, setRecentActivities] = useState<ActivityItem[]>([]);
 
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
     const { colors } = useTheme();
@@ -145,31 +166,97 @@ export const DashboardScreen = () => {
         },
     }), [colors]);
 
-    const fetchData = async (days = 7) => {
-        console.log('Dashboard: fetchData started, days:', days);
+    const fetchData = async (days = 7, filterDate?: string) => {
+        console.log('Dashboard: fetchData started, days:', days, 'filterDate:', filterDate);
         setLoading(true);
         try {
-            const [globalMetrics, performanceData, zoomPref] = await Promise.all([
-                financialService.getGlobalMetrics(days),
-                financialService.getChartData(days),
-                (configRepository as any).get('chart_dynamic_zoom', 'true')
+            const metricsPromise = filterDate 
+                ? financialService.getGlobalMetricsByDate(filterDate)
+                : financialService.getGlobalMetrics(days);
+            const chartPromise = days > 1 || filterDate
+                ? financialService.getChartData(filterDate ? 1 : days)
+                : financialService.getChartData(1);
+            const boxPromise = filterDate
+                ? financialService.getBoxStatusByDate(filterDate)
+                : financialService.getBoxStatus();
+            const activitiesPromise = (financialService.getRecentMovements as any)(10, filterDate || null);
+            
+            const [globalMetrics, performanceData, zoomPref, boxStatus, recentActivities] = await Promise.all([
+                metricsPromise,
+                chartPromise,
+                (configRepository as any).get('chart_dynamic_zoom', 'true'),
+                boxPromise,
+                activitiesPromise
             ]);
             console.log('Dashboard: fetchData succeeded', {
                 metrics: globalMetrics,
                 chartDataLength: performanceData?.series?.length || 0,
-                zoomPref
+                zoomPref,
+                boxStatus,
+                recentActivitiesCount: recentActivities?.length || 0,
+                filterDate
             });
-             setMetrics(globalMetrics || { totalSales: 0, totalTickets: 0, busCount: 0 });
-             setChartData(performanceData || { labels: [], series: [] });
-             setAllowZoom(zoomPref === 'true');
+            setMetrics({
+                ...(globalMetrics || { totalSales: 0, totalTickets: 0, busCount: 0, cashDifference: 0 }),
+                boxesOpen: boxStatus?.open || 0,
+                boxesClosed: boxStatus?.closed || 0
+            });
+            setChartData(performanceData || { labels: [], series: [] });
+            setAllowZoom(zoomPref === 'true');
+            
+            // Set real activities if available
+            if (recentActivities && recentActivities.length > 0) {
+                setRecentActivities(recentActivities);
+            }
         } catch (error) {
             console.error('Error fetching dashboard data:', error);
-            console.error('Error stack:', (error as Error).stack);
+            console.error('Error stack:', (error as any).stack);
         } finally {
             setLoading(false);
             setRefreshing(false);
             console.log('Dashboard: fetchData completed');
         }
+    };
+
+    const handlePointSelect = (point: { index: number; values: Record<string, number> }) => {
+        // Clear existing timer
+        if (resetTimer) {
+            clearTimeout(resetTimer);
+        }
+        
+        // Get the date from the chart data
+        const dateIndex = point.index;
+        const dateLabels = chartData.labels;
+        if (dateIndex >= 0 && dateIndex < dateLabels.length) {
+            const selectedLabel = dateLabels[dateIndex];
+            console.log('Dashboard: Point selected:', selectedLabel, 'index:', dateIndex);
+            
+            // Calculate actual date based on selectedDays and index
+            const today = new Date();
+            const selectedDateCalc = new Date(today);
+            selectedDateCalc.setDate(today.getDate() - (selectedDays - 1 - dateIndex));
+            const dateStr = selectedDateCalc.toISOString().split('T')[0];
+            
+            setSelectedDate(dateStr);
+            fetchData(selectedDays, dateStr);
+            
+            // Set timer to reset to latest day after 30 seconds
+            const timer = setTimeout(() => {
+                console.log('Dashboard: Auto-resetting to latest day');
+                setSelectedDate(null);
+                fetchData(selectedDays);
+            }, 30000);
+            
+            setResetTimer(timer);
+        }
+    };
+
+    const resetToLatest = () => {
+        if (resetTimer) {
+            clearTimeout(resetTimer);
+        }
+        setSelectedDate(null);
+        fetchData(selectedDays);
     };
 
     useFocusEffect(
@@ -184,12 +271,13 @@ export const DashboardScreen = () => {
     };
 
     const handleFilterChange = (days: number) => {
+        let newPeriodType: 'week' | 'month' | 'year';
+        if (days === 7) newPeriodType = 'week';
+        else if (days <= 31) newPeriodType = 'month';
+        else newPeriodType = 'year';
+        
         setSelectedDays(days);
-        // fetchData is triggered by useFocusEffect dependency or manual call?
-        // useFocusEffect runs on focus, dependency change might trigger re-run if focus is kept.
-        // It's safer to call fetchData directly here or let useEffect handle it if we modify dependency array.
-        // However, useFocusEffect with dependency array is tricky.
-        // Let's call fetchData directly to be sure and update state.
+        setPeriodType(newPeriodType);
         fetchData(days);
     };
 
@@ -245,6 +333,15 @@ export const DashboardScreen = () => {
         },
     ];
 
+    const getPeriodLabel = () => {
+        const now = new Date();
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        
+        if (periodType === 'week') return 'Última Semana';
+        if (periodType === 'month') return `Mes de ${monthNames[now.getMonth()]}`;
+        return `Año ${now.getFullYear()}`;
+    };
+
     // Enhanced dashboard for web desktop
     if (isWebDesktop) {
         const kpiData = [
@@ -264,17 +361,21 @@ export const DashboardScreen = () => {
             },
             {
                 title: 'Cajas Abiertas',
-                value: `${metrics.busCount} / ${metrics.busCount + 4}`,
-                subtitle: '4 CAJAS EN CIERRE',
+                value: `${metrics.boxesOpen} / ${metrics.busCount}`,
+                subtitle: metrics.boxesClosed > 0 ? `${metrics.boxesClosed} CAJAS SIN MOVIMIENTO HOY` : 'TODAS LAS CAJAS ACTIVAS',
                 icon: 'cart' as const,
-                status: { label: 'Activas', type: 'active' as const },
+                status: metrics.boxesClosed > 0 ? { label: 'Atención', type: 'critical' as const } : { label: 'Activas', type: 'active' as const },
             },
             {
                 title: 'Diferencia de Caja',
-                value: '-$125.50',
-                subtitle: 'PENDIENTE DE REVISIÓN',
+                value: formatCurrency(metrics.cashDifference),
+                subtitle: metrics.cashDifference === 0 ? 'BALANCE OK' : (metrics.cashDifference < 0 ? 'GASTOS MAYORES A INGRESOS' : 'EXCEDENTE'),
                 icon: 'scale' as const,
-                status: { label: 'Crítico', type: 'critical' as const },
+                status: metrics.cashDifference === 0 
+                    ? { label: 'OK', type: 'active' as const }
+                    : metrics.cashDifference < 0 
+                        ? { label: 'Gastos', type: 'warning' as const }
+                        : { label: 'Excedente', type: 'positive' as const },
             },
         ];
 
@@ -308,12 +409,46 @@ export const DashboardScreen = () => {
                         ))}
                     </View>
 
+                    {/* Filter Controls */}
+                    <View style={{ flexDirection: 'row', gap: theme.spacing.sm, marginBottom: theme.spacing.xl }}>
+                        {[
+                            { days: 7, label: 'Semana', type: 'week' as const },
+                            { days: getDaysForPeriod('month'), label: 'Mes', type: 'month' as const },
+                            { days: getDaysForPeriod('year'), label: 'Año', type: 'year' as const }
+                        ].map((filter) => (
+                            <TouchableOpacity
+                                key={filter.type}
+                                style={{
+                                    paddingHorizontal: theme.spacing.lg,
+                                    paddingVertical: theme.spacing.sm,
+                                    borderRadius: theme.spacing.borderRadius.md,
+                                    backgroundColor: periodType === filter.type ? colors.primary : colors.surface,
+                                    borderWidth: 1,
+                                    borderColor: periodType === filter.type ? colors.primary : colors.border,
+                                }}
+                                onPress={() => handleFilterChange(filter.days)}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    weight="bold"
+                                    color={periodType === filter.type ? colors.cardBackground : colors.text}
+                                >
+                                    {filter.label}
+                                </Typography>
+                            </TouchableOpacity>
+                        ))}
+                        <Typography variant="caption" color={colors.textSecondary} style={{ marginLeft: 'auto', alignSelf: 'center' }}>
+                            {getPeriodLabel()}
+                        </Typography>
+                    </View>
+
                     {/* Chart & Activity Grid */}
                     <View style={{ flexDirection: 'row', gap: theme.spacing.md, marginBottom: theme.spacing.xl }}>
                         <View style={{ flex: 2 }}>
                             <ChartContainerEnhanced
                                 title="Evolución de Ingresos"
-                                subtitle="Comparativa Semanal"
+                                subtitle={getPeriodLabel()}
+                                periodLabel={getPeriodLabel()}
                                 chartData={{
                                     labels: chartLabels,
                                     series: chartSeries,
@@ -324,7 +459,7 @@ export const DashboardScreen = () => {
                         <View style={{ flex: 1 }}>
                             <ActivityFeedEnhanced
                                 title="Actividad Reciente"
-                                items={mockActivities}
+                                items={recentActivities.length > 0 ? recentActivities : mockActivities}
                                 maxHeight={400}
                             />
                         </View>
@@ -333,12 +468,6 @@ export const DashboardScreen = () => {
             </View>
         );
     }
-
-    const getPeriodLabel = () => {
-        if (selectedDays === 7) return 'Últimos 7 días';
-        if (selectedDays === 30) return 'Últimos 30 días';
-        return 'Último Año';
-    };
 
     const chartWidth = windowWidth - theme.spacing.md * 2;
 
@@ -360,21 +489,25 @@ export const DashboardScreen = () => {
 
                 {/* Filter Controls */}
                 <View style={styles.filterContainer}>
-                    {[7, 30, 365].map((days) => (
+                    {[
+                        { days: 7, label: 'Semana', type: 'week' as const },
+                        { days: getDaysForPeriod('month'), label: 'Mes', type: 'month' as const },
+                        { days: getDaysForPeriod('year'), label: 'Año', type: 'year' as const }
+                    ].map((filter) => (
                         <TouchableOpacity
-                            key={days}
+                            key={filter.type}
                             style={[
                                 styles.filterButton,
-                                selectedDays === days && styles.filterButtonActive
+                                periodType === filter.type && styles.filterButtonActive
                             ]}
-                            onPress={() => handleFilterChange(days)}
+                            onPress={() => handleFilterChange(filter.days)}
                         >
                             <Typography
                                 variant="caption"
                                 weight="bold"
-                                 color={selectedDays === days ? colors.text : colors.textSecondary}
+                                color={periodType === filter.type ? colors.text : colors.textSecondary}
                             >
-                                {days === 7 ? 'Semana' : days === 30 ? 'Mes' : 'Anual'}
+                                {filter.label}
                             </Typography>
                         </TouchableOpacity>
                     ))}
@@ -393,7 +526,16 @@ export const DashboardScreen = () => {
 
                 <Card style={[styles.mainChart, { paddingHorizontal: 0 }, isLandscape && { height: 450 }]}>
                     <View style={styles.chartHeader}>
-                        <Typography variant="h3">Ingresos</Typography>
+                        <View style={{ flex: 1 }}>
+                            <Typography variant="h3">Ingresos</Typography>
+                            {selectedDate && (
+                                <TouchableOpacity onPress={resetToLatest}>
+                                    <Typography variant="caption" color={colors.primary}>
+                                        📅 {selectedDate} (toca para volver a hoy)
+                                    </Typography>
+                                </TouchableOpacity>
+                            )}
+                        </View>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.legendScroll}>
                             <View style={styles.legend}>
                                 {chartData.series.map(s => (
@@ -414,6 +556,7 @@ export const DashboardScreen = () => {
                             width={chartWidth}
                             allowZoom={true}
                             interactive={true}
+                            onPointSelect={handlePointSelect}
                         />
                     ) : (
                         <View style={styles.chartPlaceholder}>

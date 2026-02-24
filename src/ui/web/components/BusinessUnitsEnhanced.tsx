@@ -23,6 +23,8 @@ export interface BusinessUnitsEnhancedProps {
     onAddNew?: () => void;
     onSave?: (businessUnit: Omit<BusinessUnit, 'id'> & { id?: string }) => Promise<void> | void;
     onCancel?: () => void;
+    onBack?: () => void;
+    businessLabel?: string;
 }
 
 const COLOR_PALETTE = ['#38ff14', '#ffc107', '#2196f3', '#e91e63', '#9c27b0', '#ff5722', '#795548', '#607d8b'];
@@ -36,6 +38,8 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
     onAddNew,
     onSave,
     onCancel,
+    onBack,
+    businessLabel = 'Local',
 }) => {
     const { colors } = useTheme();
     const [modalVisible, setModalVisible] = React.useState(false);
@@ -46,6 +50,13 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
     const [order, setOrder] = React.useState('0');
     const [isActive, setIsActive] = React.useState(true);
     const [saving, setSaving] = React.useState(false);
+    const [colorError, setColorError] = React.useState('');
+
+    const usedColors = React.useMemo(() => {
+        return businessUnits
+            .filter(bu => !editingUnit || bu.id !== editingUnit.id)
+            .map(bu => bu.color);
+    }, [businessUnits, editingUnit]);
 
     const handleOpenModal = (unit?: BusinessUnit) => {
         if (unit) {
@@ -56,19 +67,20 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
             setOrder(String(unit.display_order));
             setIsActive(unit.is_active);
         } else {
-            setEditingUnit(null);
-            setName('');
-            setLocation('');
-            setColor(COLOR_PALETTE[0]);
-            setOrder(String(businessUnits.length + 1));
-            setIsActive(true);
+            const availableColor = COLOR_PALETTE.find(c => !usedColors.includes(c)) || COLOR_PALETTE[0];
+            setColor(availableColor);
         }
+        setColorError('');
         setModalVisible(true);
     };
 
     const handleSave = async () => {
         if (!name.trim()) {
-            // In a real app, show error toast
+            return;
+        }
+
+        if (usedColors.includes(color)) {
+            setColorError(`El color ya está en uso por otro ${businessLabel.toLowerCase()}`);
             return;
         }
 
@@ -111,9 +123,15 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
         },
         header: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: theme.spacing.lg,
+        },
+        backButton: {
+            padding: 4,
+            marginRight: theme.spacing.sm,
+        },
+        headerContent: {
+            flex: 1,
         },
         title: {
             color: colors.text,
@@ -272,6 +290,9 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
         activeColor: {
             borderColor: colors.text,
         },
+        usedColor: {
+            opacity: 0.3,
+        },
         modalActions: {
             flexDirection: 'row',
             gap: theme.spacing.md,
@@ -296,21 +317,22 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View>
-                    <Typography style={styles.title}>Locales</Typography>
+                {onBack && (
+                    <TouchableOpacity onPress={onBack} style={styles.backButton}>
+                        <Ionicons name="chevron-back" size={28} color={colors.text} />
+                    </TouchableOpacity>
+                )}
+                <View style={[styles.headerContent, onBack && { marginLeft: 8 }]}>
+                    <Typography style={styles.title}>{businessLabel}</Typography>
                     <Typography style={styles.subtitle}>
-                        {businessUnits.length} {businessUnits.length === 1 ? 'local' : 'locales'} registrados
+                        {businessUnits.length} {businessUnits.length === 1 ? businessLabel.toLowerCase() : businessLabel.toLowerCase() + 's'} registrados
                     </Typography>
                 </View>
-                <TouchableOpacity
-                    style={styles.addButton}
+                <Button
+                    title={`+ Agregar ${businessLabel}`}
                     onPress={() => onAddNew ? onAddNew() : handleOpenModal()}
-                >
-                    <Ionicons name="add" size={20} color="#fff" />
-                    <Typography color="#fff" weight="bold">
-                        Agregar Local
-                    </Typography>
-                </TouchableOpacity>
+                    style={{ backgroundColor: colors.primary, paddingHorizontal: 16, paddingVertical: 8 }}
+                />
             </View>
 
             <ScrollView>
@@ -385,11 +407,11 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
                             <Typography style={styles.modalTitle}>
-                                {editingUnit ? 'Editar Local' : 'Nuevo Local'}
+                                {editingUnit ? `Editar ${businessLabel}` : `Nuevo ${businessLabel}`}
                             </Typography>
                         </View>
 
-                        <Typography variant="label">Nombre del Local</Typography>
+                        <Typography variant="label">Nombre del {businessLabel}</Typography>
                         <TextInput
                             style={styles.input}
                             value={name}
@@ -417,14 +439,31 @@ export const BusinessUnitsEnhanced: React.FC<BusinessUnitsEnhancedProps> = ({
 
                         <Typography variant="label">Color Distintivo</Typography>
                         <View style={styles.colorPicker}>
-                            {COLOR_PALETTE.map(c => (
-                                <TouchableOpacity
-                                    key={c}
-                                    style={[styles.colorCircle, { backgroundColor: c }, color === c && styles.activeColor]}
-                                    onPress={() => setColor(c)}
-                                />
-                            ))}
+                            {COLOR_PALETTE.map(c => {
+                                const isUsed = usedColors.includes(c);
+                                return (
+                                    <TouchableOpacity
+                                        key={c}
+                                        style={[
+                                            styles.colorCircle, 
+                                            { backgroundColor: c }, 
+                                            color === c && styles.activeColor,
+                                            isUsed && styles.usedColor
+                                        ]}
+                                        onPress={() => {
+                                            setColor(c);
+                                            setColorError('');
+                                        }}
+                                        disabled={isUsed}
+                                    />
+                                );
+                            })}
                         </View>
+                        {colorError ? (
+                            <Typography variant="caption" color="#ff1744" style={{ marginTop: 4 }}>
+                                {colorError}
+                            </Typography>
+                        ) : null}
 
                         <View style={styles.modalActions}>
                             <Button

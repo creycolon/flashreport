@@ -16,17 +16,15 @@ interface WebHeaderProps {
         avatar?: string;
     };
     notificationsCount?: number;
+    onLogout?: () => void;
 }
 
 export const WebHeader: React.FC<WebHeaderProps> = ({
     onSearch,
     title = 'Flash Report Dashboard',
-    user = {
-        name: 'Carlos Mendoza',
-        role: 'Super Administrador',
-        avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCDzfkai8YT7FMXGRVhNK-iOrzlb5ol_vUkRVItbA0nsc41Qys6pqAfW0s40HpIPjEb5n_FoS87HC2f3imv1zmnu_gxH-JdzDLgvFwdYI-475gDXoa92JW2L23E7mNEDHXSFxEC66DdrW5b-u7tz2liRgGXw-MlO4Zn2R-ikKeKRiEWoIJI6If1NDqlzCkx42mymcO9b0NX4iizITppZjgcTGw3hLtgHJxtTS5JYdjwa52iLHxicCcSRGrVD7wF3dP8E_Xp6OccMR24'
-    },
+    user,
     notificationsCount = 0,
+    onLogout,
 }) => {
     const { colors, themePreference, setThemePreference, effectiveColorScheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
@@ -186,9 +184,10 @@ export const WebHeader: React.FC<WebHeaderProps> = ({
 
     // Get user initials for fallback avatar
     const getUserInitials = () => {
-        return user.name
+        const name = user?.name || 'Usuario';
+        return name
             .split(' ')
-            .map((n) => n[0])
+            .map((n: string) => n[0])
             .join('')
             .toUpperCase()
             .substring(0, 2);
@@ -235,17 +234,20 @@ export const WebHeader: React.FC<WebHeaderProps> = ({
                 <View style={styles.separator} />
 
                 {/* User Profile */}
-                <TouchableOpacity style={styles.userProfile}>
+                <TouchableOpacity 
+                    style={styles.userProfile}
+                    onPress={onLogout}
+                >
                     <View style={styles.userInfo}>
                         <Typography style={styles.userName}>
-                            {user.name}
+                            {user?.name || 'Usuario'}
                         </Typography>
                         <Typography style={styles.userRole}>
-                            {user.role}
+                            {user?.role || 'Socio'}
                         </Typography>
                     </View>
                     <View style={styles.userAvatar}>
-                         {user.avatar ? (
+                         {user?.avatar ? (
                             <Image source={{ uri: user.avatar }} style={{ width: '100%', height: '100%' }} />
                         ) : (
                             <Typography style={styles.avatarFallback}>

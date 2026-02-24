@@ -7,6 +7,10 @@ import { theme } from '@ui/shared/theme';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { BusinessUnitsEnhanced } from '@ui/web/components';
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
+import { configRepository } from '@core/infrastructure/repositories/configRepository';
+import { cashMovementRepository } from '@core/infrastructure/repositories/cashMovementRepository';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
+import { supabase } from '@core/infrastructure/db/supabaseClient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const COLOR_PALETTE = ['#38ff14', '#ffc107', '#2196f3', '#e91e63', '#9c27b0', '#ff5722', '#795548', '#607d8b'];
@@ -21,6 +25,14 @@ export const BusinessUnitsScreen = () => {
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
+    const showNotification = (message: string) => {
+        if (Platform.OS === 'web') {
+            window.alert(message);
+        } else {
+            Alert.alert('Notificación', message);
+        }
+    };
+
     // Form State
     const [currentId, setCurrentId] = useState<string | null>(null);
     const [name, setName] = useState('');
@@ -28,6 +40,7 @@ export const BusinessUnitsScreen = () => {
     const [color, setColor] = useState(COLOR_PALETTE[0]);
     const [order, setOrder] = useState('0');
     const [isActive, setIsActive] = useState(true);
+    const [businessLabel, setBusinessLabel] = useState('Local');
 
     const loadData = async () => {
         setLoading(true);
@@ -43,6 +56,18 @@ export const BusinessUnitsScreen = () => {
 
     useEffect(() => {
         loadData();
+    }, []);
+
+    useEffect(() => {
+        const loadBusinessLabel = async () => {
+            try {
+                const label = await (configRepository as any).get('default_business', 'Local');
+                setBusinessLabel(label);
+            } catch (error) {
+                console.error('Error loading businessLabel:', error);
+            }
+        };
+        loadBusinessLabel();
     }, []);
 
     const handleOpenModal = (bu?: any) => {
@@ -91,27 +116,120 @@ export const BusinessUnitsScreen = () => {
         }
     };
 
-    const handleDelete = (id: string, active: boolean) => {
+    const handleDelete = async (id: string, active: boolean) => {
+        console.log('[handleDelete] ===== INICIANDO ===== id:', id, 'active:', active);
+        
         if (active === true) {
-            Alert.alert('Confirmar Baja', '¿Deseas dar de baja este local? No aparecerá en las nuevas operaciones.', [
-                { text: 'Cancelar' },
-                {
-                    text: 'Dar de Baja', style: 'destructive', onPress: async () => {
-                        await (businessUnitRepository as any).softDelete(id);
-                        loadData();
+            try {
+                const { count } = await supabase
+                    .from('cash_movements')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('business_unit_id', id);
+                
+                const movementCount = count || 0;
+                console.log('[handleDelete] movementCount:', movementCount);
+                
+                if (movementCount > 0) {
+                    console.log('[handleDelete] Tiene movimientos, mostrando notificación');
+                    showNotification(
+                        `⚠️ No se puede dar de baja: Este ${businessLabel.toLowerCase()} tiene ${movementCount} movimiento(s) registrado(s). No es posible darlo de baja mientras tenga movimientos asociados.`
+                    );
+                    return;
+                }
+
+                console.log('[handleDelete] Verificando managing partner...');
+                const managingPartner = await managingPartnerService.getCurrentManagingPartner();
+                console.log('[handleDelete] managingPartner:', managingPartner);
+                
+                const isAdminActive = managingPartner && managingPartner.is_active;
+                console.log('[handleDelete] isAdminActive:', isAdminActive);
+
+                if (isAdminActive) {
+                    console.log('[handleDelete] Admin activo, mostrando alert de confirmación');
+                    
+                    if (Platform.OS === 'web') {
+                        const confirmed = window.confirm(
+                            `⚠️ Confirmar Eliminación\n\nEl usuario Admin (${managingPartner.name}) está activo.\n\n¿Estás seguro de que deseas eliminar este ${businessLabel.toLowerCase()}?\n\nEsta acción no se puede deshacer.`
+                        );
+                        if (confirmed) {
+                            console.log('[handleDelete] Usuario confirmó eliminación');
+                            await (businessUnitRepository as any).softDelete(id);
+                            loadData();
+                            showNotification(`✅ ${businessLabel} eliminado correctamente`);
+                        }
+                    } else {
+                        Alert.alert(
+                            '⚠️ Confirmar Eliminación',
+                            `El usuario Admin (${managingPartner.name}) está activo. ¿Estás seguro de que deseas eliminar este ${businessLabel.toLowerCase()}? Esta acción no se puede deshacer.`,
+                            [
+                                { text: 'Cancelar', style: 'cancel' },
+                                {
+                                    text: 'Sí, Eliminar',
+                                    style: 'destructive',
+                                    onPress: async () => {
+                                        console.log('[handleDelete] Ejecutando softDelete...');
+                                        await (businessUnitRepository as any).softDelete(id);
+                                        loadData();
+                                        showNotification(`✅ ${businessLabel} eliminado correctamente`);
+                                    }
+                                }
+                            ]
+                        );
+                    }
+                } else {
+                    console.log('[handleDelete] Admin no activo, mostrando alert normal');
+                    
+                    if (Platform.OS === 'web') {
+                        const confirmed = window.confirm(
+                            `¿Deseas dar de baja este ${businessLabel.toLowerCase()}? No aparecerá en las nuevas operaciones.`
+                        );
+                        if (confirmed) {
+                            console.log('[handleDelete] Ejecutando softDelete...');
+                            await (businessUnitRepository as any).softDelete(id);
+                            loadData();
+                            showNotification(`✅ ${businessLabel} dado de baja correctamente`);
+                        }
+                    } else {
+                        Alert.alert('Confirmar Baja', `¿Deseas dar de baja este ${businessLabel.toLowerCase()}? No aparecerá en las nuevas operaciones.`, [
+                            { text: 'Cancelar' },
+                            {
+                                text: 'Dar de Baja', style: 'destructive', onPress: async () => {
+                                    await (businessUnitRepository as any).softDelete(id);
+                                    loadData();
+                                    showNotification(`✅ ${businessLabel} dado de baja correctamente`);
+                                }
+                            }
+                        ]);
                     }
                 }
-            ]);
+            } catch (error) {
+                console.error('[handleDelete] Error:', error);
+            }
         } else {
-            Alert.alert('Reactivar', '¿Deseas reactivar este local?', [
-                { text: 'Cancelar' },
-                {
-                    text: 'Reactivar', onPress: async () => {
-                        await (businessUnitRepository as any).reactivate(id);
-                        loadData();
-                    }
+            console.log('[handleDelete] Intentando reactivar...');
+            
+            if (Platform.OS === 'web') {
+                const confirmed = window.confirm(
+                    `¿Deseas reactivar este ${businessLabel.toLowerCase()}?`
+                );
+                if (confirmed) {
+                    console.log('[handleDelete] Ejecutando reactivate...');
+                    await (businessUnitRepository as any).reactivate(id);
+                    loadData();
+                    showNotification(`✅ ${businessLabel} reactivado correctamente`);
                 }
-            ]);
+            } else {
+                Alert.alert('Reactivar', `¿Deseas reactivar este ${businessLabel.toLowerCase()}?`, [
+                    { text: 'Cancelar' },
+                    {
+                        text: 'Reactivar', onPress: async () => {
+                            await (businessUnitRepository as any).reactivate(id);
+                            loadData();
+                            showNotification(`✅ ${businessLabel} reactivado correctamente`);
+                        }
+                    }
+                ]);
+            }
         }
     };
 
@@ -153,24 +271,27 @@ export const BusinessUnitsScreen = () => {
         };
 
         const handleSaveEnhanced = async (unit: any) => {
-            const payload = {
-                name: unit.name,
-                location: unit.location,
-                color: unit.color,
-                displayOrder: unit.display_order,
-                isActive: unit.is_active
-            };
-
-            try {
-                if (unit.id) {
-                    await (businessUnitRepository as any).update(unit.id, payload);
-                } else {
-                    await (businessUnitRepository as any).create(payload);
-                }
-                loadData();
-            } catch (error) {
-                Alert.alert('Error', 'No se pudo guardar la unidad de negocio.');
+            if (unit.id) {
+                const payload = {
+                    name: unit.name,
+                    location: unit.location,
+                    color: unit.color,
+                    displayOrder: unit.display_order,
+                    isActive: unit.is_active
+                };
+                await (businessUnitRepository as any).update(unit.id, payload);
+                showNotification(`✅ ${businessLabel} actualizado correctamente`);
+            } else {
+                const payload = {
+                    name: unit.name,
+                    location: unit.location,
+                    color: unit.color,
+                    displayOrder: unit.display_order || 0
+                };
+                await (businessUnitRepository as any).create(payload);
+                showNotification(`✅ ${businessLabel} creado correctamente`);
             }
+            loadData();
         };
 
         const transformedBusinessUnits = bus.map(item => ({
@@ -191,6 +312,8 @@ export const BusinessUnitsScreen = () => {
                         onRefresh={loadData}
                         onToggleActive={handleToggleActive}
                         onSave={handleSaveEnhanced}
+                        businessLabel={businessLabel}
+                        onBack={() => router.back()}
                     />
                 </View>
             </SafeAreaView>
@@ -247,8 +370,8 @@ export const BusinessUnitsScreen = () => {
                         <Ionicons name="chevron-back" size={28} color={colors.text} />
                     </TouchableOpacity>
                     <View>
-                        <Typography variant="h1">Locales</Typography>
-                        <Typography variant="body" color={colors.textSecondary}>Gestión de locales</Typography>
+                        <Typography variant="h1">{businessLabel}</Typography>
+                        <Typography variant="body" color={colors.textSecondary}>Gestión de {businessLabel.toLowerCase()}s</Typography>
                     </View>
                 </View>
 
@@ -262,7 +385,7 @@ export const BusinessUnitsScreen = () => {
                 />
 
                 <Button
-                    title="Agregar Local"
+                    title={`Agregar ${businessLabel}`}
                     onPress={() => handleOpenModal()}
                     style={styles.addBtn}
                 />
@@ -271,10 +394,10 @@ export const BusinessUnitsScreen = () => {
                     <View style={styles.modalOverlay}>
                         <View style={styles.modalContent}>
                             <Typography variant="h2" style={{ marginBottom: 20 }}>
-                                {currentId ? 'Editar Local' : 'Nuevo Local'}
+                                {currentId ? `Editar ${businessLabel}` : `Nuevo ${businessLabel}`}
                             </Typography>
 
-                            <Typography variant="label">Nombre del Local</Typography>
+                            <Typography variant="label">Nombre del {businessLabel}</Typography>
                             <TextInput
                                 style={styles.input}
                                 value={name}

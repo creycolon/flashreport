@@ -16,13 +16,9 @@ export const useAppTheme = () => {
     }, []);
 
     const loadThemePreference = async () => {
-        console.warn('[useAppTheme] loadThemePreference called');
         try {
-            const saved = await (configRepository as any).get('theme_preference', 'auto');
-            console.warn('[useAppTheme] Loaded theme preference from config:', { saved, default: 'auto' });
-            // Si no hay valor guardado o es inválido, usar 'auto'
+            const saved = await (configRepository as any).get('default_mode', 'auto');
             const validPreference: ThemePreference = ['auto', 'dark', 'light'].includes(saved) ? saved : 'auto';
-            console.warn('[useAppTheme] Valid theme preference:', validPreference);
             setThemePreference(validPreference);
         } catch (error) {
             console.error('Error loading theme preference:', error);
@@ -32,10 +28,8 @@ export const useAppTheme = () => {
     };
 
     const saveThemePreference = async (preference: ThemePreference) => {
-        console.warn('[useAppTheme] saveThemePreference called:', preference);
         try {
-            await (configRepository as any).set('theme_preference', preference);
-            console.warn('[useAppTheme] Theme preference saved successfully');
+            await (configRepository as any).set('default_mode', preference);
             setThemePreference(preference);
         } catch (error) {
             console.error('Error saving theme preference:', error);
@@ -47,56 +41,33 @@ export const useAppTheme = () => {
         if (Platform.OS !== 'web' || typeof window === 'undefined') {
             return;
         }
-
-        console.log('[useAppTheme] Setting up web color scheme detection');
         
         const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e: MediaQueryListEvent) => {
-            const newScheme = e.matches ? 'dark' : 'light';
-            console.log('[useAppTheme] Web color scheme changed:', newScheme);
-            setWebDetectedScheme(newScheme);
+            setWebDetectedScheme(e.matches ? 'dark' : 'light');
         };
         
-        // Set initial value
-        const initialScheme = darkModeMediaQuery.matches ? 'dark' : 'light';
-        console.log('[useAppTheme] Initial web color scheme:', initialScheme);
-        setWebDetectedScheme(initialScheme);
+        setWebDetectedScheme(darkModeMediaQuery.matches ? 'dark' : 'light');
         
-        // Add listener
         if (darkModeMediaQuery.addEventListener) {
             darkModeMediaQuery.addEventListener('change', handleChange);
-        } else {
-            // Fallback for older browsers
-            darkModeMediaQuery.addListener(handleChange);
         }
         
         return () => {
             if (darkModeMediaQuery.removeEventListener) {
                 darkModeMediaQuery.removeEventListener('change', handleChange);
-            } else if (darkModeMediaQuery.removeListener) {
-                darkModeMediaQuery.removeListener(handleChange);
             }
         };
     }, []);
 
     // Determine which color scheme to use
-    // Combine device color scheme with web detection if needed
     const finalDeviceColorScheme = Platform.OS === 'web' && webDetectedScheme 
         ? webDetectedScheme 
         : deviceColorScheme;
     
-    console.log('[useAppTheme] Determining effective color scheme:', { 
-        themePreference, 
-        deviceColorScheme, 
-        webDetectedScheme,
-        finalDeviceColorScheme 
-    });
-    
     const effectiveColorScheme = themePreference === 'auto' 
         ? (finalDeviceColorScheme || 'dark') 
         : themePreference;
-    
-    console.log('[useAppTheme] effectiveColorScheme:', effectiveColorScheme);
     
     const colorSchemeKey = effectiveColorScheme === 'dark' ? 'dark' : 'light';
     const colors = colorSchemes[colorSchemeKey];

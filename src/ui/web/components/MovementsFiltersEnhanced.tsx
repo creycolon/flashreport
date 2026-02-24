@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Platform, Modal, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Typography, Input, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
 
 export interface BusinessUnitOption {
     id: string;
@@ -22,6 +23,7 @@ export interface MovementsFiltersEnhancedProps {
     onReset?: () => void;
     dateFilter?: string;
     searchQuery?: string;
+    businessLabel?: string;
 }
 
 const dateFilterOptions = [
@@ -42,6 +44,7 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
     onReset,
     dateFilter = '7d',
     searchQuery = '',
+    businessLabel = 'Local',
 }) => {
     const { colors } = useTheme();
     const [localSearch, setLocalSearch] = useState(searchQuery);
@@ -79,9 +82,9 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
     };
 
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
         const bu = businessUnits.find(b => b.id === selectedBu);
-        return bu ? bu.name : 'Local no encontrado';
+        return bu ? bu.name : `${businessLabel} no encontrado`;
     };
 
     const getSelectedBu = () => {
@@ -123,6 +126,11 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
             color: colors.text,
             fontSize: theme.typography.sizes.lg,
             fontWeight: 'bold',
+        },
+        selectedBuColorDot: {
+            width: 12,
+            height: 12,
+            borderRadius: 6,
         },
         headerRight: {
             flexDirection: 'row',
@@ -260,62 +268,141 @@ export const MovementsFiltersEnhanced: React.FC<MovementsFiltersEnhancedProps> =
             borderRadius: 5,
             marginRight: 10,
         },
+        // Modal styles
+        modalOverlay: {
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 999999,
+        },
+        modalContent: {
+            backgroundColor: colors.surface,
+            borderRadius: theme.spacing.borderRadius.xl,
+            width: '90%',
+            maxWidth: 400,
+            maxHeight: '80%',
+            overflow: 'hidden',
+        },
+        modalHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: theme.spacing.lg,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+        },
+        modalScrollView: {
+            maxHeight: 400,
+        },
+        modalOption: {
+            paddingVertical: 14,
+            paddingHorizontal: theme.spacing.lg,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        modalOptionSelected: {
+            backgroundColor: colors.primary + '20',
+        },
     });
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <Typography style={styles.title}>
-                        Movimientos Operativos
-                    </Typography>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm }}>
+                        {getSelectedBu() && (
+                            <View style={[styles.selectedBuColorDot, { backgroundColor: getSelectedBu()?.color || colors.primary }]} />
+                        )}
+                        <Typography style={styles.title}>
+                            Movimientos Operativos
+                        </Typography>
+                    </View>
+                    {getSelectedBu() && (
+                        <Typography variant="caption" color={colors.textSecondary} style={{ marginTop: 2 }}>
+                            {getSelectedBu()?.name}
+                        </Typography>
+                    )}
                 </View>
                 <View style={styles.headerRight}>
-                    {/* Business Unit Selector - now in header row */}
-                    <View style={{ position: 'relative', minWidth: 200, overflow: 'visible', zIndex: 10000 }}>
-                        <TouchableOpacity 
-                            style={[styles.actionButton, { paddingHorizontal: theme.spacing.lg }]}
-                            onPress={() => setShowBuDropdown(!showBuDropdown)}
-                        >
-                            {getSelectedBu() && (
-                                <View style={[styles.dropdownOptionColor, { backgroundColor: getSelectedBu()?.color || colors.primary }]} />
-                            )}
-                            <Typography style={{ color: colors.text, fontSize: theme.typography.sizes.sm, fontWeight: 'bold' }}>
-                                {getSelectedBuName()}
-                            </Typography>
-                            <Ionicons 
-                                name={showBuDropdown ? "chevron-up" : "chevron-down"} 
-                                size={16} 
-                                color={colors.textSecondary} 
-                                style={{ marginLeft: theme.spacing.xs }}
-                            />
-                        </TouchableOpacity>
-                        
-                        {showBuDropdown && (
-                            <View style={styles.dropdownContainer}>
-                                <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
-                                </View>
-                                <TouchableOpacity
-                                    style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
-                                    onPress={() => handleSelectBu('all')}
-                                >
-                                    <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
-                                    <Typography style={styles.dropdownOptionText}>Todos los locales</Typography>
-                                </TouchableOpacity>
-                                {businessUnits.map(bu => (
-                                    <TouchableOpacity
-                                        key={bu.id}
-                                        style={[styles.dropdownOption, selectedBu === bu.id && styles.dropdownOptionSelected]}
-                                        onPress={() => handleSelectBu(bu.id)}
-                                    >
-                                        <View style={[styles.dropdownOptionColor, { backgroundColor: bu.color || colors.primary }]} />
-                                        <Typography style={styles.dropdownOptionText}>{bu.name}</Typography>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
+                    {/* Business Unit Selector - now using Modal */}
+                    <TouchableOpacity
+                        style={[styles.actionButton, { paddingHorizontal: theme.spacing.lg }]}
+                        onPress={() => setShowBuDropdown(true)}
+                    >
+                        {getSelectedBu() && (
+                            <View style={[styles.dropdownOptionColor, { backgroundColor: getSelectedBu()?.color || colors.primary }]} />
                         )}
-                    </View>
+                        <Typography style={{ color: colors.text, fontSize: theme.typography.sizes.sm, fontWeight: 'bold' }}>
+                            {getSelectedBuName()}
+                        </Typography>
+                        <Ionicons
+                            name="chevron-down"
+                            size={16}
+                            color={colors.textSecondary}
+                            style={{ marginLeft: theme.spacing.xs }}
+                        />
+                    </TouchableOpacity>
+
+                    {/* Modal for Business Unit Selection */}
+                    <Modal
+                        visible={showBuDropdown}
+                        transparent
+                        animationType="fade"
+                        onRequestClose={() => setShowBuDropdown(false)}
+                    >
+                        <TouchableOpacity
+                            style={styles.modalOverlay}
+                            activeOpacity={1}
+                            onPress={() => setShowBuDropdown(false)}
+                        >
+                            <TouchableOpacity
+                                style={styles.modalContent}
+                                activeOpacity={1}
+                                onPress={(e) => e.stopPropagation()}
+                            >
+                                <View style={styles.modalHeader}>
+                                    <Typography weight="bold" style={{ fontSize: 18 }}>
+                                        🏪 Seleccionar {businessLabel}
+                                    </Typography>
+                                    <TouchableOpacity onPress={() => setShowBuDropdown(false)}>
+                                        <Ionicons name="close" size={24} color={colors.textSecondary} />
+                                    </TouchableOpacity>
+                                </View>
+                                <ScrollView style={styles.modalScrollView}>
+                                    <TouchableOpacity
+                                        style={[styles.modalOption, selectedBu === 'all' && styles.modalOptionSelected]}
+                                        onPress={() => {
+                                            handleSelectBu('all');
+                                            setShowBuDropdown(false);
+                                        }}
+                                    >
+                                        <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
+                                        <Typography style={styles.dropdownOptionText} weight={selectedBu === 'all' ? 'bold' : 'regular'}>
+                                            Todos los {pluralizeSpanish(businessLabel)}
+                                        </Typography>
+                                    </TouchableOpacity>
+                                    {businessUnits.map(bu => (
+                                        <TouchableOpacity
+                                            key={bu.id}
+                                            style={[styles.modalOption, selectedBu === bu.id && styles.modalOptionSelected]}
+                                            onPress={() => {
+                                                handleSelectBu(bu.id);
+                                                setShowBuDropdown(false);
+                                            }}
+                                        >
+                                            <View style={[styles.dropdownOptionColor, { backgroundColor: bu.color || colors.primary }]} />
+                                            <Typography style={styles.dropdownOptionText} weight={selectedBu === bu.id ? 'bold' : 'regular'}>
+                                                {bu.name}
+                                            </Typography>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </TouchableOpacity>
+                        </TouchableOpacity>
+                    </Modal>
 
                     <TouchableOpacity
                         style={[styles.actionButton, styles.resetButton]}

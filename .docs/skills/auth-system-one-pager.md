@@ -74,7 +74,7 @@ supabase/migrations/2025021901_auth_system.sql
 | Curva de aprendizaje usuarios | Documentación clara + capacitación |
 
 ## ✅ Próximos Pasos Inmediatos
-1. **Ejecutar Fase 1**: Crear migración SQL y migrar usuarios p1/p2
+1. **Ejecutar Fase 1**: Crear migración SQL y migrar usuarios 1/2
 2. **Revisar prompts detallados** en `auth-system-prompts.md`
 3. **Comenzar implementación** fase por fase usando los prompts
 

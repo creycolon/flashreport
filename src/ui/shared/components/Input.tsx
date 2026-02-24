@@ -11,7 +11,6 @@ interface InputProps extends TextInputProps {
 
 export const Input = ({ label, error, containerStyle, ...props }: InputProps) => {
     const { colors } = useTheme();
-    console.log('[Input] colors:', { text: colors.text, background: colors.background, surface: colors.surface });
     
     const styles = useMemo(() => StyleSheet.create({
         container: {

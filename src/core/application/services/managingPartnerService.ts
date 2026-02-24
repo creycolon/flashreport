@@ -7,15 +7,35 @@ export const managingPartnerService = {
      */
     getCurrentManagingPartner: async () => {
         try {
-            // 1. Obtener ID desde configuración
-            const managingPartnerId = await (configRepository as any).get('managing_partner_id', '');
+            let managingPartnerId: number | string = '';
+            
+            try {
+                const storedId = await (configRepository as any).get('default_manager', '');
+                managingPartnerId = storedId ? parseInt(storedId, 10) : '';
+            } catch (configError) {
+                console.warn('[ManagingPartner] Error getting config, using default');
+            }
             
             if (!managingPartnerId) {
-                console.log('[ManagingPartner] No managing partner configured');
+                console.log('[ManagingPartner] No managing partner configured, finding default...');
+                
+                const partners = await (partnerRepository as any).getAll(true);
+                
+                if (!partners || partners.length === 0) {
+                    console.log('[ManagingPartner] No partners found');
+                    return null;
+                }
+                
+                const defaultPartner = partners.find((p: any) => p.id === 1) || partners[0];
+                
+                if (defaultPartner) {
+                    console.log('[ManagingPartner] Using default partner:', defaultPartner.name, defaultPartner.id);
+                    return defaultPartner;
+                }
+                
                 return null;
             }
             
-            // 2. Obtener información del socio
             const partner = await (partnerRepository as any).getById(managingPartnerId);
             
             if (!partner) {
@@ -23,7 +43,6 @@ export const managingPartnerService = {
                 return null;
             }
             
-            // 3. Verificar que sea socio gerente activo
             if (!partner.is_active || !partner.is_managing_partner) {
                 console.warn(`[ManagingPartner] Partner ${managingPartnerId} is not active managing partner`);
                 return null;
@@ -63,7 +82,7 @@ export const managingPartnerService = {
             }
             
             // 2. Obtener socio gerente actual
-            const currentPartnerId = await (configRepository as any).get('managing_partner_id', '');
+            const currentPartnerId = await (configRepository as any).get('default_manager', '');
             
             if (!currentPartnerId) {
                 console.warn('[ManagingPartner] No current managing partner configured');
@@ -100,7 +119,7 @@ export const managingPartnerService = {
             await (partnerRepository as any)._ensureSingleManagingPartner(newPartnerId);
             
             // 6. Actualizar configuración
-            await (configRepository as any).set('managing_partner_id', newPartnerId);
+            await (configRepository as any).set('default_manager', newPartnerId);
             
             console.log(`[ManagingPartner] Successfully changed managing partner to: ${newPartner.name} (${newPartnerId})`);
             
@@ -133,7 +152,7 @@ export const managingPartnerService = {
             const activePartners = partners.filter((p: any) => !!p.is_active);
             
             if (excludeCurrent) {
-                const currentId = await (configRepository as any).get('managing_partner_id', '');
+                const currentId = await (configRepository as any).get('default_manager', '');
                 return activePartners.filter((p: any) => p.id !== currentId);
             }
             

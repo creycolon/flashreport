@@ -1,9 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, Platform, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { ChartAndActivitySection } from './ChartAndActivitySection';
+import { ActivityItem } from './ActivityFeedEnhanced';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
+import { cashMovementRepository } from '@core/infrastructure/repositories/cashMovementRepository';
+import { auditLogRepository } from '@core/infrastructure/repositories/auditLogRepository';
+import { managingPartnerService } from '@core/application/services/managingPartnerService';
 
 export interface Report {
     id: string;
@@ -32,6 +38,7 @@ export interface ReportsEnhancedProps {
     onGenerateReport?: (type: string) => void;
     onExportReport?: (report: Report) => void;
     onViewAuditLog?: () => void;
+    businessLabel?: string;
 }
 
 export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
@@ -44,19 +51,202 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     onGenerateReport,
     onExportReport,
     onViewAuditLog,
+    businessLabel = 'Local',
 }) => {
     const { colors } = useTheme();
     const [showBuDropdown, setShowBuDropdown] = React.useState(false);
     const [selectedDateFilter, setSelectedDateFilter] = React.useState(dateFilter);
+    const [loadingData, setLoadingData] = React.useState(false);
+    const [activityData, setActivityData] = React.useState<any[]>([]);
+    const [chartDataReal, setChartDataReal] = React.useState<any>(null);
+    const [hasData, setHasData] = React.useState(false);
+    const [auditLogs, setAuditLogs] = React.useState<any[]>([]);
 
     React.useEffect(() => {
         setSelectedDateFilter(dateFilter);
     }, [dateFilter]);
 
+    React.useEffect(() => {
+        loadAuditLogs();
+    }, []);
+
+    const loadAuditLogs = async () => {
+        try {
+            const logs = await auditLogRepository.list(20, 0);
+            if (logs && logs.length > 0) {
+                setAuditLogs(logs);
+            }
+        } catch (error) {
+            console.log('[ReportsEnhanced] No audit logs yet or error:', error);
+        }
+    };
+
+    const getDaysFromFilter = (filter: string): number => {
+        switch (filter) {
+            case 'hoy': return 1;
+            case '7d': return 7;
+            case '30d': return 30;
+            case '90d': return 90;
+            case 'all': return 365;
+            default: return 7;
+        }
+    };
+
+    const fetchRealData = React.useCallback(async () => {
+        setLoadingData(true);
+        try {
+            const days = getDaysFromFilter(selectedDateFilter);
+            const buId = selectedBu === 'all' ? null : selectedBu;
+            
+            const units = businessUnits.length > 0 ? businessUnits : [
+                { id: '1', name: 'Puesto Norte', color: '#38ff14' },
+                { id: '2', name: 'Puesto Sur', color: '#2196f3' },
+                { id: '3', name: 'Puesto Este', color: '#e91e63' },
+            ];
+            
+            let totalSales = 0;
+            let totalTransactions = 0;
+            let dailySalesData: any[] = [];
+            let activities: any[] = [];
+            let seriesData: any[] = [];
+            
+            if (buId) {
+                const balance = await cashMovementRepository.getBalance(buId, null, null);
+                totalSales = balance.total_credits || 0;
+                totalTransactions = balance.ticket_count || 0;
+                
+                const dailySales = await cashMovementRepository.getDailySales(buId, days);
+                dailySalesData = dailySales;
+                
+                activities = [{
+                    id: buId,
+                    title: units.find(u => u.id === buId)?.name || 'Negocio',
+                    description: `${totalTransactions} transacciones`,
+                    amount: `+$${totalSales.toLocaleString('es-ES')}`,
+                    amountType: 'positive' as const,
+                    time: 'Datos reales',
+                    icon: 'trending-up' as const,
+                    type: 'revenue' as const,
+                    businessUnitColor: units.find(u => u.id === buId)?.color || colors.primary,
+                }];
+                
+                seriesData = [{
+                    id: buId,
+                    name: units.find(u => u.id === buId)?.name || 'Total',
+                    color: units.find(u => u.id === buId)?.color || colors.primary,
+                    data: dailySalesData.map(d => d.total),
+                }];
+            } else {
+                const balance = await cashMovementRepository.getGlobalBalance(null, null);
+                totalSales = balance.total_credits || 0;
+                totalTransactions = balance.ticket_count || 0;
+                
+                const allMovements = await cashMovementRepository.listAll(1000, 0, null, null);
+                
+                const groupedByBuAndDate: any = {};
+                const buTotals: any = {};
+                
+                allMovements.forEach((mov: any) => {
+                    if (mov.type === 'CR') {
+                        const bu = mov.business_unit_id;
+                        const date = mov.transaction_date.split('T')[0];
+                        const amount = parseFloat(mov.amount);
+                        
+                        if (!groupedByBuAndDate[bu]) groupedByBuAndDate[bu] = {};
+                        if (!groupedByBuAndDate[bu][date]) groupedByBuAndDate[bu][date] = 0;
+                        groupedByBuAndDate[bu][date] += amount;
+                        
+                        if (!buTotals[bu]) buTotals[bu] = { transactions: 0, sales: 0 };
+                        buTotals[bu].sales += amount;
+                        buTotals[bu].transactions += 1;
+                    }
+                });
+                
+                const allDates = new Set<string>();
+                Object.values(groupedByBuAndDate).forEach((buData: any) => {
+                    Object.keys(buData).forEach(d => allDates.add(d));
+                });
+                
+                const sortedDates = Array.from(allDates).sort().slice(-days);
+                
+                const labels = sortedDates.map(d => {
+                    const date = new Date(d);
+                    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
+                });
+                
+                seriesData = units.map(bu => {
+                    const buData = groupedByBuAndDate[bu.id] || {};
+                    const data = sortedDates.map(date => buData[date] || 0);
+                    const buInfo = buTotals[bu.id] || { transactions: 0, sales: 0 };
+                    
+                    if (buInfo.sales > 0) {
+                        activities.push({
+                            id: bu.id,
+                            title: bu.name,
+                            description: `${buInfo.transactions} transacciones`,
+                            amount: `+$${buInfo.sales.toLocaleString('es-ES')}`,
+                            amountType: 'positive' as const,
+                            time: 'Datos reales',
+                            icon: 'trending-up' as const,
+                            type: 'revenue' as const,
+                            businessUnitColor: bu.color || colors.primary,
+                        });
+                    }
+                    
+                    return {
+                        id: bu.id,
+                        name: bu.name,
+                        color: bu.color || colors.primary,
+                        data: data,
+                    };
+                }).filter(s => s.data.some((v: number) => v > 0));
+                
+                dailySalesData = sortedDates.map(date => {
+                    let total = 0;
+                    units.forEach(bu => {
+                        const buData = groupedByBuAndDate[bu.id] || {};
+                        total += buData[date] || 0;
+                    });
+                    return { day: date, total };
+                });
+                
+                if (seriesData.length === 0) {
+                    seriesData = [{
+                        id: 'all',
+                        name: 'Total',
+                        color: colors.primary,
+                        data: sortedDates.map(() => 0),
+                    }];
+                }
+            }
+            
+            setHasData(totalSales > 0 || totalTransactions > 0);
+            
+            setActivityData(activities);
+            
+            const labels = dailySalesData.map(d => {
+                const date = new Date(d.day);
+                return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
+            });
+            
+            setChartDataReal({ labels, series: seriesData });
+            
+        } catch (error) {
+            console.error('[ReportsEnhanced] Error fetching real data:', error);
+            setHasData(false);
+        } finally {
+            setLoadingData(false);
+        }
+    }, [selectedBu, selectedDateFilter, businessUnits, colors]);
+
+    React.useEffect(() => {
+        fetchRealData();
+    }, [fetchRealData]);
+
     const getSelectedBuName = () => {
-        if (selectedBu === 'all') return 'Todos los locales';
+        if (selectedBu === 'all') return `Todos los ${pluralizeSpanish(businessLabel)}`;
         const bu = businessUnits.find(b => b.id === selectedBu);
-        return bu ? bu.name : 'Local no encontrado';
+        return bu ? bu.name : `${businessLabel} no encontrado`;
     };
 
     const getSelectedBu = () => {
@@ -80,17 +270,29 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         onDateFilterChange?.(filter);
     };
 
+    const getPeriodLabel = () => {
+        const now = new Date();
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+        if (selectedDateFilter === '7d') return 'Última Semana';
+        if (selectedDateFilter === '30d') return `Mes de ${monthNames[now.getMonth()]}`;
+        if (selectedDateFilter === 'all') return `Año ${now.getFullYear()}`;
+        return 'Últimos 7 días';
+    };
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             backgroundColor: colors.background,
             padding: theme.spacing.lg,
+            overflow: 'visible',
         },
         header: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: theme.spacing.xl,
+            overflow: 'visible',
         },
         title: {
             color: colors.text,
@@ -105,17 +307,20 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         actions: {
             flexDirection: 'row',
             gap: theme.spacing.md,
+            overflow: 'visible',
         },
         actionButton: {
             flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'center',
             gap: theme.spacing.sm,
             paddingHorizontal: theme.spacing.md,
-            paddingVertical: theme.spacing.sm,
-            borderRadius: theme.spacing.borderRadius.lg,
+            paddingVertical: 12,
+            borderRadius: 8,
             borderWidth: 1,
             borderColor: colors.border,
             backgroundColor: colors.surface,
+            minWidth: 120,
         },
         actionButtonPrimary: {
             backgroundColor: colors.primary,
@@ -123,12 +328,70 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         },
         section: {
             marginBottom: theme.spacing.xl,
+            width: '100%',
+            overflow: 'visible',
+            minHeight: 100,
         },
         sectionTitle: {
             color: colors.text,
             fontSize: theme.typography.sizes.lg,
             fontWeight: 'bold',
             marginBottom: theme.spacing.md,
+        },
+        activityGrid: {
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: theme.spacing.md,
+        },
+        activityCard: {
+            backgroundColor: colors.surface,
+            borderWidth: 1,
+            borderColor: colors.border,
+            borderRadius: theme.spacing.borderRadius.xl,
+            padding: theme.spacing.lg,
+            flex: 1,
+            minWidth: 200,
+            maxWidth: '48%',
+            borderLeftWidth: 4,
+        },
+        activityHeader: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: theme.spacing.md,
+        },
+        activityDot: {
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            marginRight: theme.spacing.sm,
+        },
+        activityTitle: {
+            color: colors.text,
+            fontSize: theme.typography.sizes.md,
+            fontWeight: 'bold',
+        },
+        activityStats: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        },
+        activityStat: {
+            flex: 1,
+        },
+        activityValue: {
+            color: colors.text,
+            fontSize: theme.typography.sizes.lg,
+            fontWeight: 'bold',
+        },
+        activityLabel: {
+            color: colors.textSecondary,
+            fontSize: theme.typography.sizes.xs,
+            marginTop: 2,
+        },
+        emptyState: {
+            padding: theme.spacing.xl,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
         },
         reportsGrid: {
             flexDirection: 'row',
@@ -240,48 +503,82 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
             fontSize: theme.typography.sizes.xs,
         },
         buSelectorRow: {
-            marginBottom: theme.spacing.xl,
+            marginBottom: theme.spacing.md,
             position: 'relative',
-            zIndex: 10000,
+            zIndex: Platform.OS === 'web' ? 10000 : 1,
             overflow: 'visible',
         },
         buSelectorButton: {
-            backgroundColor: colors.background,
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: colors.cardBackground,
             borderWidth: 1,
             borderColor: colors.border,
-            borderRadius: theme.spacing.borderRadius.md,
-            padding: theme.spacing.md,
+            borderRadius: 8,
+            paddingHorizontal: 12,
+            paddingVertical: 12,
+            flex: 1,
+        },
+        buSelectorButtonPrimary: {
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: colors.primary + '08',
+            borderWidth: 2,
+            borderColor: colors.primary + '40',
+            borderRadius: 8,
+            paddingHorizontal: theme.spacing.md,
+            paddingVertical: 12,
+            flex: 1,
+            minWidth: 120,
+            ...(Platform.OS === 'web' && {
+                boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+            }),
+            ...(Platform.OS !== 'web' && {
+                elevation: 2,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 2,
+            }),
         },
-        buSelectorText: {
-            color: colors.text,
-            fontSize: theme.typography.sizes.md,
-        },
-        buSelectorIcon: {
-            marginLeft: theme.spacing.sm,
+        buSelectorText: { flex: 1 },
+        buSelectorIcon: { marginLeft: 4 },
+        buSelectorColor: { width: 10, height: 10, borderRadius: 5, marginRight: 10 },
+        dropdownPortal: {
+            position: 'absolute',
+            top: 80,
+            left: 20,
+            right: 20,
+            zIndex: 999999,
         },
         dropdownContainer: {
             position: 'absolute',
             top: '100%',
             left: 0,
             right: 0,
-            backgroundColor: colors.surface,
+            backgroundColor: colors.cardBackground,
             borderWidth: 1,
             borderColor: colors.border,
-            borderRadius: theme.spacing.borderRadius.md,
-            marginTop: theme.spacing.xs,
-            zIndex: 10001,
-            maxHeight: 300,
-            elevation: 10,
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.3,
-            shadowRadius: 6,
+            borderRadius: 8,
+            marginTop: 4,
+            zIndex: 999999,
             ...(Platform.OS === 'web' && {
+                maxHeight: 300,
                 overflowY: 'auto',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
             }),
+            ...(Platform.OS !== 'web' && {
+                elevation: 20,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+            }),
+        },
+        dropdownScrollView: {
+            maxHeight: 350,
+            overflow: 'visible',
         },
         dropdownHeader: {
             paddingVertical: 10,
@@ -312,25 +609,61 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         },
         dateFilterRow: {
             flexDirection: 'row',
-            marginTop: theme.spacing.md,
-            gap: theme.spacing.sm,
-            marginBottom: theme.spacing.xl,
+            marginBottom: theme.spacing.lg,
+            backgroundColor: colors.cardBackground,
+            padding: 4,
+            borderRadius: 8,
+            alignSelf: 'flex-start',
         },
         dateChip: {
-            paddingVertical: theme.spacing.sm,
-            paddingHorizontal: theme.spacing.md,
-            borderRadius: theme.spacing.borderRadius.md,
-            borderWidth: 1,
-            borderColor: colors.border,
-            backgroundColor: colors.background,
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            borderRadius: 6,
         },
         activeDateChip: {
             backgroundColor: colors.primary,
-            borderColor: colors.primary,
         },
         dateChipText: {
             fontSize: theme.typography.sizes.sm,
             fontWeight: '600',
+        },
+        // Modal styles
+        modalOverlay: {
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 999999,
+        },
+        modalContent: {
+            backgroundColor: colors.surface,
+            borderRadius: theme.spacing.borderRadius.xl,
+            width: '90%',
+            maxWidth: 400,
+            maxHeight: '80%',
+            overflow: 'hidden',
+        },
+        modalHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: theme.spacing.lg,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+        },
+        modalScrollView: {
+            maxHeight: 400,
+        },
+        modalOption: {
+            paddingVertical: 14,
+            paddingHorizontal: theme.spacing.lg,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        modalOptionSelected: {
+            backgroundColor: colors.primary + '20',
         },
     });
 
@@ -376,6 +709,40 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         { id: '4', action: 'Configuración modificada', user: 'admin@flashreport.com', details: 'Umbral de alertas actualizado', time: 'Hace 2 días' },
     ];
 
+    // Generate activity data for each business unit (ventas del día)
+    const generateActivityItems = (): ActivityItem[] => {
+        if (activityData.length > 0) {
+            return activityData;
+        }
+        
+        // Fallback to mock only if no real data
+        const units = businessUnits.length > 0 ? businessUnits : [
+            { id: '1', name: 'Puesto Norte', color: '#38ff14' },
+            { id: '2', name: 'Puesto Sur', color: '#2196f3' },
+            { id: '3', name: 'Puesto Este', color: '#e91e63' },
+        ];
+
+        return units.map((bu, index) => {
+            const sales = Math.floor(Math.random() * 50000) + 10000;
+            const transactions = Math.floor(Math.random() * 100) + 20;
+            const times = ['Hace 5 min', 'Hace 42 min', 'Hace 1h', 'Hace 2h', 'Hace 3h'];
+
+            return {
+                id: bu.id,
+                title: bu.name,
+                description: `${transactions} transacciones`,
+                amount: `+$${sales.toLocaleString('es-ES')}`,
+                amountType: 'positive' as const,
+                time: times[index % times.length],
+                icon: 'trending-up' as const,
+                type: 'revenue' as const,
+                businessUnitColor: bu.color,
+            };
+        });
+    };
+
+    const activityItems = generateActivityItems();
+
     // Enrich mock reports with business unit IDs
     const enrichedMockReports = mockReports.map((report, index) => {
         let businessUnitId = 'all';
@@ -388,14 +755,36 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
     });
 
     // Filter reports based on selected business unit
-    const filteredReports = selectedBu === 'all' 
-        ? enrichedMockReports 
+    const filteredReports = selectedBu === 'all'
+        ? enrichedMockReports
         : enrichedMockReports.filter(report => report.businessUnitId === selectedBu);
 
-    // Filter audit log based on selected business unit (simulated)
-    const filteredAuditLog = selectedBu === 'all'
-        ? mockAuditLog
-        : mockAuditLog.slice(0, 2); // Show fewer items when a specific unit is selected
+    const getRelativeTime = (dateString: string): string => {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        const diffDays = Math.floor(diffHours / 24);
+        
+        if (diffMins < 60) return `Hace ${diffMins} min`;
+        if (diffHours < 24) return `Hace ${diffHours} h`;
+        if (diffDays < 7) return `Hace ${diffDays} día${diffDays > 1 ? 's' : ''}`;
+        return date.toLocaleDateString('es-ES');
+    };
+
+    // Filter audit log based on selected business unit (use real data if available)
+    const filteredAuditLog = auditLogs.length > 0 
+        ? auditLogs.map(log => ({
+            id: log.id.toString(),
+            action: log.action === 'GENERATE_REPORT' ? 'Generación de reporte' : log.action,
+            user: log.user_id ? `Socio ${log.user_id}` : 'Sistema',
+            details: `${log.business_unit_filter || 'N/A'} - ${log.period_filter || 'N/A'} (${log.period_days} días)`,
+            time: getRelativeTime(log.created_at)
+        }))
+        : (selectedBu === 'all'
+            ? mockAuditLog
+            : mockAuditLog.slice(0, 2));
 
     const getReportTypeColor = (type: string) => {
         switch (type) {
@@ -407,195 +796,313 @@ export const ReportsEnhanced: React.FC<ReportsEnhancedProps> = ({
         }
     };
 
+    // Generate chart data based on selected filters
+    const generateChartData = () => {
+        // Use real data if available
+        if (chartDataReal && chartDataReal.labels && chartDataReal.labels.length > 0) {
+            return chartDataReal;
+        }
+        
+        if (!hasData && !loadingData) {
+            return null;
+        }
+        
+        // Calculate total days based on filter
+        const totalDays = selectedDateFilter === 'hoy' ? 1 : selectedDateFilter === '7d' ? 7 : selectedDateFilter === '30d' ? 30 : selectedDateFilter === '90d' ? 90 : 365;
+
+        // Determine number of points to show proportionally (12 points = 1 year)
+        let displayPoints: number;
+        let labels: string[] = [];
+
+        if (totalDays <= 7) {
+            // 7 days or less: show all days
+            displayPoints = totalDays;
+            for (let i = 0; i < totalDays; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - (totalDays - 1 - i));
+                labels.push(date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }));
+            }
+        } else if (totalDays <= 30) {
+            // 30 days: show each day
+            displayPoints = totalDays;
+            for (let i = 0; i < totalDays; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - (totalDays - 1 - i));
+                labels.push(date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }));
+            }
+        } else {
+            // 90 days (3 months): show ~12 points = 1 per month
+            // 365 days (1 year): show 12 points = 1 per month
+            displayPoints = 12;
+            const step = Math.floor(totalDays / displayPoints);
+
+            for (let i = 0; i < displayPoints; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - (totalDays - 1 - (i * step)));
+                labels.push(date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }));
+            }
+        }
+
+        // Generate mock data for reports (values in thousands for K format)
+        const baseMultiplier = selectedBu === 'all' ? 15000 : 5000;
+
+        // Generate data points - match the number of display labels
+        const data = labels.map(() => Math.floor(Math.random() * 8000) + baseMultiplier);
+
+        // Get business units to use as series (or use mock if empty)
+        const units = businessUnits.length > 0 ? businessUnits : [
+            { id: '1', name: 'Puesto Norte', color: '#38ff14' },
+            { id: '2', name: 'Puesto Sur', color: '#2196f3' },
+            { id: '3', name: 'Puesto Este', color: '#e91e63' },
+        ];
+
+        // Get selected business unit's color
+        const selectedBusinessUnit = selectedBu === 'all' ? null : units.find(u => u.id === selectedBu);
+
+        // Generate a series for each business unit when showing all, otherwise single series with business unit color
+        const series = selectedBu === 'all'
+            ? units.map((bu) => ({
+                id: bu.id,
+                name: bu.name,
+                color: bu.color || colors.primary,
+                data: data.map(v => Math.floor(v * (0.5 + Math.random() * 0.5))),
+            }))
+            : [{
+                id: selectedBu,
+                name: selectedBusinessUnit?.name || 'Total',
+                color: selectedBusinessUnit?.color || colors.primary,
+                data: data,
+            }];
+
+        return {
+            labels: labels,
+            series: series,
+        };
+    };
+
+    const chartData = generateChartData();
+
     return (
-        <ScrollView style={styles.container}>
-            {/* Header */}
-            <View style={styles.header}>
-                <View>
-                    <Typography style={styles.title}>
-                        Informes y Auditoría
-                    </Typography>
-                    <Typography style={styles.subtitle}>
-                        Genera, exporta y audita reportes del sistema
-                    </Typography>
-                </View>
-                <View style={styles.actions}>
-                    {/* Business Unit Selector - integrated into header row */}
-                    <View style={{ position: 'relative', minWidth: 200, overflow: 'visible', zIndex: 10000 }}>
-                        <TouchableOpacity 
-                            style={[styles.actionButton, { paddingHorizontal: theme.spacing.lg }]}
-                            onPress={() => setShowBuDropdown(!showBuDropdown)}
-                        >
-                            {getSelectedBu() && (
-                                <View style={[styles.dropdownOptionColor, { backgroundColor: getSelectedBu()?.color || colors.primary }]} />
-                            )}
-                            <Typography style={{ color: colors.text, fontSize: theme.typography.sizes.sm, fontWeight: 'bold' }}>
-                                {getSelectedBuName()}
+        <View style={{ flex: 1 }}>
+            {/* Modal for Business Unit Selection */}
+            <Modal
+                visible={showBuDropdown}
+                transparent
+                animationType="fade"
+                onRequestClose={() => setShowBuDropdown(false)}
+            >
+                <TouchableOpacity
+                    style={styles.modalOverlay}
+                    activeOpacity={1}
+                    onPress={() => setShowBuDropdown(false)}
+                >
+                    <TouchableOpacity
+                        style={styles.modalContent}
+                        activeOpacity={1}
+                        onPress={(e) => e.stopPropagation()}
+                    >
+                        <View style={styles.modalHeader}>
+                            <Typography weight="bold" style={{ fontSize: 18 }}>
+                                🏪 Seleccionar {businessLabel}
                             </Typography>
-                            <Ionicons 
-                                name={showBuDropdown ? "chevron-up" : "chevron-down"} 
-                                size={16} 
-                                color={colors.textSecondary} 
-                                style={{ marginLeft: theme.spacing.xs }}
-                            />
-                        </TouchableOpacity>
-                        
-                        {showBuDropdown && (
-                            <View style={styles.dropdownContainer}>
-                                <View style={styles.dropdownHeader}>
-                                    <Typography variant="caption" weight="bold" color={colors.primary}>🏪 Seleccionar Unidad de Negocio</Typography>
-                                </View>
+                            <TouchableOpacity onPress={() => setShowBuDropdown(false)}>
+                                <Ionicons name="close" size={24} color={colors.textSecondary} />
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView style={styles.modalScrollView}>
+                            <TouchableOpacity
+                                style={[styles.modalOption, selectedBu === 'all' && styles.modalOptionSelected]}
+                                onPress={() => {
+                                    handleSelectBu('all');
+                                    setShowBuDropdown(false);
+                                }}
+                            >
+                                <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
+                                <Typography style={styles.dropdownOptionText} weight={selectedBu === 'all' ? 'bold' : 'regular'}>
+                                    Todos los {pluralizeSpanish(businessLabel)}
+                                </Typography>
+                            </TouchableOpacity>
+                            {businessUnits.map(bu => (
                                 <TouchableOpacity
-                                    style={[styles.dropdownOption, selectedBu === 'all' && styles.dropdownOptionSelected]}
-                                    onPress={() => handleSelectBu('all')}
+                                    key={bu.id}
+                                    style={[styles.modalOption, selectedBu === bu.id && styles.modalOptionSelected]}
+                                    onPress={() => {
+                                        handleSelectBu(bu.id);
+                                        setShowBuDropdown(false);
+                                    }}
                                 >
-                                    <View style={[styles.dropdownOptionColor, { backgroundColor: colors.primary }]} />
-                                    <Typography style={styles.dropdownOptionText}>Todos los locales</Typography>
+                                    <View style={[styles.dropdownOptionColor, { backgroundColor: bu.color || colors.primary }]} />
+                                    <Typography style={styles.dropdownOptionText} weight={selectedBu === bu.id ? 'bold' : 'regular'}>
+                                        {bu.name}
+                                    </Typography>
                                 </TouchableOpacity>
-                                {businessUnits.map(bu => (
-                                    <TouchableOpacity
-                                        key={bu.id}
-                                        style={[styles.dropdownOption, selectedBu === bu.id && styles.dropdownOptionSelected]}
-                                        onPress={() => handleSelectBu(bu.id)}
-                                    >
-                                        <View style={[styles.dropdownOptionColor, { backgroundColor: bu.color || colors.primary }]} />
-                                        <Typography style={styles.dropdownOptionText}>{bu.name}</Typography>
-                                    </TouchableOpacity>
-                                ))}
+                            ))}
+                        </ScrollView>
+                    </TouchableOpacity>
+                </TouchableOpacity>
+            </Modal>
+
+            <ScrollView
+                style={styles.container}
+                contentContainerStyle={{ overflow: 'visible', flexGrow: 1 }}
+                showsVerticalScrollIndicator={true}
+            >
+                <View style={{ flex: 1, paddingBottom: 100 }}>
+                    {/* Header */}
+                    <View style={styles.header}>
+                        <View>
+                            <Typography style={styles.title}>
+                                Informes y Auditoría
+                            </Typography>
+                            <Typography style={styles.subtitle}>
+                                Genera, exporta y audita reportes del sistema
+                            </Typography>
+                        </View>
+                        <View style={[styles.actions, { zIndex: 100, overflow: 'visible' }]}>
+                            {/* Business Unit Selector */}
+                            <View style={[styles.buSelectorRow, { zIndex: 100, overflow: 'visible' }]}>
+                                <TouchableOpacity
+                                    style={styles.buSelectorButtonPrimary}
+                                    onPress={() => setShowBuDropdown(!showBuDropdown)}
+                                >
+                                    {getSelectedBu() && (
+                                        <View style={[styles.buSelectorColor, { backgroundColor: getSelectedBu()?.color || colors.primary }]} />
+                                    )}
+                                    <Typography style={styles.buSelectorText} weight="bold">
+                                        {getSelectedBuName()}
+                                    </Typography>
+                                    <Ionicons
+                                        name={showBuDropdown ? "chevron-up" : "chevron-down"}
+                                        size={18}
+                                        color={colors.textSecondary}
+                                        style={styles.buSelectorIcon}
+                                    />
+                                </TouchableOpacity>
                             </View>
-                        )}
+
+                            <TouchableOpacity
+                                style={[styles.actionButton, styles.actionButtonPrimary]}
+                                onPress={async () => {
+                                    await onGenerateReport?.('sales');
+                                    loadAuditLogs();
+                                }}
+                            >
+                                <Ionicons name="add" size={20} color={colors.cardBackground} />
+                                <Typography color={colors.cardBackground} weight="bold">
+                                    {getNewReportButtonText()}
+                                </Typography>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.actionButton}
+                                onPress={onViewAuditLog}
+                            >
+                                <Ionicons name="shield-checkmark" size={20} color={colors.textSecondary} />
+                                <Typography color={colors.textSecondary}>
+                                    Auditoría
+                                </Typography>
+                            </TouchableOpacity>
+                        </View>
                     </View>
 
-                    <TouchableOpacity
-                        style={[styles.actionButton, styles.actionButtonPrimary]}
-                        onPress={() => onGenerateReport?.('sales')}
-                    >
-                        <Ionicons name="add" size={20} color={colors.cardBackground} />
-                        <Typography color={colors.cardBackground} weight="bold">
-                            {getNewReportButtonText()}
+                    {/* Chart & Activity Section - shared component with filters */}
+                    {loadingData ? (
+                        <View style={{ padding: 40, alignItems: 'center' }}>
+                            <Typography variant="body" color={colors.textMuted}>
+                                Cargando datos...
+                            </Typography>
+                        </View>
+                    ) : (
+                    <ChartAndActivitySection
+                        chartTitle="Reportes Generados"
+                        chartSubtitle={getPeriodLabel()}
+                        periodLabel={getPeriodLabel()}
+                        chartData={chartData}
+                        activityTitle="Actividad Reciente"
+                        activityItems={activityItems}
+                        chartHeight={300}
+                        activityMaxHeight={320}
+                        filters={[
+                            { value: '7d', label: 'Semana' },
+                            { value: '30d', label: 'Mes' },
+                            { value: 'all', label: 'Año' },
+                        ]}
+                        selectedFilter={selectedDateFilter}
+                        onFilterChange={handleDateFilterSelect}
+                    />)}
+
+                    {/* Recent Reports */}
+                    <View style={styles.section}>
+                        <Typography style={styles.sectionTitle}>
+                            Reportes Recientes
                         </Typography>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.actionButton}
-                        onPress={onViewAuditLog}
-                    >
-                        <Ionicons name="shield-checkmark" size={20} color={colors.textSecondary} />
-                        <Typography color={colors.textSecondary}>
-                            Auditoría
-                        </Typography>
-                    </TouchableOpacity>
-                </View>
-            </View>
+                        <View style={styles.reportsGrid}>
+                            {filteredReports.map((report) => (
+                                <View key={report.id} style={styles.reportCard}>
+                                    <View style={styles.reportHeader}>
+                                        <View style={[styles.reportTypeBadge, { backgroundColor: getReportTypeColor(report.type) + '20' }]}>
+                                            <Typography style={[styles.reportTypeText, { color: getReportTypeColor(report.type) }]}>
+                                                {report.type}
+                                            </Typography>
+                                        </View>
+                                        <Typography variant="caption" color={colors.textMuted}>
+                                            {report.size}
+                                        </Typography>
+                                    </View>
+                                    <Typography style={styles.reportTitle}>
+                                        {report.title}
+                                    </Typography>
+                                    <Typography style={styles.reportDescription}>
+                                        {report.description}
+                                    </Typography>
+                                    <View style={styles.reportFooter}>
+                                        <Typography style={styles.reportDate}>
+                                            {report.date.toLocaleDateString('es-ES')}
+                                        </Typography>
+                                        <TouchableOpacity onPress={() => onExportReport?.(report)}>
+                                            <Ionicons name="download" size={20} color={colors.primary} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
 
-            {/* Date Filter */}
-            <View style={styles.dateFilterRow}>
-                <Typography variant="label">Rango de Fecha</Typography>
-                 <View style={{ flexDirection: 'row', gap: theme.spacing.sm, flexWrap: 'wrap', marginTop: theme.spacing.sm }}>
-                     {['hoy', '7d', '30d', 'all'].map((filter) => {
-                         const isActive = selectedDateFilter === filter;
-                         return (
-                             <TouchableOpacity
-                                 key={filter}
-                                 style={[styles.dateChip, isActive && styles.activeDateChip]}
-                                 onPress={() => handleDateFilterSelect(filter)}
-                             >
-                                 <Typography
-                                     style={styles.dateChipText}
-                                     color={isActive ? colors.cardBackground : colors.textSecondary}
-                                     weight={isActive ? 'bold' : 'regular'}
-                                 >
-                                     {filter === 'hoy' ? 'Hoy' : filter === '7d' ? 'Últimos 7 días' : filter === '30d' ? 'Últimos 30 días' : 'Todo'}
-                                 </Typography>
-                             </TouchableOpacity>
-                         );
-                     })}
-                 </View>
-            </View>
-
-            {/* Chart Section */}
-            <View style={styles.section}>
-                <Typography style={styles.sectionTitle}>
-                    Tendencia de Generación
-                </Typography>
-                <View style={styles.chartPlaceholder}>
-                    <Ionicons name="bar-chart" size={48} color={colors.textSecondary} />
-                    <Typography color={colors.textSecondary} style={{ marginTop: theme.spacing.md }}>
-                         Gráfico de reportes generados para {getSelectedBuName()}
-                    </Typography>
-                </View>
-            </View>
-
-            {/* Recent Reports */}
-            <View style={styles.section}>
-                <Typography style={styles.sectionTitle}>
-                    Reportes Recientes
-                </Typography>
-                <View style={styles.reportsGrid}>
-                    {filteredReports.map((report) => (
-                        <View key={report.id} style={styles.reportCard}>
-                            <View style={styles.reportHeader}>
-                                <View style={[styles.reportTypeBadge, { backgroundColor: getReportTypeColor(report.type) + '20' }]}>
-                                    <Typography style={[styles.reportTypeText, { color: getReportTypeColor(report.type) }]}>
-                                        {report.type}
+                    {/* Audit Log */}
+                    <View style={styles.section}>
+                        <View style={styles.auditLogSection}>
+                            <View style={styles.auditLogHeader}>
+                                <Typography style={styles.sectionTitle}>
+                                    Registro de Auditoría
+                                </Typography>
+                                <TouchableOpacity>
+                                    <Typography color={colors.primary} weight="bold">
+                                        Ver Todo
+                                    </Typography>
+                                </TouchableOpacity>
+                            </View>
+                            {filteredAuditLog.map((log) => (
+                                <View key={log.id} style={styles.auditLogItem}>
+                                    <View style={styles.auditLogIcon}>
+                                        <Ionicons name="document-text" size={16} color={colors.primary} />
+                                    </View>
+                                    <View style={styles.auditLogContent}>
+                                        <Typography style={styles.auditLogAction}>
+                                            {log.action}
+                                        </Typography>
+                                        <Typography style={styles.auditLogDetails}>
+                                            {log.details} • {log.user}
+                                        </Typography>
+                                    </View>
+                                    <Typography style={styles.auditLogTime}>
+                                        {log.time}
                                     </Typography>
                                 </View>
-                                <Typography variant="caption" color={colors.textMuted}>
-                                    {report.size}
-                                </Typography>
-                            </View>
-                            <Typography style={styles.reportTitle}>
-                                {report.title}
-                            </Typography>
-                            <Typography style={styles.reportDescription}>
-                                {report.description}
-                            </Typography>
-                            <View style={styles.reportFooter}>
-                                <Typography style={styles.reportDate}>
-                                    {report.date.toLocaleDateString('es-ES')}
-                                </Typography>
-                                <TouchableOpacity onPress={() => onExportReport?.(report)}>
-                                    <Ionicons name="download" size={20} color={colors.primary} />
-                                </TouchableOpacity>
-                            </View>
+                            ))}
                         </View>
-                    ))}
-                </View>
-            </View>
-
-            {/* Audit Log */}
-            <View style={styles.section}>
-                <View style={styles.auditLogSection}>
-                    <View style={styles.auditLogHeader}>
-                        <Typography style={styles.sectionTitle}>
-                            Registro de Auditoría
-                        </Typography>
-                        <TouchableOpacity>
-                            <Typography color={colors.primary} weight="bold">
-                                Ver Todo
-                            </Typography>
-                        </TouchableOpacity>
                     </View>
-                     {filteredAuditLog.map((log) => (
-                        <View key={log.id} style={styles.auditLogItem}>
-                            <View style={styles.auditLogIcon}>
-                                <Ionicons name="document-text" size={16} color={colors.primary} />
-                            </View>
-                            <View style={styles.auditLogContent}>
-                                <Typography style={styles.auditLogAction}>
-                                    {log.action}
-                                </Typography>
-                                <Typography style={styles.auditLogDetails}>
-                                    {log.details} • {log.user}
-                                </Typography>
-                            </View>
-                            <Typography style={styles.auditLogTime}>
-                                {log.time}
-                            </Typography>
-                        </View>
-                    ))}
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
     );
 };
 

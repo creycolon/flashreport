@@ -8,8 +8,10 @@ import { theme } from '@ui/shared/theme';
 export interface ChartContainerEnhancedProps {
     title: string;
     subtitle?: string;
+    periodLabel?: string;
     periodOptions?: Array<{ label: string; value: string }>;
     onPeriodChange?: (period: string) => void;
+    showPeriodSelector?: boolean;
     chartData: {
         labels: string[];
         series: Array<{
@@ -31,13 +33,16 @@ const defaultPeriodOptions = [
 export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     title,
     subtitle,
+    periodLabel,
     periodOptions = defaultPeriodOptions,
     onPeriodChange,
+    showPeriodSelector = true,
     chartData,
     height = 300,
 }) => {
     const { colors } = useTheme();
     const { width: windowWidth } = useWindowDimensions();
+    const [containerWidth, setContainerWidth] = useState(0);
     const [selectedPeriod, setSelectedPeriod] = useState(periodOptions[0].value);
 
     const handlePeriodChange = (value: string) => {
@@ -47,7 +52,14 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
         }
     };
 
-    const chartWidth = windowWidth >= 1024 ? windowWidth - 500 : windowWidth - 48;
+    const handleLayout = (event: any) => {
+        const { width } = event.nativeEvent.layout;
+        setContainerWidth(width);
+    };
+
+    // Calculate chart width based on actual container size
+    // Subtract padding (lg = 16px * 2 = 32px)
+    const chartWidth = containerWidth > 32 ? containerWidth - 32 : (windowWidth >= 1024 ? windowWidth - 500 : windowWidth - 48);
 
     const styles = StyleSheet.create({
         container: {
@@ -129,8 +141,10 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
     // Mock x-axis labels for days of week
     const xAxisLabels = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
 
+    const hasData = chartData && chartData.labels && chartData.labels.length > 0;
+
     return (
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={handleLayout}>
             <View style={styles.header}>
                 <View style={styles.titleContainer}>
                     <Typography style={styles.title}>
@@ -142,15 +156,25 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                         </Typography>
                     )}
                 </View>
-                {Platform.OS === 'web' && (
+                {Platform.OS === 'web' && showPeriodSelector && (
                     <View style={styles.periodSelector}>
                         <Typography style={styles.periodText}>
-                            {periodOptions.find(opt => opt.value === selectedPeriod)?.label}
+                            {periodLabel || periodOptions.find(opt => opt.value === selectedPeriod)?.label}
                         </Typography>
                     </View>
                 )}
             </View>
 
+            {!hasData ? (
+                <View style={styles.chartPlaceholder}>
+                    <Typography variant="h3" color={colors.textMuted} style={{ marginBottom: theme.spacing.sm }}>
+                        Sin datos
+                    </Typography>
+                    <Typography variant="body" color={colors.textMuted}>
+                        No hay registros para el período seleccionado
+                    </Typography>
+                </View>
+            ) : (
             <View style={styles.chartContainer}>
                 <LineChart
                     labels={chartData.labels}
@@ -159,7 +183,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                     width={chartWidth}
                     interactive={Platform.OS === 'web'}
                 />
-                
+
                 {/* Custom x-axis labels for web */}
                 {Platform.OS === 'web' && chartData.labels.length === 0 && (
                     <View style={styles.xAxisLabels}>
@@ -171,6 +195,7 @@ export const ChartContainerEnhanced: React.FC<ChartContainerEnhancedProps> = ({
                     </View>
                 )}
             </View>
+            )}
         </View>
     );
 };

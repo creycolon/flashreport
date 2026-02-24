@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, SafeAreaView, Alert, Platform, Switch, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@ui/shared/theme';
 import { Typography, Card, Button, ManagePartnerModal } from '@ui/shared/components';
 import { testDataService } from '@core/application/services/testDataService';
@@ -10,8 +11,10 @@ import { categoryRepository } from '@core/infrastructure/repositories/categoryRe
 import { businessUnitRepository } from '@core/infrastructure/repositories/businessUnitRepository';
 import { partnerRepository } from '@core/infrastructure/repositories/partnerRepository';
 import { supabase } from '@core/infrastructure/db/supabaseClient';
+import { authService } from '@core/application/services/authService';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { SettingsEnhanced } from '@ui/web/components';
+import { pluralizeSpanish } from '@core/utils/stringUtils';
 
 export const SettingsScreen = () => {
     const router = useRouter();
@@ -22,6 +25,7 @@ export const SettingsScreen = () => {
     const [dynamicZoom, setDynamicZoom] = useState(true);
     const [managingPartner, setManagingPartner] = useState<any>(null);
     const [showManagePartnerModal, setShowManagePartnerModal] = useState(false);
+    const [businessLabel, setBusinessLabel] = useState('Local');
     const { colors, themePreference, setThemePreference } = useTheme();
 
     useEffect(() => {
@@ -54,13 +58,16 @@ export const SettingsScreen = () => {
     const loadSettings = async () => {
         const zoomVal = await (configRepository as any).get('chart_dynamic_zoom', 'true');
         setDynamicZoom(zoomVal === 'true');
+
+        const labelVal = await (configRepository as any).get('default_business', 'Local');
+        setBusinessLabel(labelVal);
     };
 
     const diagnoseDatabase = async (): Promise<string> => {
         try {
             console.log('[Diagnóstico] Starting Supabase database diagnosis...');
             let diagnosisLines = [];
-            
+
             try {
                 const [units, categories, allCategories] = await Promise.all([
                     businessUnitRepository.getAll(),
@@ -71,7 +78,7 @@ export const SettingsScreen = () => {
                 diagnosisLines.push(`✅ Categorías CR: ${categories.length}`);
                 diagnosisLines.push(`✅ Total categorías: ${allCategories.length}`);
                 diagnosisLines.push(`📋 Categorías CR: ${categories.map((c: any) => c.code).join(', ')}`);
-                
+
                 // Count total movements using Supabase
                 try {
                     console.log('[Diagnóstico] Counting movements...');
@@ -79,11 +86,11 @@ export const SettingsScreen = () => {
                         .from('cash_movements')
                         .select('*', { count: 'exact', head: true })
                         .eq('is_active', true);
-                    
+
                     if (error) {
                         throw error;
                     }
-                    
+
                     console.log('[Diagnóstico] Count result:', count);
                     const totalMovements = count || 0;
                     diagnosisLines.push(`📊 Movimientos activos: ${totalMovements}`);
@@ -91,20 +98,20 @@ export const SettingsScreen = () => {
                     console.error('[Diagnóstico] Count error:', countErr);
                     diagnosisLines.push(`❌ Error contando movimientos: ${(countErr as Error).message}`);
                 }
-                
+
                 // Try a simple test query
                 try {
                     const { data, error } = await supabase
                         .from('business_units')
                         .select('id')
                         .limit(1);
-                    
+
                     if (error) throw error;
                     diagnosisLines.push(`🔌 Test query: ${data ? 'OK' : 'FAIL'}`);
                 } catch (testErr) {
                     diagnosisLines.push(`❌ Test query failed: ${(testErr as Error).message}`);
                 }
-                
+
                 // Check if we can insert a test record (only if we have units and categories)
                 if (units.length > 0 && categories.length > 0) {
                     try {
@@ -116,10 +123,10 @@ export const SettingsScreen = () => {
                             description: 'Test diagnóstico',
                             date: new Date().toISOString(),
                             createdBy: 'p1'
-    };
+                        };
 
 
-                        
+
                         // We'll just prepare the statement but not execute it
                         diagnosisLines.push(`🧪 Prueba de inserción: Configurada (BU: ${units[0].name}, Cat: ${categories[0].code})`);
                     } catch (insertErr) {
@@ -128,11 +135,11 @@ export const SettingsScreen = () => {
                 } else {
                     diagnosisLines.push(`⚠️  No hay unidades o categorías para prueba de inserción`);
                 }
-                
+
             } catch (repoErr) {
                 diagnosisLines.push(`❌ Error en repositorios: ${(repoErr as Error).message}`);
             }
-            
+
             return diagnosisLines.join('\n');
         } catch (err) {
             console.error('[Diagnóstico] Error general:', err);
@@ -154,7 +161,7 @@ export const SettingsScreen = () => {
             console.log('[GenerateData] Starting data generation...');
             const success = await testDataService.generateMockData();
             console.log('[GenerateData] Generation result:', success);
-            
+
             if (success) {
                 if (Platform.OS === 'web') {
                     window.alert('Éxito: Datos generados');
@@ -196,6 +203,26 @@ export const SettingsScreen = () => {
             Alert.alert('Error', 'No se pudieron borrar los datos.');
         } finally {
             setDeleting(false);
+        }
+    };
+
+    const handleLogout = async () => {
+        const proceed = Platform.OS === 'web'
+            ? window.confirm('¿Cerrar sesión?')
+            : await new Promise(resolve => {
+                Alert.alert(
+                    'Cerrar Sesión',
+                    '¿Estás seguro de que quieres cerrar sesión?',
+                    [
+                        { text: 'Cancelar', onPress: () => resolve(false), style: 'cancel' },
+                        { text: 'Cerrar Sesión', onPress: () => resolve(true), style: 'destructive' }
+                    ]
+                );
+            });
+
+        if (proceed) {
+            await authService.signOut();
+            router.replace('/login');
         }
     };
 
@@ -255,26 +282,38 @@ export const SettingsScreen = () => {
         settingRow: { flexDirection: 'row', alignItems: 'center' },
         themeChip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: colors.border },
         activeThemeChip: { backgroundColor: colors.primary, borderColor: colors.primary },
+        themeButtons: { flexDirection: 'row', gap: theme.spacing.sm },
+        themeButton: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: colors.border },
+        toolsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.spacing.md },
+        settingHeader: { flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, marginBottom: theme.spacing.sm },
         footer: { marginTop: 40, paddingBottom: 20 }
     }), [colors]);
 
     if (isWebDesktop) {
         return (
-            <SettingsEnhanced
-                onManageBusinessUnits={() => router.push('/business-units')}
-                onManagePartners={() => router.push('/partners')}
-                onChangeManagingPartner={() => setShowManagePartnerModal(true)}
-                onGenerateMockData={handleGenerateData}
-                onClearData={handleClearData}
-                onFactoryReset={handleFactoryReset}
-                onToggleDynamicZoom={handleToggleZoom}
-                onChangeTheme={setThemePreference}
-                dynamicZoom={dynamicZoom}
-                themePreference={themePreference}
-                managingPartner={managingPartner}
-                generatingData={generating}
-                deletingData={deleting}
-            />
+            <>
+                <SettingsEnhanced
+                    onManageBusinessUnits={() => router.push('/business-units')}
+                    onManagePartners={() => router.push('/partners')}
+                    onChangeManagingPartner={() => setShowManagePartnerModal(true)}
+                    onGenerateMockData={handleGenerateData}
+                    onClearData={handleClearData}
+                    onFactoryReset={handleFactoryReset}
+                    onToggleDynamicZoom={handleToggleZoom}
+                    onChangeTheme={setThemePreference}
+                    dynamicZoom={dynamicZoom}
+                    themePreference={themePreference}
+                    managingPartner={managingPartner}
+                    generatingData={generating}
+                    deletingData={deleting}
+                    businessLabel={businessLabel}
+                />
+                <ManagePartnerModal
+                    visible={showManagePartnerModal}
+                    onClose={() => setShowManagePartnerModal(false)}
+                    onSuccess={handleManagingPartnerSuccess}
+                />
+            </>
         );
     }
 
@@ -283,20 +322,20 @@ export const SettingsScreen = () => {
             <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingBottom: 100 }]}>
                 <View style={styles.header}>
                     <Typography variant="h1">Configuración</Typography>
-                     <Typography variant="body" color={colors.textSecondary}>
-                         Gestión del sistema y herramientas de desarrollo
-                     </Typography>
+                    <Typography variant="body" color={colors.textSecondary}>
+                        Gestión del sistema y herramientas de desarrollo
+                    </Typography>
                 </View>
 
                 <View style={styles.section}>
                     <Typography variant="label" style={styles.sectionLabel}>Gestión de Catálogos</Typography>
                     <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Unidades de Negocio</Typography>
-                         <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                             Configura los locales, colores y orden de visualización en el dashboard.
-                         </Typography>
+                        <Typography variant="h3" style={{ marginBottom: 4 }}>{businessLabel || 'Unidades de Negocio'}</Typography>
+                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
+                            Configura los {businessLabel?.toLowerCase() || 'locales'}, colores y orden de visualización en el dashboard.
+                        </Typography>
                         <Button
-                            title="Gestionar Locales"
+                            title={`Gestionar ${businessLabel || 'Locales'}`}
                             variant="outline"
                             onPress={() => router.push('/business-units')}
                         />
@@ -305,7 +344,7 @@ export const SettingsScreen = () => {
                     <Card style={styles.toolCard}>
                         <Typography variant="h3" style={{ marginBottom: 4 }}>Socios</Typography>
                         <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Administra la lista de socios y sus porcentajes de participación.
+                            Administra los socios de tu negocio y sus porcentajes de participación.
                         </Typography>
                         <Button
                             title="Gestionar Socios"
@@ -313,14 +352,15 @@ export const SettingsScreen = () => {
                             onPress={() => router.push('/partners')}
                         />
                     </Card>
+                </View>
+
+                <View style={styles.section}>
+                    <Typography variant="label" style={styles.sectionLabel}>Gestión del Sistema</Typography>
 
                     <Card style={styles.toolCard}>
                         <Typography variant="h3" style={{ marginBottom: 4 }}>Socio Gerente</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            {managingPartner 
-                                ? `${managingPartner.name} (${managingPartner.role})`
-                                : 'No hay socio gerente asignado'
-                            }
+                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 12 }}>
+                            {managingPartner ? `${managingPartner.name} (${managingPartner.alias})` : 'No asignado'}
                         </Typography>
                         <Button
                             title="Cambiar Socio Gerente"
@@ -328,100 +368,107 @@ export const SettingsScreen = () => {
                             onPress={() => setShowManagePartnerModal(true)}
                         />
                     </Card>
-                </View>
 
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Herramientas de Datos</Typography>
-                    <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Generar Simulacro</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                             Crea movimientos aleatorios de los últimos 30 días (hasta ayer) para pruebas.
-                        </Typography>
-                        <Button
-                            title="Generar Datos de Prueba"
-                            onPress={handleGenerateData}
-                            loading={generating}
-                        />
-                    </Card>
-
-                    <Card style={styles.toolCard}>
-                        <Typography variant="h3" style={{ marginBottom: 4 }}>Borrar Datos</Typography>
-                        <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
-                            Borra movimientos de prueba o realiza un reinicio total.
-                        </Typography>
-                        <Button
-                            title="Opciones de Borrado"
-                            variant="outline"
-                            onPress={handleDeleteOptions}
-                            loading={deleting}
-                        />
-                    </Card>
-                </View>
-
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Preferencias Visuales</Typography>
                     <Card style={styles.toolCard}>
                         <View style={styles.settingRow}>
                             <View style={{ flex: 1 }}>
-                                <Typography variant="h3">Lupa en Gráficos</Typography>
+                                <Typography variant="h3" style={{ marginBottom: 4 }}>Zoom Dinámico</Typography>
                                 <Typography variant="body" color={colors.textSecondary}>
-                                    Ajusta el eje Y para ver mejor las variaciones (Zoom dinámico).
+                                    Ajuste automático de gráficos
                                 </Typography>
                             </View>
                             <Switch
                                 value={dynamicZoom}
                                 onValueChange={handleToggleZoom}
-                                trackColor={{ false: colors.border, true: colors.primary + '80' }}
-                                thumbColor={dynamicZoom ? colors.primary : '#f4f3f4'}
+                                trackColor={{ false: colors.border, true: colors.primary }}
+                                thumbColor="#fff"
                             />
                         </View>
                     </Card>
-                </View>
 
-                <View style={styles.section}>
-                    <Typography variant="label" style={styles.sectionLabel}>Tema de la Aplicación</Typography>
                     <Card style={styles.toolCard}>
-                        <View style={{ flexDirection: 'row', gap: 12, marginTop: 8 }}>
-                            {(['auto', 'dark', 'light'] as const).map((mode) => (
+                        <Typography variant="h3" style={{ marginBottom: 4 }}>Tema</Typography>
+                        <View style={styles.themeButtons}>
+                            {['auto', 'light', 'dark'].map((theme) => (
                                 <TouchableOpacity
-                                    key={mode}
+                                    key={theme}
                                     style={[
-                                        styles.themeChip,
-                                        themePreference === mode && styles.activeThemeChip
+                                        styles.themeButton,
+                                        themePreference === theme && styles.activeThemeChip
                                     ]}
-                                    onPress={() => { console.warn('[SettingsScreen] Theme chip pressed:', mode); setThemePreference(mode); }}
+                                    onPress={() => setThemePreference(theme as any)}
                                 >
-                                    <Typography 
-                                        variant="caption" 
-                                        weight="bold" 
-                                         color={themePreference === mode ? colors.text : colors.textSecondary}
+                                    <Typography
+                                        color={themePreference === theme ? '#fff' : colors.text}
+                                        weight={themePreference === theme ? 'bold' : 'regular'}
                                     >
-                                        {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Oscuro' : 'Claro'}
+                                        {theme === 'auto' ? 'Auto' : theme === 'light' ? 'Claro' : 'Oscuro'}
                                     </Typography>
                                 </TouchableOpacity>
                             ))}
                         </View>
                         <Typography variant="body" color={colors.textSecondary} style={{ marginTop: 12 }}>
-                            {themePreference === 'auto' 
-                                ? 'Usa la configuración de tu dispositivo' 
-                                : themePreference === 'dark' 
-                                    ? 'Tema oscuro siempre activo' 
+                            {themePreference === 'auto'
+                                ? 'Usa la configuración de tu dispositivo'
+                                : themePreference === 'dark'
+                                    ? 'Tema oscuro siempre activo'
                                     : 'Tema claro siempre activo'}
                         </Typography>
                     </Card>
                 </View>
 
+                <View style={styles.section}>
+                    <Typography variant="label" style={styles.sectionLabel}>Herramientas de Datos</Typography>
+                    <View style={styles.toolsGrid}>
+                        <Card style={styles.toolCard}>
+                            <Typography variant="h3" style={{ marginBottom: 4 }}>Generar Datos</Typography>
+                            <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
+                                Crea movimientos aleatorios de los últimos 30 días para pruebas y demostraciones.
+                            </Typography>
+                            <Button
+                                title={generating ? 'Generando...' : 'Generar Datos de Prueba'}
+                                onPress={handleGenerateData}
+                                loading={generating}
+                                style={{ alignSelf: 'flex-start' }}
+                            />
+                        </Card>
+
+                        <Card style={[styles.toolCard, { borderColor: colors.danger }]}>
+                            <View style={styles.settingHeader}>
+                                <Ionicons name="trash" size={24} color={colors.danger} />
+                                <Typography variant="caption" color={colors.danger}>
+                                    Peligro
+                                </Typography>
+                            </View>
+                            <Typography variant="h3" style={{ marginBottom: 4 }}>Limpiar Datos</Typography>
+                            <Typography variant="body" color={colors.textSecondary} style={{ marginBottom: 16 }}>
+                                Elimina todos los movimientos de efectivo. Esta acción no se puede deshacer.
+                            </Typography>
+                            <Button
+                                title={deleting ? 'Eliminando...' : 'Limpiar Datos'}
+                                onPress={handleClearData}
+                                loading={deleting}
+                                style={{ alignSelf: 'flex-start', backgroundColor: colors.danger }}
+                            />
+                        </Card>
+                    </View>
+                </View>
+
+                <View style={styles.section}>
+                    <Button
+                        title="Cerrar Sesión"
+                        variant="outline"
+                        onPress={handleLogout}
+                        style={{ borderColor: colors.danger }}
+                        textStyle={{ color: colors.danger }}
+                    />
+                </View>
+
                 <View style={styles.footer}>
                     <Typography variant="caption" align="center">Flash Report v1.0.0</Typography>
-                     <Typography variant="caption" align="center" color={colors.textMuted}>Hecho para gestión estratégica</Typography>
+                    <Typography variant="caption" align="center" color={colors.textMuted}>Hecho para gestión estratégica</Typography>
                 </View>
             </ScrollView>
-            
-            <ManagePartnerModal
-                visible={showManagePartnerModal}
-                onClose={() => setShowManagePartnerModal(false)}
-                onSuccess={handleManagingPartnerSuccess}
-            />
         </View>
     );
 };

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash Report – Logo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0d14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: sans-serif;
+    gap: 60px;
+    padding: 40px;
+  }
+
+  .label {
+    color: #4a5568;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .version { text-align: center; }
+
+  /* ─── DARK VERSION ─── */
+  .logo-dark {
+    background: #0d111c;
+    border: 1px solid #1a2035;
+    border-radius: 20px;
+    padding: 40px 60px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-dark::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ─── LIGHT VERSION ─── */
+  .logo-light {
+    background: #f0f2f7;
+    border-radius: 20px;
+    padding: 40px 60px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ─── MARK ─── */
+  .mark {
+    width: 72px;
+    height: 72px;
+    position: relative;
+    margin-bottom: 10px;
+  }
+
+  .mark svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 14px rgba(251,191,36,0.5));
+  }
+
+  .logo-light .mark svg {
+    filter: drop-shadow(0 4px 8px rgba(251,191,36,0.4));
+  }
+
+  /* ─── WORDMARK ─── */
+  .wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .word-flash {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 8px;
+    color: #FBB024;
+    line-height: 1;
+  }
+
+  .word-report {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 300;
+    letter-spacing: 14px;
+    text-transform: uppercase;
+    color: #e2e8f0;
+    margin-top: 1px;
+    padding-left: 14px; /* compensate letter-spacing */
+  }
+
+  .logo-light .word-report {
+    color: #475569;
+  }
+
+  .logo-light .word-flash {
+    color: #d97706;
+  }
+
+  /* ─── TAGLINE ─── */
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-top: 14px;
+    border-top: 1px solid #1e293b;
+    padding-top: 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .logo-light .tagline {
+    border-top-color: #cbd5e1;
+    color: #94a3b8;
+  }
+
+  /* ─── ICON ONLY ─── */
+  .icon-only {
+    background: linear-gradient(135deg, #0d111c 0%, #141a2e 100%);
+    border-radius: 18px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(251,191,36,0.2), 0 0 0 1px rgba(251,191,36,0.1);
+  }
+
+  .icon-only svg {
+    width: 44px;
+    height: 44px;
+    filter: drop-shadow(0 0 10px rgba(251,191,36,0.6));
+  }
+
+  /* ─── HORIZONTAL ─── */
+  .logo-horizontal {
+    background: #0d111c;
+    border: 1px solid #1a2035;
+    border-radius: 16px;
+    padding: 24px 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo-horizontal .mark {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 0;
+  }
+
+  .logo-horizontal .wordmark { align-items: flex-start; }
+
+  .logo-horizontal .word-flash { font-size: 40px; letter-spacing: 6px; }
+  .logo-horizontal .word-report { font-size: 13px; letter-spacing: 10px; padding-left: 10px; }
+
+  /* pulse animation on bolt */
+  @keyframes bolt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .bolt-path {
+    animation: bolt-pulse 2s ease-in-out infinite;
+  }
+
+  /* scan line animation */
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(400%); }
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(251,191,36,0.15), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+  }
+
+  .row { display: flex; align-items: flex-start; gap: 40px; flex-wrap: wrap; justify-content: center; }
+</style>
+</head>
+<body>
+
+<!-- DARK FULL -->
+<div class="version">
+  <div class="label">Versión Principal — Fondo Oscuro</div>
+  <div class="logo-dark">
+    <div class="scan-line"></div>
+    <div class="mark">
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- circle bg -->
+        <circle cx="36" cy="36" r="34" fill="#131929" stroke="#FBB024" stroke-width="1.5" stroke-opacity="0.3"/>
+        <!-- chart bar subtle bg -->
+        <rect x="14" y="44" width="8" height="12" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="26" y="34" width="8" height="22" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="38" y="28" width="8" height="28" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="50" y="20" width="8" height="36" rx="2" fill="#FBB024" fill-opacity="0.25"/>
+        <!-- Lightning bolt centered -->
+        <path class="bolt-path" d="M41 10 L24 38 H35 L31 62 L50 32 H39 Z" fill="#FBB024" stroke="#FFF8E1" stroke-width="0.8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="wordmark">
+      <div class="word-flash">FLASH</div>
+      <div class="word-report">REPORT</div>
+    </div>
+    <div class="tagline">Cash Intelligence · Real Time</div>
+  </div>
+</div>
+
+<div class="row">
+
+  <!-- LIGHT FULL -->
+  <div class="version">
+    <div class="label">Versión Fondo Claro</div>
+    <div class="logo-light">
+      <div class="mark">
+        <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="36" cy="36" r="34" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-opacity="0.4"/>
+          <rect x="14" y="44" width="8" height="12" rx="2" fill="#D97706" fill-opacity="0.15"/>
+          <rect x="26" y="34" width="8" height="22" rx="2" fill="#D97706" fill-opacity="0.15"/>
+          <rect x="38" y="28" width="8" height="28" rx="2" fill="#D97706" fill-opacity="0.15"/>
+          <rect x="50" y="20" width="8" height="36" rx="2" fill="#D97706" fill-opacity="0.3"/>
+          <path d="M41 10 L24 38 H35 L31 62 L50 32 H39 Z" fill="#D97706" stroke="#92400E" stroke-width="0.8" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="wordmark">
+        <div class="word-flash">FLASH</div>
+        <div class="word-report">REPORT</div>
+      </div>
+      <div class="tagline">Cash Intelligence · Real Time</div>
+    </div>
+  </div>
+
+  <!-- ICON ONLY -->
+  <div class="version">
+    <div class="label">Ícono App</div>
+    <div class="icon-only">
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="44" width="8" height="12" rx="2" fill="#FBB024" fill-opacity="0.25"/>
+        <rect x="26" y="34" width="8" height="22" rx="2" fill="#FBB024" fill-opacity="0.25"/>
+        <rect x="38" y="28" width="8" height="28" rx="2" fill="#FBB024" fill-opacity="0.25"/>
+        <rect x="50" y="20" width="8" height="36" rx="2" fill="#FBB024" fill-opacity="0.35"/>
+        <path class="bolt-path" d="M41 10 L24 38 H35 L31 62 L50 32 H39 Z" fill="#FBB024" stroke="#FFF8E1" stroke-width="0.8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- HORIZONTAL -->
+<div class="version">
+  <div class="label">Versión Horizontal — Header / Navbar</div>
+  <div class="logo-horizontal">
+    <div class="mark">
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="36" cy="36" r="34" fill="#131929" stroke="#FBB024" stroke-width="1.5" stroke-opacity="0.3"/>
+        <rect x="14" y="44" width="8" height="12" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="26" y="34" width="8" height="22" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="38" y="28" width="8" height="28" rx="2" fill="#FBB024" fill-opacity="0.15"/>
+        <rect x="50" y="20" width="8" height="36" rx="2" fill="#FBB024" fill-opacity="0.25"/>
+        <path class="bolt-path" d="M41 10 L24 38 H35 L31 62 L50 32 H39 Z" fill="#FBB024" stroke="#FFF8E1" stroke-width="0.8" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="wordmark">
+      <div class="word-flash">FLASH</div>
+      <div class="word-report">REPORT</div>
+    </div>
+  </div>
+</div>
+
+<!-- COLOR PALETTE -->
+<div class="version">
+  <div class="label">Paleta de Colores</div>
+  <div style="display:flex; gap:12px; align-items:center;">
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;background:#FBB024;border-radius:10px;"></div>
+      <div style="color:#64748b;font-size:10px;margin-top:6px;font-family:monospace;">#FBB024</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;background:#D97706;border-radius:10px;"></div>
+      <div style="color:#64748b;font-size:10px;margin-top:6px;font-family:monospace;">#D97706</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;background:#0d111c;border-radius:10px;border:1px solid #1e293b"></div>
+      <div style="color:#64748b;font-size:10px;margin-top:6px;font-family:monospace;">#0D111C</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;background:#131929;border-radius:10px;border:1px solid #1e293b"></div>
+      <div style="color:#64748b;font-size:10px;margin-top:6px;font-family:monospace;">#131929</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="width:56px;height:56px;background:#e2e8f0;border-radius:10px;"></div>
+      <div style="color:#64748b;font-size:10px;margin-top:6px;font-family:monospace;">#E2E8F0</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

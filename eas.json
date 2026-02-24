@@ -1,25 +1,35 @@
 {
   "cli": {
-    "version": ">= 13.0.0",
-    "appVersionSource": "local"
+    "version": ">= 16.0.0",
+    "appVersionSource": "local",
+    "requireCommit": false
   },
   "build": {
-    "preview": {
+    "development": {
+      "developmentClient": true,
       "distribution": "internal",
       "android": {
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "withoutCredentials": true,
+      "android": {
         "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
       }
     },
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
+        "buildType": "app-bundle"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal"
       }
     }
   }

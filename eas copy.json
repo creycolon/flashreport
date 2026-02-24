@@ -1,0 +1,49 @@
+{
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "local",
+    "requireCommit": false
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "withoutCredentials": true,
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {
+      "distribution": "store",
+      "android": {
+        "buildType": "app-bnundle"
+      },
+      "ios": {
+        "enterpriseProvisioning": "universal"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal"
+      },
+      "ios": {
+        "ascAppId": "1234567890",
+        "appleTeamId": "YOUR_TEAM_ID"
+      }
+    }
+  }
+}

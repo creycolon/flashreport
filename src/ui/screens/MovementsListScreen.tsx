@@ -216,23 +216,27 @@ export const MovementsListScreen = () => {
         const isCredit = item.type === 'CR';
         const isLastInBu = item.id === lastMovementId;
         const isEditable = selectedBu === 'all'
-            ? item.id === movements[0]?.id // In "All" view, only the first one (most recent) is deletable
+            ? item.id === movements[0]?.id
             : isLastInBu;
+
+        // Usar color del negocio si está disponible
+        const selectedColor = getSelectedBuColor();
+        const itemColor = selectedColor || item.bu_color || (isCredit ? colors.success : colors.danger);
 
         return (
             <Card variant="outline" style={styles.itemCard}>
-                <View style={[styles.typeIndicator, { backgroundColor: isCredit ? colors.success : colors.danger }]} />
+                <View style={[styles.typeIndicator, { backgroundColor: itemColor }]} />
                 <View style={styles.itemContent}>
                     <View style={styles.itemHeader}>
                         <View>
-                            <Typography weight="bold">{item.category_name || ''}</Typography>
+                            <Typography variant="body" weight="bold">{truncateName(item.category_name || '', 12)}</Typography>
                             {selectedBu === 'all' && (
                                 <Typography variant="caption" style={{ color: item.bu_color || colors.textSecondary }}>
                                     {truncateName(item.bu_name)}
                                 </Typography>
                             )}
                         </View>
-                        <Typography color={isCredit ? colors.success : colors.danger} weight="bold">
+                        <Typography variant="body" color={isCredit ? colors.success : colors.danger} weight="bold" style={{ fontSize: 12 }}>
                             {isCredit ? '+' : '-'}{formatCurrency(item.amount)}
                         </Typography>
                     </View>
@@ -254,6 +258,12 @@ export const MovementsListScreen = () => {
         if (selectedBu === 'all') return 'Todos los locales';
         const bu = bus.find(b => b.id === selectedBu);
         return bu ? bu.name : 'Local no encontrado';
+    };
+
+    const getSelectedBuColor = () => {
+        if (selectedBu === 'all') return null;
+        const bu = bus.find(b => b.id === selectedBu);
+        return bu ? bu.color : null;
     };
 
     const handleSelectBu = (buId: string) => {
@@ -322,8 +332,7 @@ export const MovementsListScreen = () => {
                 </View>
 
                 {/* Summary Card */}
-                
-                
+                <Card style={styles.summaryCard}>
                     <View style={styles.summaryVerticalList}>
                         <View style={styles.summaryRowItem}>
                              <Typography variant="caption" color={colors.textSecondary}>Ingresos</Typography>

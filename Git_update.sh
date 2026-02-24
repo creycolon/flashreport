@@ -2,10 +2,6 @@
 
 NAME="flash_report_supabase - "
 
-#!/bin/bash
-
-NAME="flash_report_supabase - "
-
 # Verificar si hay cambios
 if git diff --quiet && git diff --cached --quiet; then
     echo "❌ No hay cambios para commitear"

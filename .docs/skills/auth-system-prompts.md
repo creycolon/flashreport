@@ -50,17 +50,17 @@ Guarda el archivo como `supabase/migrations/2025021901_auth_system.sql`
 
 ### **Prompt 1.2: Script de migración para usuarios existentes**
 ```
-Crea un script Node.js para migrar usuarios existentes (p1, p2) al nuevo sistema:
+Crea un script Node.js para migrar usuarios existentes (1, 2) al nuevo sistema:
 
 1. Usar Supabase Admin API para crear usuarios en `auth.users`:
-   - p1: email "admin@flashreport.local", password temporal
-   - p2: email "partner@flashreport.local", password temporal
+   - 1: email "admin@flashreport.local", password temporal
+   - 2: email "partner@flashreport.local", password temporal
 
 2. Insertar registros en `system_users`:
-   - p1 como MANAGING_PARTNER, is_active=true, requires_activation=false
-   - p2 como PARTNER, is_active=true, requires_activation=false
+   - 1 como MANAGING_PARTNER, is_active=true, requires_activation=false
+   - 2 como PARTNER, is_active=true, requires_activation=false
 
-3. Actualizar tabla `partners` con emails para p1 y p2
+3. Actualizar tabla `partners` con emails para 1 y 2
 
 4. El script debe:
    - Leer credenciales de .env.local (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
@@ -789,7 +789,7 @@ Por favor:
 Por favor verifica que:
 
 1. [ ] Migración SQL ejecutada en producción
-2. [ ] Usuarios existentes (p1, p2) migrados exitosamente
+2. [ ] Usuarios existentes (1, 2) migrados exitosamente
 3. [ ] Feature flag para habilitar/deshabilitar auth
 4. [ ] Backup completo de base de datos pre-migración
 5. [ ] Comunicación enviada a usuarios sobre el cambio
