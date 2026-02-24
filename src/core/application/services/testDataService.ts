@@ -95,17 +95,29 @@ export const testDataService = {
     clearAllData: async () => {
         try {
             console.log('[TestData] Deleting all movements...');
-            const { error } = await supabase
+            
+            // Delete cash movements
+            const { error: movementsError } = await supabase
                 .from('cash_movements')
                 .delete()
-                .neq('id', -1); // Delete all movements safely
+                .neq('id', -1);
 
-            if (error) {
-                console.error('[TestData] Error deleting movements:', error);
-                throw error;
+            if (movementsError) {
+                console.error('[TestData] Error deleting movements:', movementsError);
+                throw movementsError;
             }
 
-            console.log('[TestData] Test movements deleted successfully.');
+            // Delete audit logs
+            const { error: auditError } = await supabase
+                .from('audit_logs')
+                .delete()
+                .neq('id', -1);
+
+            if (auditError) {
+                console.error('[TestData] Error deleting audit_logs:', auditError);
+            }
+
+            console.log('[TestData] All data cleared successfully.');
             return true;
         } catch (error) {
             console.error('[TestData] Error in clearAllData:', error);
@@ -123,19 +135,68 @@ export const testDataService = {
             // Ensure audit_logs table exists
             await testDataService.ensureAuditLogsTable();
             
-            // In a real factory reset, we might want to delete more, 
-            // but for now, clearing all movements is the core task.
-            const { error } = await supabase
+            // Delete all cash movements
+            const { error: movementsError } = await supabase
                 .from('cash_movements')
                 .delete()
                 .neq('id', -1);
 
-            if (error) {
-                console.error('[TestData] Error deleting all movements:', error);
-                throw error;
+            if (movementsError) {
+                console.error('[TestData] Error deleting movements:', movementsError);
+                throw movementsError;
             }
 
-            console.log('[TestData] All movements deleted successfully.');
+            // Delete all audit logs
+            const { error: auditError } = await supabase
+                .from('audit_logs')
+                .delete()
+                .neq('id', -1);
+
+            if (auditError) {
+                console.error('[TestData] Error deleting audit_logs:', auditError);
+            }
+
+            // Delete all business units
+            const { error: busError } = await supabase
+                .from('business_units')
+                .delete()
+                .neq('id', -1);
+
+            if (busError) {
+                console.error('[TestData] Error deleting business_units:', busError);
+            }
+
+            // Delete all partner accounts
+            const { error: partnerError } = await supabase
+                .from('partner_accounts')
+                .delete()
+                .neq('id', -1);
+
+            if (partnerError) {
+                console.error('[TestData] Error deleting partner_accounts:', partnerError);
+            }
+
+            // Delete all partner account transactions
+            const { error: partnerTransError } = await supabase
+                .from('partner_account_transactions')
+                .delete()
+                .neq('id', -1);
+
+            if (partnerTransError) {
+                console.error('[TestData] Error deleting partner_account_transactions:', partnerTransError);
+            }
+
+            // Delete all partners
+            const { error: partnersError } = await supabase
+                .from('partners')
+                .delete()
+                .neq('id', -1);
+
+            if (partnersError) {
+                console.error('[TestData] Error deleting partners:', partnersError);
+            }
+
+            console.log('[TestData] Factory reset completed successfully.');
             return true;
         } catch (error) {
             console.error('[TestData] Error in factoryReset:', error);
