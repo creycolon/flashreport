@@ -1,0 +1,53 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Build outputs
+.expo
+dist
+android
+ios
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docs
+.docs
+README.md
+BUILD_INSTRUCTIONS.md
+
+# Scripts
+*.sh
+
+# Logs
+*.log
+
+# Test files
+test.js
+puppeteer_test.js
+
+# Backups
+*.backup
+*backup*
+
+# Environment files (sensitive)
+.env
+.env.local
+.env.*
+
+# Docker (don't include docker-compose for build)
+docker-compose.yml
+Dockerfile
+.dockerignore
+nginx.conf
