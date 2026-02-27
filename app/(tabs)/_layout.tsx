@@ -132,7 +132,13 @@ function MobileTabs() {
 export default function TabsLayout() {
     const { width } = useWindowDimensions();
     const segments = useSegments();
-    const isWebDesktop = Platform.OS === 'web' && width >= 1024;
+    
+    // Detectar si está en navegador de PC (no móvil/tablet)
+    const isBrowser = typeof window !== 'undefined' && typeof navigator !== 'undefined';
+    const userAgent = isBrowser ? navigator.userAgent : '';
+    const isDesktopBrowser = /Mozilla|Opera|Chrome|Safari|Edge/i.test(userAgent) && !/Mobile|Tablet|Android/i.test(userAgent);
+    const isWeb = Platform.OS === 'web';
+    const isWebDesktop = isWeb && (isDesktopBrowser || width >= 768);
 
     useEffect(() => {
         if (Platform.OS === 'android') {

@@ -11,7 +11,13 @@ export const LoginScreen = () => {
     const router = useRouter();
     const { colors, effectiveColorScheme } = useTheme();
     const { width } = useWindowDimensions();
-    const isWebDesktop = Platform.OS === 'web' && width >= 1024;
+    
+    // Detectar si está en navegador de PC (no móvil/tablet)
+    const isBrowser = typeof window !== 'undefined' && typeof navigator !== 'undefined';
+    const userAgent = isBrowser ? navigator.userAgent : '';
+    const isDesktopBrowser = /Mozilla|Opera|Chrome|Safari|Edge/i.test(userAgent) && !/Mobile|Tablet|Android/i.test(userAgent);
+    const isWeb = Platform.OS === 'web';
+    const isWebDesktop = isWeb && (isDesktopBrowser || width >= 768);
     //const logoSize = isWebDesktop ? 300 : Math.min(width * 0.4, 180); 
     const logoSize = isWebDesktop ? 500 : Math.min(width * 0.75, 320);   
     const LOGO_ASPECT_RATIO = 600 / 200; // 3:1 — dimensiones reales del banner

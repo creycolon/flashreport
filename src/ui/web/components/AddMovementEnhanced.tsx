@@ -43,7 +43,11 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
 }) => {
     const { colors } = useTheme();
     const { width: windowWidth } = useWindowDimensions();
-    const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+    
+    const isBrowser = typeof window !== 'undefined' && typeof navigator !== 'undefined';
+    const userAgent = isBrowser ? navigator.userAgent : '';
+    const isDesktopBrowser = /Mozilla|Opera|Chrome|Safari|Edge/i.test(userAgent) && !/Mobile|Tablet|Android/i.test(userAgent);
+    const isWebDesktop = (Platform.OS === 'web') && (isDesktopBrowser || windowWidth >= 768);
 
     const [type, setType] = React.useState<'CR' | 'DB'>('CR');
     const [categoryId, setCategoryId] = React.useState<string | number>('');

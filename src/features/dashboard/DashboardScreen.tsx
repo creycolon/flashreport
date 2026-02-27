@@ -66,7 +66,11 @@ export const DashboardScreen = () => {
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
     const { colors } = useTheme();
     const isLandscape = windowWidth > windowHeight;
-    const isWebDesktop = Platform.OS === 'web' && windowWidth >= 1024;
+    
+    const isBrowser = typeof window !== 'undefined' && typeof navigator !== 'undefined';
+    const userAgent = isBrowser ? navigator.userAgent : '';
+    const isDesktopBrowser = /Mozilla|Opera|Chrome|Safari|Edge/i.test(userAgent) && !/Mobile|Tablet|Android/i.test(userAgent);
+    const isWebDesktop = (Platform.OS === 'web') && (isDesktopBrowser || windowWidth >= 768);
     
     const styles = useMemo(() => StyleSheet.create({
         centered: {

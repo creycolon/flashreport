@@ -2,12 +2,23 @@ env: load .env.local .env
 env: export EXPO_NO_VCS EAS_PROJECT_ROOT EAS_BUILD_NO_EXPO_GO_WARNING NODE_OPTIONS SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY
 Starting project at /home/tunga/HUB/BUs/flash_report_supabase
 Starting Metro Bundler
+The following packages should be updated for best compatibility with the installed expo version:
+  expo-image-picker@16.0.6 - expected version: ~17.0.10
+Your project may not work correctly until you install the expected versions of the packages.
 Waiting on http://localhost:8081
 Logs for your project will appear below.
 Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
-Web ./index.ts ▓▓▓▓▓▓░░░░░░░░░░ 37.7% (213/347)
-Web ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 63.2% (608/785)
-Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 77.2% (1055/1235)
-Web Bundled 12582ms index.ts (1422 modules)
+Web ./index.ts ▓▓▓▓▓▓▓▓░░░░░░░░ 55.7% (212/284)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓░░░░░░ 62.8% (610/780)
+Web ./index.ts ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 95.8% (1049/1072)
+Web Bundled 11367ms index.ts (1135 modules)
  LOG  [web] Logs will appear in the browser console
-Web Bundled 92ms index.ts (1 module)
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 50ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 71ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web ./index.ts ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 53ms index.ts (1 module)
+ LOG  [web] Logs will appear in the browser console
