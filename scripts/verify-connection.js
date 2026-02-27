@@ -8,8 +8,8 @@ const __dirname = dirname(__filename);
 
 dotenv.config({ path: join(__dirname, '..', '.env.local') });
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 console.log('🔍 Verifying Supabase connection and tables...');
 console.log('URL:', supabaseUrl);
@@ -117,7 +117,7 @@ async function verifyConnection() {
         console.log('\n🎉 Connection verification complete!');
         console.log('\n✅ The app should connect successfully with npx expo start.');
         console.log('📱 Make sure environment variables are loaded in Expo:');
-        console.log('   - SUPABASE_URL and SUPABASE_ANON_KEY in .env.local');
+        console.log('   - EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY in .env.local');
         console.log('   - app.config.js passes them to Constants.extra');
         
         return true;

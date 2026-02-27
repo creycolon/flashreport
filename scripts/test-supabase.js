@@ -9,8 +9,8 @@ const __dirname = dirname(__filename);
 // Load environment variables from .env.local
 dotenv.config({ path: join(__dirname, '..', '.env.local') });
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 console.log('Testing Supabase connection...');
 console.log('URL:', supabaseUrl ? '✓ Set' : '✗ Missing');

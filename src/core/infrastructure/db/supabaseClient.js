@@ -16,8 +16,8 @@ try {
 
 // Fallback to process.env (Node.js, web, development)
 if (!supabaseUrl || !supabaseAnonKey) {
-    supabaseUrl = process.env.SUPABASE_URL || '';
-    supabaseAnonKey = process.env.SUPABASE_ANON_KEY || '';
+    supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
+    supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
 }
 
 // Validate credentials

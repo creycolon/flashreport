@@ -11,9 +11,9 @@ const __dirname = dirname(__filename);
 dotenv.config({ path: join(__dirname, '..', '.env.local') });
 
 // Override with provided service role key if needed
-const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 
-                           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1qeWphdnd1Z3V6bXd4b2ZkeHNyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEzNDc0NjcsImV4cCI6MjA4NjkyMzQ2N30.MJ5N489w7bTu_JRRTN2phoQIEQDsWLwPBnpuFUqA3GU';
+                           process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ||
 
 console.log('Running Supabase migration...');
 console.log('URL:', supabaseUrl);
