@@ -2,11 +2,12 @@ name: Build and Deploy Docker Image
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [main]  # <--- AJUSTAR: Tu rama principal (main, master, develop)
+  workflow_dispatch:  # Permite ejecutar manualmente desde la UI de GitHub
 
 env:
   REGISTRY: ghcr.io
+  # Usa automáticamente tu usuario y nombre de repo: ej. ghcr.io/usuario/proyecto
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -14,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      packages: write  # Necesario para subir a GHCR
 
     steps:
       - name: Checkout repository
@@ -28,7 +29,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # Token automático de GitHub
 
       - name: Extract metadata for Docker
         id: meta
@@ -50,9 +51,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Update deployment SHA
-        run: |
-          echo "${{ steps.meta.outputs.tags }}" > deployment_info.txt
+      - name: Guardar info del deploy
+        run: echo "${{ steps.meta.outputs.tags }}" > deployment_info.txt
+        
       - name: Upload deployment info
         uses: actions/upload-artifact@v4
         with:
@@ -72,13 +73,33 @@ jobs:
       - name: Deploy to server via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          # ✅ Usando TUS secretos existentes
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
           script: |
+            # 1. Login al registro de GitHub
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-            docker stop flash-report || true
-            docker rm flash-report || true
-            docker pull ghcr.io/creycolon/flash_report_supabase:latest
-            docker run -d -p 80:80 --name flash-report ghcr.io/creycolon/flash_report_supabase:latest
-            echo "Deploy completed successfully"
+            
+            # 2. Detener y remover contenedor anterior (si existe)
+            # <--- AJUSTAR: Nombre de tu contenedor en el VPS
+            docker stop app-container || true
+            docker rm app-container || true
+            
+            # 3. Descargar la nueva imagen
+            # La variable IMAGE_NAME se resuelve a: ghcr.io/usuario/repo:tag
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            
+            # 4. Ejecutar el nuevo contenedor
+            # <--- AJUSTAR: Puertos y nombre del contenedor
+            docker run -d \
+              -p 80:8080 \  # <--- AJUSTAR: -p PUERTO_VPS:PUERTO_DENTRO_DEL_CONTAINER
+              --name app-container \  # <--- AJUSTAR: Nombre del contenedor
+              --restart unless-stopped \  # Se reinicia si el servidor reboota
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            
+            # 5. Limpieza: eliminar imágenes viejas para ahorrar espacio
+            docker image prune -f
+            
+            echo "✅ Deploy completado exitosamente"
