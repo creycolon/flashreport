@@ -56,8 +56,8 @@ Detailed project architecture and business rules can be found in the `.docs/` di
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/creycolon/flash_report_supabase.git
-   cd flash_report_supabase
+   git clone https://github.com/creycolon/flashreport.git
+   cd flashreport
    ```
 
 2. Install dependencies:

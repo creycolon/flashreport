@@ -1,5 +1,5 @@
 {
-  "name": "flash_report_supabase",
+  "name": "flashreport",
   "version": "2.0.0",
   "description": "Flash Report con Supabase PostgreSQL",
   "main": "index.ts",

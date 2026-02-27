@@ -8,9 +8,9 @@ set -e
 echo "=== Flash Report Deploy ==="
 
 # Configuración
-IMAGE="ghcr.io/creycolon/flash_report_supabase:latest"
+IMAGE="ghcr.io/creycolon/flashreport:latest"
 CONTAINER_NAME="flash-report"
-PORT=80
+PORT=3000
 
 # Login a GitHub Container Registry
 echo "Iniciando sesión en GitHub Container Registry..."
@@ -29,7 +29,7 @@ docker pull $IMAGE
 
 # Ejecutar contenedor
 echo "Iniciando contenedor..."
-docker run -d -p $PORT:80 --name $CONTAINER_NAME $IMAGE
+docker run -d -p $PORT:3000 --name $CONTAINER_NAME $IMAGE
 
 echo "=== Deploy completado ==="
 echo "Acceda a: http://$(hostname -I | awk '{print $1}')"
