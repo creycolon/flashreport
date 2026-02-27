@@ -1,8 +1,0 @@
-npm warn exec The following package was not found and will be installed: serve@14.2.5
- INFO  Accepting connections at http://localhost:3000
- HTTP  18/2/2026 20:36:22 ::1 GET /
- HTTP  18/2/2026 20:36:22 ::1 Returned 200 in 56 ms
- HTTP  18/2/2026 20:39:13 ::1 GET /
- HTTP  18/2/2026 20:39:13 ::1 Returned 200 in 5 ms
- HTTP  18/2/2026 20:39:13 ::1 GET /favicon.ico
- HTTP  18/2/2026 20:39:13 ::1 Returned 404 in 2 ms
