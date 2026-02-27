@@ -2,7 +2,7 @@ version: '3.8'
 services:
   supabase:
     image: supabase/supabase:latest
-    container_name: flash_report_supabase
+    container_name: flashreport
     ports:
       - "5432:5432"      # PostgreSQL
       - "3000:3000"      # Studio web

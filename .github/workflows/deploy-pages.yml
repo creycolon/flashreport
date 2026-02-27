@@ -19,6 +19,6 @@ jobs:
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
             docker stop flash-report-web || true
             docker rm flash-report-web || true
-            docker pull ghcr.io/creycolon/flash_report_supabase:latest
-            docker run -d -p 3000:3000 --name flash-report-web --restart unless-stopped ghcr.io/creycolon/flash_report_supabase:latest
+            docker pull ghcr.io/creycolon/flashreport:latest
+            docker run -d -p 3000:3000 --name flash-report-web --restart unless-stopped ghcr.io/creycolon/flashreport:latest
             echo "Web deploy completed"
