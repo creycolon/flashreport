@@ -258,7 +258,7 @@ export const authService = {
         }
     },
 
-    updatePartner: async (partnerId: number, data: { name?: string; email?: string; phone?: string; address?: string }) => {
+    updatePartner: async (partnerId: number, data: { name?: string; alias?: string; email?: string; phone?: string; address?: string }) => {
         try {
             const { error } = await supabase
                 .from('partners')

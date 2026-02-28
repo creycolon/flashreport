@@ -9,6 +9,7 @@ export interface SettingsEnhancedProps {
     onManageBusinessUnits?: () => void;
     onManagePartners?: () => void;
     onChangeManagingPartner?: () => void;
+    onMyProfile?: () => void;
     onGenerateMockData?: () => void;
     onClearData?: () => void;
     onFactoryReset?: () => void;
@@ -26,6 +27,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
     onManageBusinessUnits,
     onManagePartners,
     onChangeManagingPartner,
+    onMyProfile,
     onGenerateMockData,
     onClearData,
     onFactoryReset,
@@ -255,6 +257,28 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                             title="Gestionar Socios"
                             variant="outline"
                             onPress={onManagePartners ? onManagePartners : () => { }}
+                            style={{ alignSelf: 'flex-start' }}
+                        />
+                    </Card>
+
+                    {/* My Profile */}
+                    <Card style={styles.settingCard}>
+                        <View style={styles.settingHeader}>
+                            <Ionicons name="person-circle" size={24} color={colors.primary} />
+                            <Typography variant="caption" color={colors.textMuted}>
+                                Usuario
+                            </Typography>
+                        </View>
+                        <Typography style={styles.settingTitle}>
+                            Mi Perfil
+                        </Typography>
+                        <Typography style={styles.settingDescription}>
+                            Edita tu información personal, foto de perfil y cambia tu contraseña.
+                        </Typography>
+                        <Button
+                            title="Editar Perfil"
+                            variant="outline"
+                            onPress={onMyProfile ? onMyProfile : () => { }}
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>

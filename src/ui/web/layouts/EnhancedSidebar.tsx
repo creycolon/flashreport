@@ -59,6 +59,8 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
                 router.navigate('/(tabs)/settings');
             } else if (route === 'add') {
                 router.navigate('/(tabs)/add');
+            } else if (route === 'profile') {
+                router.navigate('/(tabs)/profile');
             }
         }
     };

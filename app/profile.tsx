@@ -12,6 +12,7 @@ interface ProfileScreenProps {
     partner?: {
         id: number;
         name: string;
+        alias?: string;
         email: string;
         phone?: string;
         address?: string;
@@ -26,6 +27,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ partner, onUpdate 
     const { colors } = useTheme();
     
     const [name, setName] = useState(partner?.name || '');
+    const [alias, setAlias] = useState(partner?.alias || '');
     const [email, setEmail] = useState(partner?.email || '');
     const [phone, setPhone] = useState(partner?.phone || '');
     const [address, setAddress] = useState(partner?.address || '');
@@ -36,6 +38,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ partner, onUpdate 
     useEffect(() => {
         if (partner) {
             setName(partner.name || '');
+            setAlias(partner.alias || '');
             setEmail(partner.email || '');
             setPhone(partner.phone || '');
             setAddress(partner.address || '');
@@ -85,6 +88,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ partner, onUpdate 
         try {
             const result = await authService.updatePartner(partner.id, {
                 name,
+                alias,
                 phone,
                 address
             });
@@ -94,6 +98,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ partner, onUpdate 
                 onUpdate?.({
                     ...partner,
                     name,
+                    alias,
                     phone,
                     address,
                     image
@@ -169,6 +174,15 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ partner, onUpdate 
                             value={name}
                             onChangeText={setName}
                             placeholder="Tu nombre"
+                        />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <Input
+                            label="Alias"
+                            value={alias}
+                            onChangeText={setAlias}
+                            placeholder="Tu apodo"
                         />
                     </View>
 

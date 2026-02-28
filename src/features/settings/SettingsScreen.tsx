@@ -59,6 +59,10 @@ export const SettingsScreen = () => {
         Alert.alert('Éxito', `Socio gerente cambiado a ${newPartnerName}`);
     };
 
+    const handleMyProfile = () => {
+        router.push('/(tabs)/profile');
+    };
+
     const loadSettings = async () => {
         const zoomVal = await (configRepository as any).get('chart_dynamic_zoom', 'true');
         setDynamicZoom(zoomVal === 'true');
@@ -300,6 +304,7 @@ export const SettingsScreen = () => {
                     onManageBusinessUnits={() => router.push('/business-units')}
                     onManagePartners={() => router.push('/partners')}
                     onChangeManagingPartner={() => setShowManagePartnerModal(true)}
+                    onMyProfile={handleMyProfile}
                     onGenerateMockData={handleGenerateData}
                     onClearData={handleClearData}
                     onFactoryReset={handleFactoryReset}
