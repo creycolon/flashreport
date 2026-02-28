@@ -9,6 +9,13 @@ RUN npm ci
 
 COPY . .
 
+# Supabase environment variables - will be replaced at build time
+ARG EXPO_PUBLIC_SUPABASE_URL=https://placeholder.supabase.co
+ARG EXPO_PUBLIC_SUPABASE_ANON_KEY=placeholder_key
+
+ENV EXPO_PUBLIC_SUPABASE_URL=$EXPO_PUBLIC_SUPABASE_URL
+ENV EXPO_PUBLIC_SUPABASE_ANON_KEY=$EXPO_PUBLIC_SUPABASE_ANON_KEY
+
 ENV NODE_ENV=production
 
 RUN npx expo export --platform web
