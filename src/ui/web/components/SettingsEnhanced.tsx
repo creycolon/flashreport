@@ -6,6 +6,7 @@ import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
 
 export interface SettingsEnhancedProps {
+    currentPartner?: any;
     onManageBusinessUnits?: () => void;
     onManagePartners?: () => void;
     onChangeManagingPartner?: () => void;
@@ -24,6 +25,7 @@ export interface SettingsEnhancedProps {
 }
 
 export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
+    currentPartner,
     onManageBusinessUnits,
     onManagePartners,
     onChangeManagingPartner,
@@ -41,6 +43,8 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
     businessLabel = 'Negocio',
 }) => {
     const { colors } = useTheme();
+
+    const isCarga = currentPartner?.role === 'carga';
 
     const styles = StyleSheet.create({
         container: {
@@ -217,7 +221,8 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                     Gestión de Catálogos
                 </Typography>
                 <View style={styles.settingsGrid}>
-                    {/* Business Units */}
+                    {/* Business Units - Solo para admin y managing partner */}
+                    {!isCarga && (
                     <Card style={styles.settingCard}>
                         <View style={styles.settingHeader}>
                             <Ionicons name="business" size={24} color={colors.primary} />
@@ -238,8 +243,10 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>
+                    )}
 
-                    {/* Partners */}
+                    {/* Solo para admin y managing partner - NO mostrar para rol carga */}
+                    {!isCarga && (
                     <Card style={styles.settingCard}>
                         <View style={styles.settingHeader}>
                             <Ionicons name="people" size={24} color={colors.primary} />
@@ -260,6 +267,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                             style={{ alignSelf: 'flex-start' }}
                         />
                     </Card>
+                    )}
 
                     {/* My Profile */}
                     <Card style={styles.settingCard}>

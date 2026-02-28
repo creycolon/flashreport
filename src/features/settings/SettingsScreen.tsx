@@ -28,6 +28,7 @@ export const SettingsScreen = () => {
     const [deleting, setDeleting] = useState(false);
     const [dynamicZoom, setDynamicZoom] = useState(true);
     const [managingPartner, setManagingPartner] = useState<any>(null);
+    const [currentPartner, setCurrentPartner] = useState<any>(null);
     const [showManagePartnerModal, setShowManagePartnerModal] = useState(false);
     const [businessLabel, setBusinessLabel] = useState('Local');
     const { colors, themePreference, setThemePreference } = useTheme();
@@ -43,6 +44,39 @@ export const SettingsScreen = () => {
     useEffect(() => {
         loadManagingPartner();
     }, []);
+
+    useEffect(() => {
+        loadCurrentPartner();
+    }, []);
+
+    const loadCurrentPartner = async () => {
+        try {
+            // Primero intentar leer de localStorage
+            let savedPartner = null;
+            try {
+                const savedPartnerStr = localStorage.getItem('currentPartner');
+                if (savedPartnerStr) {
+                    savedPartner = JSON.parse(savedPartnerStr);
+                }
+            } catch (e) {
+                console.log('[Settings] Error reading partner from localStorage');
+            }
+
+            // Si hay partner guardado, usarlo
+            if (savedPartner) {
+                setCurrentPartner(savedPartner);
+                return;
+            }
+
+            // Si no, obtener de auth
+            const result = await authService.getCurrentPartner();
+            if (result.partner) {
+                setCurrentPartner(result.partner);
+            }
+        } catch (error) {
+            console.error('Error loading current partner:', error);
+        }
+    };
 
     const loadManagingPartner = async () => {
         try {
@@ -301,6 +335,7 @@ export const SettingsScreen = () => {
         return (
             <>
                 <SettingsEnhanced
+                    currentPartner={currentPartner}
                     onManageBusinessUnits={() => router.push('/business-units')}
                     onManagePartners={() => router.push('/partners')}
                     onChangeManagingPartner={() => setShowManagePartnerModal(true)}
