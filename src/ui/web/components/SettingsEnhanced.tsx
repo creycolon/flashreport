@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Typography, Card, Button } from '@ui/shared/components';
 import { useTheme } from '@ui/shared/theme/ThemeContext';
 import { theme } from '@ui/shared/theme';
+import { isBase } from '../../../core/application/services/permissionService';
 
 export interface SettingsEnhancedProps {
     currentPartner?: any;
@@ -44,7 +45,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
 }) => {
     const { colors } = useTheme();
 
-    const isCarga = currentPartner?.role === 'carga';
+    const isUserBase = isBase(currentPartner);
 
     const styles = StyleSheet.create({
         container: {
@@ -222,7 +223,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                 </Typography>
                 <View style={styles.settingsGrid}>
                     {/* Business Units - Solo para admin y managing partner */}
-                    {!isCarga && (
+                    {!isUserBase && (
                     <Card style={styles.settingCard}>
                         <View style={styles.settingHeader}>
                             <Ionicons name="business" size={24} color={colors.primary} />
@@ -246,7 +247,7 @@ export const SettingsEnhanced: React.FC<SettingsEnhancedProps> = ({
                     )}
 
                     {/* Solo para admin y managing partner - NO mostrar para rol carga */}
-                    {!isCarga && (
+                    {!isUserBase && (
                     <Card style={styles.settingCard}>
                         <View style={styles.settingHeader}>
                             <Ionicons name="people" size={24} color={colors.primary} />

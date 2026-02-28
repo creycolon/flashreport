@@ -1,18 +1,21 @@
 export const hasPermission = (partner: any, requiredAction?: string): boolean => {
     if (!partner) return false;
     
+    const role = (partner.role || '').toLowerCase();
+    
     // Admin tiene acceso TOTAL
-    if (partner.role === 'admin') return true;
+    if (role === 'admin') return true;
     
     // Managing Partner tiene acceso completo
     if (partner.is_managing_partner) return true;
     
-    // Rol "carga" - solo puede editar perfil y cargar movimientos
-    if (partner.role === 'carga') {
+    // Rol "base" - solo puede editar perfil y cargar movimientos
+    if (role === 'base') {
         if (requiredAction === 'edit_profile') return true;
         if (requiredAction === 'create_movement') return true;
         if (requiredAction === 'view_own_movements') return true;
         if (requiredAction === 'view_profile') return true;
+        if (requiredAction === 'logout') return true;
         return false;
     }
     
@@ -23,11 +26,11 @@ export const hasPermission = (partner: any, requiredAction?: string): boolean =>
 };
 
 export const isAdmin = (partner: any): boolean => {
-    return partner?.role === 'admin';
+    return (partner?.role || '').toLowerCase() === 'admin';
 };
 
-export const isCarga = (partner: any): boolean => {
-    return partner?.role === 'carga';
+export const isBase = (partner: any): boolean => {
+    return (partner?.role || '').toLowerCase() === 'base';
 };
 
 export const canEditProfile = (partner: any): boolean => {
@@ -40,21 +43,24 @@ export const canCreateMovement = (partner: any): boolean => {
 
 export const canViewAllPartners = (partner: any): boolean => {
     if (!partner) return false;
-    if (partner.role === 'admin') return true;
+    const role = (partner.role || '').toLowerCase();
+    if (role === 'admin') return true;
     if (partner.is_managing_partner) return true;
     return false;
 };
 
 export const canViewAllMovements = (partner: any): boolean => {
     if (!partner) return false;
-    if (partner.role === 'admin') return true;
+    const role = (partner.role || '').toLowerCase();
+    if (role === 'admin') return true;
     if (partner.is_managing_partner) return true;
     return false;
 };
 
 export const canManageBusinessUnits = (partner: any): boolean => {
     if (!partner) return false;
-    if (partner.role === 'admin') return true;
+    const role = (partner.role || '').toLowerCase();
+    if (role === 'admin') return true;
     if (partner.is_managing_partner) return true;
     return false;
 };
