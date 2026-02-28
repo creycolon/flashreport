@@ -46,6 +46,10 @@ export const LoginScreen = () => {
                 setError(result.error);
             } else {
                 console.log('[Login] Success, user:', result.user?.email, 'partner:', result.partner);
+                if (result.partner) {
+                    localStorage.setItem('currentPartner', JSON.stringify(result.partner));
+                    console.log('[Login] Partner guardado en localStorage:', result.partner.id, result.partner.name);
+                }
                 router.replace('/(tabs)/dashboard');
             }
         } catch (err: any) {

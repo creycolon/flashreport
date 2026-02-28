@@ -45,6 +45,19 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
 
     const loadData = async () => {
         try {
+            // 1. Primero leer partner guardado en localStorage (del login)
+            let savedPartner = null;
+            try {
+                const savedPartnerStr = localStorage.getItem('currentPartner');
+                if (savedPartnerStr) {
+                    savedPartner = JSON.parse(savedPartnerStr);
+                    console.log('[WebLayout] Partner de localStorage:', savedPartner.id, savedPartner.name);
+                }
+            } catch (e) {
+                console.log('[WebLayout] Error al leer partner de localStorage');
+            }
+
+            // 2. Cargar datos en paralelo
             const [bus, cats, partner, allPartners, authPartnerResult] = await Promise.all([
                 businessUnitRepository.getAll(),
                 categoryRepository.getAll(),
@@ -55,17 +68,29 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
             setBusinessUnits(bus || []);
             setCategories(cats || []);
             
+            // 3. Determinar partner: auth > localStorage > gerente > primero
             const loggedInPartner = authPartnerResult?.partner;
+            let finalPartner = null;
+            
             if (loggedInPartner) {
-                setCurrentPartner(loggedInPartner);
-                setCurrentPartnerId(loggedInPartner.id);
+                finalPartner = loggedInPartner;
+                // Actualizar localStorage con datos frescos de auth
+                localStorage.setItem('currentPartner', JSON.stringify(loggedInPartner));
+                console.log('[WebLayout] Partner de auth:', finalPartner.id);
+            } else if (savedPartner) {
+                finalPartner = savedPartner;
+                console.log('[WebLayout] Usando partner de localStorage:', finalPartner.id);
             } else if (partner) {
-                setCurrentPartner(partner);
-                setCurrentPartnerId(partner.id);
+                finalPartner = partner;
+                console.log('[WebLayout] Fallback a socio gerente:', finalPartner.id);
             } else if (allPartners && allPartners.length > 0) {
-                setCurrentPartner(allPartners[0]);
-                setCurrentPartnerId(allPartners[0].id);
-                console.log(`[WebLayout] No managing partner, fallback to: ${allPartners[0].name}`);
+                finalPartner = allPartners[0];
+                console.log(`[WebLayout] Fallback a primer socio: ${finalPartner.name}`);
+            }
+
+            if (finalPartner) {
+                setCurrentPartner(finalPartner);
+                setCurrentPartnerId(finalPartner.id);
             } else {
                 setCurrentPartnerId(null);
             }
