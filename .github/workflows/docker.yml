@@ -2,12 +2,11 @@ name: Build and Deploy Docker Image
 
 on:
   push:
-    branches: [main]  # <--- AJUSTAR: Tu rama principal (main, master, develop)
-  workflow_dispatch:  # Permite ejecutar manualmente desde la UI de GitHub
+    branches: [main]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  # Usa automáticamente tu usuario y nombre de repo: ej. ghcr.io/usuario/proyecto
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -15,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write  # Necesario para subir a GHCR
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -29,7 +28,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}  # Token automático de GitHub
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata for Docker
         id: meta
@@ -54,55 +53,10 @@ jobs:
             EXPO_PUBLIC_SUPABASE_URL=${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
             EXPO_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
 
-      - name: Guardar info del deploy
-        run: echo "${{ steps.meta.outputs.tags }}" > deployment_info.txt
-        
-      - name: Upload deployment info
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployment-info
-          path: deployment_info.txt
-          retention-days: 1
-
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download deployment info
-        uses: actions/download-artifact@v4
-        with:
-          name: deployment-info
-
-      - name: Deploy to server via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          # ✅ Usando TUS secretos existentes
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          
-          script: |
-            # 1. Login al registro de GitHub
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-            
-            # 2. Detener y remover contenedor anterior (si existe)
-            # <--- AJUSTAR: Nombre de tu contenedor en el VPS
-            docker stop flash-report-web || true
-            docker rm flash-report-web || true
-            
-            # 3. Descargar la nueva imagen
-            # La variable IMAGE_NAME se resuelve a: ghcr.io/usuario/repo:tag
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            
-            # 4. Ejecutar el nuevo contenedor
-            # <--- AJUSTAR: Puertos y nombre del contenedor
-            docker run -d \
-              -p 3000:3000 \  # <--- AJUSTAR: -p PUERTO_VPS:PUERTO_DENTRO_DEL_CONTAINER
-              --name flash-report-web \  # <--- AJUSTAR: Nombre del contenedor
-              --restart unless-stopped \  # Se reinicia si el servidor reboota
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-            
-            # 5. Limpieza: eliminar imágenes viejas para ahorrar espacio
-            docker image prune -f
-            
-            echo "✅ Deploy completado exitosamente"
+      - name: Output image URL
+        run: |
+          echo "✅ Docker image built and pushed successfully!"
+          echo "Image: ${{ steps.meta.outputs.tags }}"
+          echo ""
+          echo "To run locally:"
+          echo "  docker run -p 3000:3000 ${{ steps.meta.outputs.tags }}"
