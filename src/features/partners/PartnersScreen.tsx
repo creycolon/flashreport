@@ -239,6 +239,11 @@ export const PartnersScreen = () => {
                             <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>ADMIN</Typography>
                         </View>
                     )}
+                    {item.role === 'admin' && (
+                        <View style={styles.adminBadge}>
+                            <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>ADMIN</Typography>
+                        </View>
+                    )}
                     {item.is_active === false && (
                         <View style={styles.inactiveBadge}>
                             <Typography variant="caption" color="#fff" style={{ fontSize: 10 }}>BAJA</Typography>

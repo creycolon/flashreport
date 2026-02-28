@@ -18,6 +18,7 @@ import { cashMovementRepository } from '../../../core/infrastructure/repositorie
 import { partnerRepository } from '../../../core/infrastructure/repositories/partnerRepository';
 import { managingPartnerService } from '../../../core/application/services/managingPartnerService';
 import { authService } from '../../../core/application/services/authService';
+import { hasPermission } from '../../../core/application/services/permissionService';
 import { useState, useEffect } from 'react';
 
 export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRoute?: string }> = ({ children, activeRoute }) => {
@@ -182,7 +183,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
                 <WebHeader 
                     user={currentPartner ? {
                         name: currentPartner.name || 'Usuario',
-                        role: currentPartner.is_manager ? 'Gerente' : (currentPartner.is_active ? 'Socio' : 'Inactivo'),
+                        role: hasPermission(currentPartner) ? 'Admin' : (currentPartner.is_managing_partner ? 'Gerente' : (currentPartner.is_active ? 'Socio' : 'Inactivo')),
                         avatar: currentPartner.image || undefined
                     } : undefined}
                     onLogout={handleLogout}

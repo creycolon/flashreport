@@ -17,6 +17,7 @@ export interface Partner {
 
 export interface PartnersEnhancedProps {
     partners: Partner[];
+    currentPartner?: Partner;
     loading?: boolean;
     onRefresh?: () => void;
     onEdit?: (partner: Partner) => void;
@@ -31,6 +32,7 @@ export interface PartnersEnhancedProps {
 
 export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
     partners,
+    currentPartner,
     loading = false,
     onRefresh,
     onEdit,
@@ -42,6 +44,12 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
     onBack,
     onManageBusinessUnits,
 }) => {
+    const hasPermission = (): boolean => {
+        if (!currentPartner) return false;
+        if (currentPartner.role === 'admin') return true;
+        if (currentPartner.is_managing_partner) return true;
+        return false;
+    };
     const { colors } = useTheme();
     const [modalVisible, setModalVisible] = React.useState(false);
     const [editingPartner, setEditingPartner] = React.useState<Partner | null>(null);
@@ -428,6 +436,13 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                             </Typography>
                                         </View>
                                     )}
+                                    {partner.role === 'admin' && (
+                                        <View style={styles.managingBadge}>
+                                            <Typography style={styles.managingText}>
+                                                ADMIN
+                                            </Typography>
+                                        </View>
+                                    )}
                                     {!partner.is_active && (
                                         <View style={styles.inactiveBadge}>
                                             <Typography style={styles.inactiveText}>
@@ -577,6 +592,7 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                             <Typography style={{ marginLeft: 12, color: colors.text }}>Editar</Typography>
                         </TouchableOpacity>
 
+                        {hasPermission() && (
                         <TouchableOpacity
                             style={styles.actionModalItem}
                             onPress={() => {
@@ -589,7 +605,9 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                 {selectedPartner?.is_managing_partner ? 'Quitar Gerencia' : 'Asignar Gerencia'}
                             </Typography>
                         </TouchableOpacity>
+                        )}
 
+                        {hasPermission() && (
                         <TouchableOpacity
                             style={styles.actionModalItem}
                             onPress={() => {
@@ -602,6 +620,7 @@ export const PartnersEnhanced: React.FC<PartnersEnhancedProps> = ({
                                 {selectedPartner?.is_active ? 'Dar de Baja' : 'Reactivar'}
                             </Typography>
                         </TouchableOpacity>
+                        )}
 
                         <Button
                             title="Cancelar"
