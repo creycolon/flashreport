@@ -59,7 +59,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     const [date, setDate] = React.useState<Date>(new Date());
     const [submitting, setSubmitting] = React.useState(false);
     const [pointsOfSale, setPointsOfSale] = React.useState<any[]>([]);
-    const [selectedPos, setSelectedPos] = React.useState<number | ''>('');
+    const [selectedPos, setSelectedPos] = React.useState<number | null>(null);
     const [showPosModal, setShowPosModal] = React.useState(false);
     const dateInputRef = React.useRef<any>(null);
 
@@ -85,7 +85,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                     if (posList.length > 0) {
                         setSelectedPos(posList[0].id);
                     } else {
-                        setSelectedPos('');
+                        setSelectedPos(null);
                     }
                 } catch (error) {
                     console.error('Error loading POS:', error);
@@ -129,12 +129,16 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
                 amount: amountNum,
                 description: finalDescription,
                 date,
-                pointOfSaleId: selectedPos || undefined,
+                pointOfSaleId: selectedPos ?? undefined,
             });
             // Reset form
             setAmount('');
             setDescription('');
             setDate(new Date());
+            // Reset POS to first available
+            if (pointsOfSale.length > 0) {
+                setSelectedPos(pointsOfSale[0].id);
+            }
         } catch (error) {
             console.error('Error submitting movement:', error);
         } finally {

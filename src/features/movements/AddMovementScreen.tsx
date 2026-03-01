@@ -27,7 +27,7 @@ export const AddMovementScreen = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [currentPartnerId, setCurrentPartnerId] = useState<number | null>(null);
     const [pointsOfSale, setPointsOfSale] = useState<any[]>([]);
-    const [selectedPos, setSelectedPos] = useState<number | ''>('');
+    const [selectedPos, setSelectedPos] = useState<number | null>(null);
     const [showPosDropdown, setShowPosDropdown] = useState(false);
 
     const { colors } = useTheme();
@@ -166,7 +166,7 @@ export const AddMovementScreen = () => {
                     if (posList.length > 0) {
                         setSelectedPos(posList[0].id);
                     } else {
-                        setSelectedPos('');
+                        setSelectedPos(null);
                     }
                 } catch (error) {
                     console.error('Error loading POS:', error);
@@ -270,7 +270,7 @@ export const AddMovementScreen = () => {
                 description: finalDescription,
                 date: date.toISOString(),
                 createdBy: currentPartnerId || null,
-                pointOfSaleId: selectedPos || null,
+                pointOfSaleId: selectedPos ?? undefined,
             });
 
             Alert.alert('Éxito', 'Movimiento registrado correctamente');

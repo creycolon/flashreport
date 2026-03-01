@@ -1,6 +1,7 @@
 export default {
   expo: {
-    // ... config existente
+    name: "Flash Report",
+    slug: "flashreport",
     scheme: 'flashreport',
     android: {
       package: "com.creycolon.flashreport"
@@ -14,11 +15,10 @@ export default {
     extra: {
       supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
-      // Mantener compatibilidad
       useSupabase: true,
       offlineMode: false,
       eas: {
-        projectId: "b25bddbf-6847-445a-8c92-4db29f7e459e"
+        projectId: "ec1f7118-0ec3-4033-aa9a-5a4826745eb3"
       }
     }
   }
