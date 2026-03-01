@@ -102,6 +102,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
     };
 
     const handleSubmit = async (movement: any) => {
+        console.log('[WebLayoutEnhanced] handleSubmit - movement:', movement);
         await cashMovementRepository.create({
             businessUnitId: movement.businessUnitId,
             type: movement.type,
@@ -110,6 +111,7 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
             description: movement.description.trim(),
             date: movement.date.toISOString(),
             createdBy: currentPartnerId || null,
+            pointOfSaleId: movement.pointOfSaleId,
         });
     };
 

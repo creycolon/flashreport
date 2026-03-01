@@ -79,11 +79,14 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     React.useEffect(() => {
         const loadPOS = async () => {
             if (selectedBu) {
+                console.log('[AddMovement] Loading POS for BU:', selectedBu);
                 try {
                     const posList = await pointOfSaleRepository.listByBusinessUnit(selectedBu);
+                    console.log('[AddMovement] POS list:', posList);
                     setPointsOfSale(posList);
                     if (posList.length > 0) {
                         setSelectedPos(posList[0].id);
+                        console.log('[AddMovement] Selected POS set to:', posList[0].id);
                     } else {
                         setSelectedPos(null);
                     }
@@ -103,6 +106,7 @@ export const AddMovementEnhanced: React.FC<AddMovementEnhancedProps> = ({
     }, [categories, type]);
 
     const handleSubmit = async () => {
+        console.log('[AddMovement] Submit - selectedPos:', selectedPos, 'selectedBu:', selectedBu);
         if (!amount || !categoryId || !selectedBu) {
             // In a real app, show error toast
             return;
