@@ -203,12 +203,16 @@ export const WebLayoutEnhanced: React.FC<{ children?: React.ReactNode; activeRou
                 onNavigate={handleNavigation}
                 collapsed={false}
                 onNewMovement={handleNewMovement}
+                currentPartner={currentPartner}
             />
             <View style={styles.main}>
                 <WebHeader 
                     user={currentPartner ? {
                         name: currentPartner.name || 'Usuario',
-                        role: hasPermission(currentPartner) ? 'Admin' : (currentPartner.is_managing_partner ? 'Gerente' : (currentPartner.is_active ? 'Socio' : 'Inactivo')),
+                        role: (currentPartner?.role || '').toLowerCase() === 'admin' ? 'Admin' : 
+                               ((currentPartner?.role || '').toLowerCase() === 'base' ? 'Base' :
+                               (currentPartner.is_managing_partner ? 'Gerente' : 
+                               (currentPartner.is_active ? 'Socio' : 'Inactivo'))),
                         avatar: currentPartner.image || undefined
                     } : undefined}
                     onLogout={handleLogout}

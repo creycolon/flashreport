@@ -21,6 +21,7 @@ interface EnhancedSidebarProps {
     onNavigate?: (route: string) => void;
     collapsed?: boolean;
     onNewMovement?: () => void;
+    currentPartner?: any;
 }
 
 // Default sidebar items based on stitch design
@@ -39,10 +40,31 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
     onNavigate,
     collapsed = false,
     onNewMovement,
+    currentPartner,
 }) => {
     const { colors } = useTheme();
     const router = useRouter();
     const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+    // Rutas que requieren permisos de admin/managing partner
+    const RESTRICTED_ROUTES = ['settings', 'partners', 'reports'];
+    
+    const canAccess = (route: string): boolean => {
+        if (!currentPartner) return false;
+        const role = (currentPartner.role || '').toLowerCase();
+        
+        // Admin y Managing Partner tienen acceso total
+        if (role === 'admin' || currentPartner.is_managing_partner) return true;
+        
+        // Usuarios 'base' tienen acceso limitado
+        if (role === 'base') {
+            // Solo pueden acceder a dashboard, list, add, profile
+            const allowedRoutes = ['dashboard', 'list', 'add', 'profile'];
+            return allowedRoutes.includes(route);
+        }
+        
+        return true;
+    };
 
     const handleNavigation = (route: string) => {
         if (onNavigate) {
@@ -223,6 +245,7 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
                 {items.map((item) => {
                     const isActive = activeRoute === item.name;
                     const isHovered = hoveredItem === item.name;
+                    const hasAccess = canAccess(item.name);
                     return (
                         <TouchableOpacity
                             key={item.name}
@@ -230,11 +253,13 @@ export const EnhancedSidebar: React.FC<EnhancedSidebarProps> = ({
                                 styles.sidebarItem,
                                 isActive && styles.sidebarItemActive,
                                 isHovered && !isActive && styles.sidebarItemHover,
+                                !hasAccess && { opacity: 0.4 },
                             ]}
-                            onPress={() => handleNavigation(item.name)}
-                            activeOpacity={0.7}
+                            onPress={() => hasAccess && handleNavigation(item.name)}
+                            activeOpacity={hasAccess ? 0.7 : 1}
+                            disabled={!hasAccess}
                             {...(Platform.OS === 'web' ? {
-                                onMouseEnter: () => setHoveredItem(item.name),
+                                onMouseEnter: () => hasAccess && setHoveredItem(item.name),
                                 onMouseLeave: () => setHoveredItem(null),
                             } : {})}
                         >
